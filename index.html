@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg">
+<title>Lucro Fácil</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f5f7;color:#111827}
+header{background:#111827;color:white;padding:20px}
+header h1{margin:0;font-size:25px}
+header p{margin:5px 0 0;color:#ccc}
+main{max-width:720px;margin:auto;padding:15px 15px 90px}
+.card{background:white;border-radius:18px;padding:17px;margin-bottom:13px;border:1px solid #ddd}
+h2,h3{margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea,button{font-size:16px;width:100%;padding:13px;border-radius:12px;border:1px solid #ccc}
+label{font-weight:bold;font-size:13px;display:block;margin:10px 0 5px}
+button{border:0;background:#111827;color:white;font-weight:bold;cursor:pointer}
+.secondary{background:white;color:#111827;border:1px solid #bbb}
+.danger{background:#fff;color:#b91c1c;border:1px solid #fca5a5}
+.metric{background:#f4f5f7;padding:12px;border-radius:12px}
+.metric small{color:#666}
+.metric strong{display:block;font-size:20px;margin-top:4px}
+.good{background:#dcfce7;color:#166534}
+.warn{background:#fef3c7;color:#92400e}
+.bad{background:#fee2e2;color:#991b1b}
+.status{padding:14px;border-radius:12px;font-weight:bold;margin-top:10px}
+.product{border:1px solid #ddd;padding:13px;border-radius:13px;margin-top:10px}
+.product h3{margin:0}
+.muted{color:#666;font-size:13px}
+.home button{min-height:95px;text-align:left}
+.home button span{display:block;font-size:25px;margin-bottom:6px}
+.screen{display:none}
+.screen.active{display:block}
+nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;padding:7px;display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+nav button{background:white;color:#444;padding:8px 2px;font-size:11px}
+nav button b{font-size:19px;display:block}
+textarea{height:150px}
+.row{display:flex;gap:8px;margin-top:10px}
+.install{background:#2563eb;margin-top:13px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Lucro Fácil</h1>
+<p>Seu assistente de vendas no bolso</p>
+<button id="install" class="install">📲 Instalar aplicativo</button>
+</header>
+
+<main>
+
+<section id="home" class="screen active">
+<div class="card">
+<h2>O que você quer fazer?</h2>
+
+<div class="grid home">
+<button onclick="show('calc')"><span>💰</span>Calcular meu lucro</button>
+<button onclick="show('products')"><span>📦</span>Meus produtos</button>
+<button onclick="show('ad')"><span>📢</span>Criar anúncio</button>
+<button onclick="show('learn')"><span>🧠</span>Analisar minhas vendas</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Funciona offline</h3>
+<p class="muted">Depois de abrir o aplicativo online pela primeira vez, ele poderá continuar funcionando sem internet. Seus dados ficam salvos neste aparelho.</p>
+</div>
+</section>
+
+
+<section id="calc" class="screen">
+
+<div class="card">
+<h2>💰 Calculadora de lucro</h2>
+
+<label>Nome do produto</label>
+<input id="name" placeholder="Ex.: Camiseta básica">
+
+<div class="grid">
+<div>
+<label>Custo por unidade (R$)</label>
+<input id="cost" inputmode="decimal" placeholder="20,00">
+</div>
+
+<div>
+<label>Preço de venda (R$)</label>
+<input id="price" inputmode="decimal" placeholder="40,00">
+</div>
+
+<div>
+<label>Quantidade</label>
+<input id="qty" type="number" value="1" min="1">
+</div>
+
+<div>
+<label>Outros gastos do pedido (R$)</label>
+<input id="extra" inputmode="decimal" value="0">
+</div>
+</div>
+
+<label>Tipo de produto</label>
+<select id="category">
+<option value="geral">Produto geral</option>
+<option value="moda">Moda / beleza</option>
+<option value="comida">Comida / bebida</option>
+<option value="usado">Usado / desapego</option>
+<option value="casa">Casa / decoração</option>
+<option value="servico">Serviço</option>
+<option value="empresa">Produto para empresas</option>
+</select>
+
+<div class="grid" style="margin-top:15px">
+<div class="metric">
+<small>Receita</small>
+<strong id="revenue">R$ 0,00</strong>
+</div>
+
+<div class="metric">
+<small>Custo total</small>
+<strong id="totalCost">R$ 0,00</strong>
+</div>
+
+<div class="metric">
+<small>Lucro</small>
+<strong id="profit">R$ 0,00</strong>
+</div>
+
+<div class="metric">
+<small>Margem</small>
+<strong id="margin">0%</strong>
+</div>
+
+<div class="metric">
+<small>Preço mínimo</small>
+<strong id="minimum">R$ 0,00</strong>
+</div>
+
+<div class="metric">
+<small>10 vendas iguais</small>
+<strong id="ten">R$ 0,00</strong>
+</div>
+</div>
+
+<div id="status" class="status warn">
+Preencha custo e preço.
+</div>
+
+<button id="saveProduct" style="margin-top:12px">💾 Salvar em Meus Produtos</button>
+</div>
+
+</section>
+
+
+<section id="products" class="screen">
+
+<div class="card">
+<h2>📦 Meus produtos</h2>
+
+<div class="row">
+<button id="exportCSV">Exportar produtos</button>
+<button id="backup" class="secondary">Backup</button>
+</div>
+
+<div id="productList"></div>
+</div>
+
+</section>
+
+
+<section id="ad" class="screen">
+
+<div class="card">
+<h2>📢 Criar anúncio</h2>
+
+<label>Produto salvo</label>
+<select id="adProduct">
+<option value="">Selecione</option>
+</select>
+
+<label>Principal diferencial</label>
+<input id="benefit" placeholder="Ex.: pronta entrega">
+
+<label>Informação importante</label>
+<input id="note" placeholder="Ex.: retirada no local">
+
+<button id="makeAd" style="margin-top:12px">Criar anúncio</button>
+</div>
+
+<div id="adResult" class="card" style="display:none">
+
+<h3 id="channel"></h3>
+
+<label>Título sugerido</label>
+<input id="adTitle" readonly>
+
+<label>Descrição</label>
+<textarea id="adText" readonly></textarea>
+
+<button id="copyAd">Copiar anúncio</button>
+
+<p class="muted">
+A recomendação de plataforma usa regras simples de acordo com o tipo do produto.
+</p>
+</div>
+
+</section>
+
+
+<section id="learn" class="screen">
+
+<div class="card">
+
+<h2>🧠 Aprendizado de vendas</h2>
+
+<p class="muted">
+Depois de postar um produto, volte aqui e registre o resultado.
+Com o tempo, o aplicativo começa a descobrir quais horários funcionam melhor para você.
+</p>
+
+<label>Produto</label>
+<select id="learnProduct">
+<option value="">Selecione</option>
+</select>
+
+<label>Onde você publicou?</label>
+<select id="platform">
+<option>Facebook Marketplace</option>
+<option>Instagram</option>
+<option>WhatsApp</option>
+<option>OLX</option>
+<option>TikTok / Kwai</option>
+<option>Outro</option>
+</select>
+
+<label>Data e horário da postagem</label>
+<input type="datetime-local" id="date">
+
+<div class="grid">
+
+<div>
+<label>Visualizações</label>
+<input id="views" type="number" min="0">
+</div>
+
+<div>
+<label>Vendas</label>
+<input id="sales" type="number" min="0">
+</div>
+
+</div>
+
+<button id="saveResult" style="margin-top:12px">Salvar resultado</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>O que seus números estão mostrando?</h3>
+
+<div id="insight" class="status warn">
+Ainda não há dados suficientes.
+</div>
+
+<div id="stats"></div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<nav>
+
+<button onclick="show('home')"><b>🏠</b>Início</button>
+<button onclick="show('calc')"><b>💰</b>Lucro</button>
+<button onclick="show('products')"><b>📦</b>Produtos</button>
+<button onclick="show('ad')"><b>📢</b>Anúncio</button>
+<button onclick="show('learn')"><b>🧠</b>Dados</button>
+
+</nav>
+
+
+<script>
+
+const $=id=>document.getElementById(id)
+
+function number(v){
+v=String(v||"").replace(/\./g,"").replace(",",".")
+return Number(v)||0
+}
+
+function money(v){
+return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})
+}
+
+function products(){
+return JSON.parse(localStorage.getItem("lfProducts")||"[]")
+}
+
+function saveProducts(p){
+localStorage.setItem("lfProducts",JSON.stringify(p))
+}
+
+function learning(){
+return JSON.parse(localStorage.getItem("lfLearning")||"[]")
+}
+
+function saveLearning(v){
+localStorage.setItem("lfLearning",JSON.stringify(v))
+}
+
+function show(id){
+
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
+
+$(id).classList.add("active")
+
+if(id==="products")renderProducts()
+
+if(id==="ad"||id==="learn")refreshProducts()
+
+window.scrollTo(0,0)
+
+}
+
+function calculate(){
+
+let cost=number($("cost").value)
+let price=number($("price").value)
+let qty=Math.max(1,number($("qty").value))
+let extra=number($("extra").value)
+
+let revenue=price*qty
+let total=cost*qty+extra
+let profit=revenue-total
+let margin=revenue ? profit/revenue*100 : 0
+let minimum=total/qty
+
+$("revenue").textContent=money(revenue)
+$("totalCost").textContent=money(total)
+$("profit").textContent=money(profit)
+$("margin").textContent=margin.toFixed(1).replace(".",",")+"%"
+$("minimum").textContent=money(minimum)
+$("ten").textContent=money(profit*10)
+
+let status=$("status")
+
+if(!price||!cost){
+
+status.className="status warn"
+status.textContent="Preencha custo e preço."
+
+}else if(profit<0){
+
+status.className="status bad"
+status.textContent="🔴 PREJUÍZO — você está perdendo dinheiro."
+
+}else if(margin<10){
+
+status.className="status warn"
+status.textContent="🟠 MUITO APERTADO — quase sem margem."
+
+}else if(margin<20){
+
+status.className="status warn"
+status.textContent="🟡 ATENÇÃO — margem baixa."
+
+}else{
+
+status.className="status good"
+status.textContent="🟢 BOM — essa venda está dando lucro."
+
+}
+
+return{
+id:Date.now(),
+name:$("name").value||"Produto",
+cost,price,qty,extra,revenue,total,profit,margin,minimum,
+category:$("category").value,
+date:new Date().toISOString()
+}
+
+}
+
+["cost","price","qty","extra"].forEach(id=>{
+$(id).addEventListener("input",calculate)
+})
+
+$("saveProduct").onclick=()=>{
+
+let p=calculate()
+
+if(!p.cost||!p.price){
+alert("Preencha custo e preço.")
+return
+}
+
+let list=products()
+list.unshift(p)
+saveProducts(list)
+
+alert("Produto salvo em Meus Produtos.")
+
+refreshProducts()
+
+}
+
+function productStatus(p){
+
+if(p.profit<0)return"🔴 Prejuízo"
+if(p.margin<10)return"🟠 Muito apertado"
+if(p.margin<20)return"🟡 Atenção"
+return"🟢 Bom"
+
+}
+
+function renderProducts(){
+
+let list=products()
+
+if(!list.length){
+
+$("productList").innerHTML=
+'<p class="muted">Você ainda não salvou nenhum produto.</p>'
+
+return
+
+}
+
+$("productList").innerHTML=list.map(p=>`
+
+<div class="product">
+
+<h3>${p.name}</h3>
+
+<p class="muted">
+Venda: ${money(p.price)} ·
+Lucro: ${money(p.profit)}
+</p>
+
+<strong>${productStatus(p)}</strong>
+
+<p>
+Margem:
+${p.margin.toFixed(1).replace(".",",")}%
+</p>
+
+<button class="danger" onclick="removeProduct(${p.id})">
+Excluir
+</button>
+
+</div>
+
+`).join("")
+
+}
+
+window.removeProduct=id=>{
+
+let list=products().filter(p=>p.id!==id)
+
+saveProducts(list)
+
+renderProducts()
+refreshProducts()
+
+}
+
+function refreshProducts(){
+
+let list=products()
+
+let options=
+'<option value="">Selecione</option>'+
+list.map(p=>
+`<option value="${p.id}">${p.name}</option>`
+).join("")
+
+$("adProduct").innerHTML=options
+$("learnProduct").innerHTML=options
+
+}
+
+function channel(p){
+
+switch(p.category){
+
+case"usado":
+return"Facebook Marketplace + OLX"
+
+case"moda":
+return"Instagram + Facebook Marketplace"
+
+case"comida":
+return"WhatsApp + Instagram"
+
+case"servico":
+return"WhatsApp + Instagram"
+
+case"empresa":
+return"WhatsApp + contato direto"
+
+default:
+return"Facebook Marketplace + Instagram"
+
+}
+
+}
+
+$("makeAd").onclick=()=>{
+
+let id=Number($("adProduct").value)
+
+let p=products().find(x=>x.id===id)
+
+if(!p){
+alert("Escolha um produto.")
+return
+}
+
+let benefit=$("benefit").value
+let note=$("note").value
+
+$("channel").textContent=
+"📍 Onde testar: "+channel(p)
+
+$("adTitle").value=
+p.name+" por "+money(p.price)
+
+$("adText").value=
+`${p.name}
+
+💰 Valor: ${money(p.price)}
+${benefit?"✅ "+benefit:""}
+${note?"📍 "+note:""}
+
+Interessou? Me chama para combinar.`
+
+$("adResult").style.display="block"
+
+}
+
+$("copyAd").onclick=async()=>{
+
+let text=$("adTitle").value+"\n\n"+$("adText").value
+
+try{
+
+await navigator.clipboard.writeText(text)
+alert("Anúncio copiado.")
+
+}catch{
+
+alert("Selecione o texto e copie manualmente.")
+
+}
+
+}
+
+$("saveResult").onclick=()=>{
+
+let id=Number($("learnProduct").value)
+
+let p=products().find(x=>x.id===id)
+
+if(!p){
+alert("Escolha um produto.")
+return
+}
+
+if(!$("date").value){
+alert("Informe data e horário.")
+return
+}
+
+let l=learning()
+
+l.push({
+
+id:Date.now(),
+productId:p.id,
+productName:p.name,
+platform:$("platform").value,
+date:$("date").value,
+views:Number($("views").value)||0,
+sales:Number($("sales").value)||0
+
+})
+
+saveLearning(l)
+
+$("views").value=""
+$("sales").value=""
+
+renderLearning()
+
+alert("Resultado salvo.")
+
+}
+
+function renderLearning(){
+
+let l=learning()
+
+if(!l.length){
+
+$("insight").className="status warn"
+$("insight").textContent=
+"Ainda não há dados suficientes."
+
+$("stats").innerHTML=""
+
+return
+
+}
+
+let grouped={}
+
+l.forEach(r=>{
+
+let hour=new Date(r.date).getHours()
+
+let key=String(hour).padStart(2,"0")+":00"
+
+if(!grouped[key])
+grouped[key]={views:0,sales:0,posts:0}
+
+grouped[key].views+=r.views
+grouped[key].sales+=r.sales
+grouped[key].posts++
+
+})
+
+let rows=Object.entries(grouped).map(([hour,v])=>({
+
+hour,
+...v,
+conversion:v.views ? v.sales/v.views*100 : 0
+
+}))
+
+rows.sort((a,b)=>
+b.sales-a.sales ||
+b.conversion-a.conversion ||
+b.views-a.views
+)
+
+let best=rows[0]
+
+$("insight").className="status good"
+
+if(l.length<3){
+
+$("insight").textContent=
+`Você ainda tem poucos registros. Até agora, ${best.hour} apresentou o melhor resultado.`
+
+}else if(best.sales>0){
+
+$("insight").textContent=
+`Pelos seus próprios dados, ${best.hour} está sendo seu melhor horário até agora: ${best.sales} venda(s) e ${best.views} visualizações.`
+
+}else{
+
+$("insight").textContent=
+`Ainda não houve vendas registradas. ${best.hour} teve mais destaque em visualizações.`
+
+}
+
+$("stats").innerHTML=rows.map(r=>`
+
+<div class="product">
+
+<strong>${r.hour}</strong>
+
+<p class="muted">
+${r.posts} postagem(ns) ·
+${r.views} visualizações ·
+${r.sales} vendas
+</p>
+
+Conversão:
+${r.conversion.toFixed(1).replace(".",",")}%
+
+</div>
+
+`).join("")
+
+}
+
+$("exportCSV").onclick=()=>{
+
+let list=products()
+
+if(!list.length){
+alert("Não há produtos salvos.")
+return
+}
+
+let rows=[
+["Produto","Custo","Venda","Lucro","Margem","Status"]
+]
+
+list.forEach(p=>rows.push([
+p.name,
+p.cost,
+p.price,
+p.profit,
+p.margin.toFixed(1),
+productStatus(p)
+]))
+
+let csv="\uFEFF"+
+rows.map(r=>r.map(v=>
+`"${String(v).replace(/"/g,'""')}"`
+).join(";")).join("\n")
+
+download("meus-produtos.csv",csv,"text/csv")
+
+}
+
+$("backup").onclick=()=>{
+
+let data={
+products:products(),
+learning:learning()
+}
+
+download(
+"backup-lucro-facil.json",
+JSON.stringify(data,null,2),
+"application/json"
+)
+
+}
+
+function download(name,text,type){
+
+let blob=new Blob([text],{type})
+let url=URL.createObjectURL(blob)
+
+let a=document.createElement("a")
+a.href=url
+a.download=name
+a.click()
+
+URL.revokeObjectURL(url)
+
+}
+
+let installPrompt
+
+window.addEventListener("beforeinstallprompt",e=>{
+
+e.preventDefault()
+installPrompt=e
+
+})
+
+$("install").onclick=async()=>{
+
+if(installPrompt){
+
+installPrompt.prompt()
+await installPrompt.userChoice
+installPrompt=null
+
+}else{
+
+alert(
+'Se não aparecer a instalação automática, abra o menu do navegador e escolha "Instalar app" ou "Adicionar à tela inicial".'
+)
+
+}
+
+}
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("./sw.js")
+
+}
+
+let now=new Date()
+now.setMinutes(now.getMinutes()-now.getTimezoneOffset())
+
+$("date").value=now.toISOString().slice(0,16)
+
+calculate()
+renderProducts()
+refreshProducts()
+renderLearning()
+
+</script>
+
+</body>
+  </html>
