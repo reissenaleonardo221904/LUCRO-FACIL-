@@ -1,11 +1,12 @@
 {
+  "id": "./",
   "name": "Lucro Fácil",
   "short_name": "Lucro Fácil",
   "description": "Seu assistente de vendas no bolso",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07111f",
+  "background_color": "#06101d",
   "theme_color": "#07111f",
   "lang": "pt-BR",
   "icons": [
