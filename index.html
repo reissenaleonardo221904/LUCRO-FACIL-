@@ -35,7 +35,7 @@
   <button class="install" id="installBtn" type="button">📲 Instalar Lucro Fácil no celular</button>
 
   <section class="screen active" data-screen="home">
-    <div class="hero"><h2>Venda com clareza.</h2><p>Calcule, salve, anuncie e aprenda com os resultados das suas próprias vendas.</p><span class="version">Lucro Fácil • V1.2</span></div>
+    <div class="hero"><h2>Venda com clareza.</h2><p>Calcule, salve, anuncie e aprenda com os resultados das suas próprias vendas.</p><span class="version">Lucro Fácil • V1.4</span></div>
     <div class="grid">
       <button class="action go" data-go="calc" type="button"><div class="emoji">💰</div><b>Calcular lucro</b><span>Descubra lucro, margem e preço mínimo.</span></button>
       <button class="action go" data-go="products" type="button"><div class="emoji">📦</div><b>Meus produtos</b><span>Veja rapidamente o que compensa.</span></button>
@@ -93,6 +93,75 @@
 <nav class="bottom"><div class="bottom-inner"><button class="nav active" data-go="home" type="button"><span class="nicon">🏠</span>Início</button><button class="nav" data-go="calc" type="button"><span class="nicon">💰</span>Lucro</button><button class="nav" data-go="products" type="button"><span class="nicon">📦</span>Produtos</button><button class="nav" data-go="ad" type="button"><span class="nicon">📢</span>Anúncio</button><button class="nav" data-go="learn" type="button"><span class="nicon">🧠</span>Dados</button></div></nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./app.js?v=13"></script>
-</body>
-</html>
+<script>
+(function () {
+  'use strict';
+
+  if (window.LF_V13_LOADED) return;
+  window.LF_V13_LOADED = true;
+
+  function one(selector) { return document.querySelector(selector); }
+  function all(selector) { return Array.prototype.slice.call(document.querySelectorAll(selector)); }
+  function on(el, event, fn) { if (el) el.addEventListener(event, fn); }
+
+  function readJSON(key) {
+    try {
+      var value = JSON.parse(localStorage.getItem(key) || '[]');
+      return Array.isArray(value) ? value : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (e) { alert('Não foi possível salvar neste navegador. Verifique o armazenamento do aparelho.'); }
+  }
+
+  function getProducts() { return readJSON('lfProducts'); }
+  function setProducts(value) { writeJSON('lfProducts', value); }
+  function getLearning() { return readJSON('lfLearning'); }
+  function setLearning(value) { writeJSON('lfLearning', value); }
+
+  function parseNumber(value) {
+    var s = String(value == null ? '' : value).trim().replace(/\./g, '').replace(',', '.');
+    var n = Number(s);
+    return isFinite(n) ? n : 0;
+  }
+
+  function money(value) {
+    var n = isFinite(value) ? Number(value) : 0;
+    try { return n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+    catch (e) { return 'R$ ' + n.toFixed(2).replace('.', ','); }
+  }
+
+  function escapeHTML(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  function toast(message) {
+    var t = one('#toast');
+    if (!t) { alert(message); return; }
+    t.textContent = message;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  function statusFor(margin, profit) {
+    if (profit < 0) return { key: 'bad', label: 'PREJUÍZO', plain: 'PREJUIZO' };
+    if (margin < 10) return { key: 'tight', label: 'MUITO APERTADO', plain: 'MUITO APERTADO' };
+    if (margin < 20) return { key: 'warn', label: 'ATENÇÃO', plain: 'ATENCAO' };
+    return { key: 'good', label: 'LUCRO CERTO', plain: 'LUCRO CERTO' };
+  }
+
+  function updateNetwork() {
+    var online = navigator.onLine;
+    var text = one('#netText');
+    var dot = one('#netDot');
+    if (text) text.textContent = online ? 'Online' : 'Offline OK';
+    if (dot) {
+      dot.style.background = online ? 'var(--green)' : 'var(--cyan)';
+      dot.style.boxShadow = online ? '0 0 12px var(--green)' : '0 
