@@ -93,28 +93,6 @@
 <nav class="bottom"><div class="bottom-inner"><button class="nav active" data-go="home" type="button"><span class="nicon">🏠</span>Início</button><button class="nav" data-go="calc" type="button"><span class="nicon">💰</span>Lucro</button><button class="nav" data-go="products" type="button"><span class="nicon">📦</span>Produtos</button><button class="nav" data-go="ad" type="button"><span class="nicon">📢</span>Anúncio</button><button class="nav" data-go="learn" type="button"><span class="nicon">🧠</span>Dados</button></div></nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script>
-(function(){
-'use strict';
-function one(s){return document.querySelector(s)}
-function all(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
-function readJSON(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
-function writeJSON(key,value){localStorage.setItem(key,JSON.stringify(value))}
-function getProducts(){return readJSON('lfProducts')}
-function setProducts(v){writeJSON('lfProducts',v)}
-function getLearning(){return readJSON('lfLearning')}
-function setLearning(v){writeJSON('lfLearning',v)}
-function parseNumber(v){var s=String(v==null?'':v).trim().replace(/\./g,'').replace(',','.');var n=Number(s);return isFinite(n)?n:0}
-function money(v){var n=isFinite(v)?v:0;return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function escapeHTML(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
-function toast(msg){var t=one('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show')},2200)}
-function statusFor(margin,profit){if(profit<0)return{key:'bad',label:'PREJUÍZO',plain:'PREJUIZO'};if(margin<10)return{key:'tight',label:'MUITO APERTADO',plain:'MUITO APERTADO'};if(margin<20)return{key:'warn',label:'ATENÇÃO',plain:'ATENCAO'};return{key:'good',label:'LUCRO CERTO',plain:'LUCRO CERTO'}}
-function updateNetwork(){var online=navigator.onLine;var text=one('#netText'),dot=one('#netDot');if(text)text.textContent=online?'Online':'Offline OK';if(dot){dot.style.background=online?'var(--green)':'var(--cyan)';dot.style.boxShadow=online?'0 0 12px var(--green)':'0 0 12px var(--cyan)'}}
-window.addEventListener('online',updateNetwork);window.addEventListener('offline',updateNetwork);updateNetwork();
-
-var installPrompt=null;
-var installBtn=one('#installBtn');
-if(installBtn && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){installBtn.textContent='✅ Lucro Fácil instalado'}
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installPrompt=e;if(installBtn)installBtn.textContent='📲 Instalar Lucro Fácil no celular'});
-window.addEventListener('appinstalled',function(){installPrompt=null;if(installBtn)installBtn.textContent='✅ Lucro Fácil instalado'});
-if(installBtn){installBtn.addEventListener('click',function(){var standalone=window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches;if(standalone){alert('O Lucro Fácil já está instalado neste celular.');return}if(installPrompt){installPrompt.prompt();
+<script src="./app.js?v=13"></script>
+</body>
+</html>
