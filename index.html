@@ -4,182 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07111f">
-<meta name="description" content="Lucro Fácil — assistente de vendas offline para calcular lucro, salvar produtos, criar anúncios e aprender com seus resultados.">
+<meta name="description" content="Lucro Fácil — seu assistente de vendas no bolso.">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg">
 <title>Lucro Fácil</title>
 <style>
-:root{
-  --bg:#06101d;--bg2:#0b1728;--panel:#0f1d30;--panel2:#13243a;--text:#f8fafc;--muted:#9fb0c7;
-  --line:#213852;--blue:#4f8cff;--cyan:#22d3ee;--green:#22c55e;--yellow:#facc15;--orange:#fb923c;--red:#ef4444;
-  --purple:#8b5cf6;--shadow:0 12px 35px rgba(0,0,0,.28)
-}
-*{box-sizing:border-box}
-html{color-scheme:dark}
-body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
- radial-gradient(circle at 15% -10%,rgba(79,140,255,.20),transparent 34%),
- radial-gradient(circle at 95% 15%,rgba(139,92,246,.16),transparent 28%),
- linear-gradient(180deg,var(--bg),#081425 55%,#07111f);color:var(--text);min-height:100vh}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-button:active{transform:scale(.985)}
-.app{max-width:760px;margin:auto;padding:18px 14px 104px}
-.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
-.brand{display:flex;gap:11px;align-items:center;min-width:0}
-.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:1000;font-size:20px;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 8px 25px rgba(79,140,255,.28)}
-h1{font-size:23px;margin:0;letter-spacing:-.02em}.sub{font-size:12px;color:var(--muted);margin-top:2px}
-.online{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:8px 10px;border-radius:999px;font-size:11px;font-weight:900;background:rgba(15,29,48,.8);white-space:nowrap}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#15315b 0%,#38245e 55%,#0c5463 120%);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow)}
-.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.08);right:-60px;top:-80px}.hero h2{font-size:25px;margin:0 0 8px;position:relative;z-index:1}.hero p{margin:0;color:#dbeafe;line-height:1.45;position:relative;z-index:1}
-.version{display:inline-block;margin-top:12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 9px;font-size:11px;color:#e0e7ff;position:relative;z-index:1}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.action{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(19,36,58,.95),rgba(12,28,47,.95));border:1px solid var(--line);border-radius:20px;padding:16px;text-align:left;min-height:114px;color:var(--text);box-shadow:0 8px 25px rgba(0,0,0,.16)}.action:after{content:"";position:absolute;inset:auto -25px -35px auto;width:90px;height:90px;border-radius:50%;background:rgba(79,140,255,.08)}.action b{display:block;font-size:16px;margin:8px 0 3px}.action span{font-size:12px;color:var(--muted)}.emoji{font-size:28px}
-.card{background:linear-gradient(180deg,rgba(15,29,48,.96),rgba(10,24,41,.96));border:1px solid var(--line);border-radius:21px;padding:16px;margin-bottom:12px;box-shadow:0 8px 26px rgba(0,0,0,.13)}.card h3{margin:0 0 12px;font-size:17px}.help,.muted{font-size:12px;color:var(--muted);line-height:1.45}.note{background:rgba(79,140,255,.08);border:1px dashed rgba(79,140,255,.35);padding:12px;border-radius:14px;color:#bdd0ec;font-size:12px;line-height:1.45}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:900;color:#d9e6f5}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:#0a1728;color:var(--text);padding:13px 12px;min-height:48px;outline:none}textarea{min-height:130px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,140,255,.16)}
-.primary,.secondary,.danger{border-radius:14px;padding:12px 14px;font-weight:900;min-height:46px}.primary{border:0;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}.secondary{border:1px solid var(--line);background:#0b1a2d;color:var(--text)}.danger{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.08);color:#fecaca}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1 1 150px}
-.result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.metric{padding:14px;border-radius:16px;background:#091625;border:1px solid var(--line)}.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.metric strong{font-size:21px}.status{grid-column:1/-1;position:relative;overflow:hidden;border-radius:17px;padding:15px;font-weight:1000;letter-spacing:.01em;border:1px solid transparent}.status.good{background:linear-gradient(135deg,rgba(34,197,94,.17),rgba(34,211,238,.12));border-color:rgba(34,197,94,.38);color:#bbf7d0}.status.warn{background:rgba(250,204,21,.11);border-color:rgba(250,204,21,.30);color:#fde68a}.status.tight{background:rgba(251,146,60,.11);border-color:rgba(251,146,60,.32);color:#fed7aa}.status.bad{background:linear-gradient(135deg,rgba(239,68,68,.17),rgba(251,146,60,.10));border-color:rgba(239,68,68,.42);color:#fecaca}.status.bad:before,.status.bad:after{content:"🔥";position:absolute;top:50%;font-size:28px;filter:drop-shadow(0 0 8px rgba(251,146,60,.75));animation:flame .85s ease-in-out infinite alternate}.status.bad:before{left:8px;transform:translateY(-50%)}.status.bad:after{right:8px;transform:translateY(-50%) scaleX(-1)}.status.bad{padding-left:48px;padding-right:48px}.status.good .money-inline{display:inline-block;margin-left:6px;animation:bounceMoney .8s ease-in-out infinite alternate}
-.product{border:1px solid var(--line);background:#091625;border-radius:16px;padding:14px;margin-top:10px}.product-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.product h4{margin:0 0 4px}.meta{color:var(--muted);font-size:12px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;border-radius:999px;padding:6px 9px;background:#12233a;border:1px solid var(--line)}.empty{text-align:center;color:var(--muted);padding:22px 8px}.insight{border-left:4px solid var(--cyan);background:rgba(34,211,238,.08);padding:13px 14px;border-radius:12px;line-height:1.45}.screen{display:none}.screen.active{display:block}.section-title{margin:0 0 12px;font-size:22px}.tiny{font-size:11px;color:var(--muted)}
-.goalbox{margin-top:12px;padding:13px;border-radius:16px;background:linear-gradient(135deg,rgba(79,140,255,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.25)}.goal-answer{margin-top:9px;font-weight:900;color:#ddd6fe}
-details{border:1px solid var(--line);border-radius:15px;padding:12px;background:#0a1728}summary{cursor:pointer;font-weight:900}details p{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
-.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(6,16,29,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav{border:0;background:transparent;border-radius:13px;padding:8px 2px;color:var(--muted);font-size:11px;font-weight:900;min-height:56px}.nav .nicon{display:block;font-size:18px;margin-bottom:3px}.nav.active{background:#10233b;color:#fff}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#10233b;color:white;border:1px solid var(--line);padding:11px 14px;border-radius:12px;font-size:13px;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90%;text-align:center;box-shadow:var(--shadow)}.toast.show{opacity:1}.money-drop{position:fixed;top:-40px;z-index:55;pointer-events:none;font-size:24px;animation:moneyFall 2.4s linear forwards;filter:drop-shadow(0 0 7px rgba(34,197,94,.35))}
-@keyframes moneyFall{0%{transform:translateY(-20px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(110vh) rotate(420deg);opacity:0}}@keyframes flame{from{transform:translateY(-50%) scale(.92) rotate(-5deg)}to{transform:translateY(-54%) scale(1.12) rotate(5deg)}}@keyframes bounceMoney{from{transform:translateY(0)}to{transform:translateY(-3px)}}
-@media(max-width:520px){.form-grid,.result{grid-template-columns:1fr}.status{grid-column:auto}.grid{grid-template-columns:1fr 1fr}.action{min-height:108px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.money-drop{display:none!important}}
+:root{--bg:#06101d;--panel:#0e1b2d;--panel2:#13243a;--text:#f8fafc;--muted:#9fb0c7;--line:#20364f;--blue:#4f8cff;--purple:#8b5cf6;--cyan:#22d3ee;--green:#22c55e;--yellow:#facc15;--orange:#fb923c;--red:#ef4444;--shadow:0 14px 38px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 10% 0,rgba(79,140,255,.18),transparent 30%),radial-gradient(circle at 100% 10%,rgba(139,92,246,.15),transparent 28%),linear-gradient(180deg,#06101d,#081526 60%,#06101d);color:var(--text);min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:active{transform:scale(.985)}
+.app{max-width:760px;margin:auto;padding:16px 14px 108px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.brand{display:flex;align-items:center;gap:10px;min-width:0}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:1000;background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 10px 28px rgba(79,140,255,.28)}h1{font-size:22px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:2px}.net{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:900;border:1px solid var(--line);background:rgba(14,27,45,.9);border-radius:999px;padding:8px 10px;white-space:nowrap}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.install{width:100%;border:1px solid rgba(79,140,255,.5);background:linear-gradient(135deg,rgba(79,140,255,.22),rgba(139,92,246,.20));color:#fff;border-radius:16px;padding:13px 15px;font-weight:950;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#14315a,#35235e 58%,#0b5362);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-70px;top:-90px;background:rgba(255,255,255,.07)}.hero h2{font-size:25px;margin:0 0 8px;position:relative;z-index:1}.hero p{margin:0;color:#dbeafe;line-height:1.45;position:relative;z-index:1}.version{display:inline-block;margin-top:12px;padding:6px 9px;border-radius:999px;border:1px solid rgba(255,255,255,.16);font-size:11px;color:#e0e7ff;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.action{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(19,36,58,.98),rgba(10,25,43,.98));color:var(--text);border-radius:20px;padding:16px;text-align:left;min-height:112px;box-shadow:0 8px 24px rgba(0,0,0,.15)}.action:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-25px;bottom:-38px;background:rgba(79,140,255,.08)}.action .emoji{font-size:27px}.action b{display:block;font-size:16px;margin:8px 0 3px}.action span{font-size:12px;color:var(--muted)}
+.card{background:linear-gradient(180deg,rgba(14,27,45,.98),rgba(9,23,39,.98));border:1px solid var(--line);border-radius:21px;padding:16px;margin-bottom:12px;box-shadow:0 8px 26px rgba(0,0,0,.12)}.card h3{margin:0 0 12px;font-size:17px}.section-title{margin:0 0 12px;font-size:22px}.help,.muted{font-size:12px;color:var(--muted);line-height:1.45}.note{background:rgba(79,140,255,.08);border:1px dashed rgba(79,140,255,.35);padding:12px;border-radius:14px;color:#c7d8ee;font-size:12px;line-height:1.5}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:900;color:#dce8f6}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:#091625;color:var(--text);padding:13px 12px;min-height:48px;outline:none}textarea{min-height:130px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,140,255,.15)}
+.primary,.secondary,.danger{border-radius:14px;padding:12px 14px;font-weight:950;min-height:46px}.primary{border:0;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff}.secondary{border:1px solid var(--line);background:#0a192b;color:var(--text)}.danger{border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.08);color:#fecaca}.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1 1 150px}
+.result{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.metric{background:#081522;border:1px solid var(--line);border-radius:16px;padding:14px}.metric small{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.metric strong{font-size:21px}.status{grid-column:1/-1;position:relative;overflow:hidden;border:1px solid transparent;border-radius:17px;padding:15px;font-weight:1000}.status.good{background:linear-gradient(135deg,rgba(34,197,94,.16),rgba(34,211,238,.10));border-color:rgba(34,197,94,.38);color:#bbf7d0}.status.warn{background:rgba(250,204,21,.10);border-color:rgba(250,204,21,.30);color:#fde68a}.status.tight{background:rgba(251,146,60,.10);border-color:rgba(251,146,60,.30);color:#fed7aa}.status.bad{background:linear-gradient(135deg,rgba(239,68,68,.18),rgba(251,146,60,.11));border-color:rgba(239,68,68,.42);color:#fecaca;padding-left:48px;padding-right:48px}.status.bad:before,.status.bad:after{content:"🔥";position:absolute;top:50%;font-size:28px;filter:drop-shadow(0 0 7px rgba(251,146,60,.7));animation:flame .8s ease-in-out infinite alternate}.status.bad:before{left:8px;transform:translateY(-50%)}.status.bad:after{right:8px;transform:translateY(-50%) scaleX(-1)}
+.goal{margin-top:12px;padding:13px;border-radius:16px;background:linear-gradient(135deg,rgba(79,140,255,.08),rgba(139,92,246,.08));border:1px solid rgba(139,92,246,.24)}.goal-answer{margin-top:9px;font-weight:900;color:#ddd6fe}.product{border:1px solid var(--line);background:#081522;border-radius:16px;padding:14px;margin-top:10px}.product-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.product h4{margin:0 0 4px}.meta{font-size:12px;color:var(--muted)}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.chip{font-size:12px;border-radius:999px;padding:6px 9px;background:#102139;border:1px solid var(--line)}.empty{text-align:center;color:var(--muted);padding:22px 8px}.insight{border-left:4px solid var(--cyan);background:rgba(34,211,238,.08);padding:13px 14px;border-radius:12px;line-height:1.45}.screen{display:none}.screen.active{display:block}.hidden{display:none!important}details{border:1px solid var(--line);border-radius:15px;padding:12px;background:#091625}summary{cursor:pointer;font-weight:900}details p{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(6,16,29,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.nav{border:0;background:transparent;border-radius:13px;padding:8px 2px;color:var(--muted);font-size:11px;font-weight:900;min-height:56px}.nav .nicon{display:block;font-size:18px;margin-bottom:3px}.nav.active{background:#10233b;color:#fff}.toast{position:fixed;left:50%;bottom:91px;transform:translateX(-50%);background:#10233b;color:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 14px;z-index:60;opacity:0;pointer-events:none;transition:.2s;max-width:90%;text-align:center;font-size:13px;box-shadow:var(--shadow)}.toast.show{opacity:1}.money-drop{position:fixed;top:-45px;z-index:55;pointer-events:none;font-size:24px;animation:moneyFall 2.4s linear forwards;filter:drop-shadow(0 0 7px rgba(34,197,94,.35))}
+@keyframes moneyFall{0%{transform:translateY(-20px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(110vh) rotate(420deg);opacity:0}}@keyframes flame{from{transform:translateY(-50%) scale(.92) rotate(-5deg)}to{transform:translateY(-54%) scale(1.1) rotate(5deg)}}
+@media(max-width:520px){.form-grid,.result{grid-template-columns:1fr}.status{grid-column:auto}.grid{grid-template-columns:1fr 1fr}.action{min-height:108px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<div class="app" id="app">
-<header class="top">
-  <div class="brand"><div class="logo">LF</div><div><h1>Lucro Fácil</h1><div class="sub">Seu assistente de vendas no bolso</div></div></div>
-  <div class="online"><i class="dot" id="netDot"></i><span id="netText">Online</span></div>
-</header>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">LF</div><div><h1>Lucro Fácil</h1><div class="sub">Seu assistente de vendas no bolso</div></div></div>
+    <div class="net"><i class="dot" id="netDot"></i><span id="netText">Online</span></div>
+  </header>
 
-<section class="screen active" data-screen="home">
-  <div class="hero">
-    <h2>Venda com mais certeza.</h2>
-    <p>Calcule, salve, acompanhe e aprenda com as suas próprias vendas — até sem internet.</p>
-    <span class="version">Lucro Fácil • V1.1</span>
-  </div>
-  <div class="grid">
-    <button class="action go" data-go="calc"><div class="emoji">💰</div><b>Calcular lucro</b><span>Preço, margem e meta de lucro.</span></button>
-    <button class="action go" data-go="products"><div class="emoji">📦</div><b>Meus produtos</b><span>Veja rapidamente onde está ganhando ou perdendo.</span></button>
-    <button class="action go" data-go="ad"><div class="emoji">📢</div><b>Criar anúncio</b><span>Título, descrição e canal sugerido.</span></button>
-    <button class="action go" data-go="learn"><div class="emoji">🧠</div><b>Aprendizado</b><span>Descubra seus melhores horários pelos seus dados.</span></button>
-  </div>
-  <div class="card" style="margin-top:12px">
-    <h3>Como usar</h3>
-    <details><summary>Ver passo a passo rápido</summary><p>1. Calcule uma venda. 2. Toque em “Salvar em Meus Produtos”. 3. Use “Criar anúncio” quando quiser uma sugestão pronta. 4. Depois de publicar, registre visualizações e vendas em “Aprendizado”. 5. Em “Meus Produtos”, salve uma cópia de segurança de tempos em tempos.</p></details>
-  </div>
-  <div class="card">
-    <h3>Seus dados ficam neste aparelho</h3>
-    <p class="help">O Lucro Fácil funciona offline depois do primeiro acesso. Para não perder seus produtos se trocar de aparelho ou limpar o navegador, use “Salvar cópia de segurança”.</p>
-  </div>
-</section>
+  <button class="install" id="installBtn" type="button">📲 Instalar Lucro Fácil no celular</button>
 
-<section class="screen" data-screen="calc">
-  <h2 class="section-title">💰 Calculadora</h2>
-  <div class="card">
-    <div class="form-grid">
-      <div class="field full"><label>Produto</label><input id="pName" placeholder="Ex.: Camiseta básica"></div>
-      <div class="field"><label>Custo por unidade (R$)</label><input id="pCost" inputmode="decimal" placeholder="20,00"></div>
-      <div class="field"><label>Preço de venda por unidade (R$)</label><input id="pPrice" inputmode="decimal" placeholder="40,00"></div>
-      <div class="field"><label>Quantidade</label><input id="pQty" inputmode="numeric" value="1"></div>
-      <div class="field"><label>Gastos extras do pedido (R$)</label><input id="pExtra" inputmode="decimal" value="0"></div>
-      <div class="field"><label>Categoria</label>
-        <select id="pCategory"><option value="geral">Produto geral</option><option value="moda">Moda / beleza</option><option value="comida">Comida / bebida</option><option value="usado">Usado / desapego</option><option value="casa">Casa / decoração</option><option value="servico">Serviço</option><option value="b2b">Para empresas</option></select>
+  <section class="screen active" data-screen="home">
+    <div class="hero"><h2>Venda com clareza.</h2><p>Calcule, salve, anuncie e aprenda com os resultados das suas próprias vendas.</p><span class="version">Lucro Fácil • V1.2</span></div>
+    <div class="grid">
+      <button class="action go" data-go="calc" type="button"><div class="emoji">💰</div><b>Calcular lucro</b><span>Descubra lucro, margem e preço mínimo.</span></button>
+      <button class="action go" data-go="products" type="button"><div class="emoji">📦</div><b>Meus produtos</b><span>Veja rapidamente o que compensa.</span></button>
+      <button class="action go" data-go="ad" type="button"><div class="emoji">📢</div><b>Criar anúncio</b><span>Título, descrição e canal sugerido.</span></button>
+      <button class="action go" data-go="learn" type="button"><div class="emoji">🧠</div><b>Aprendizado</b><span>Descubra seus melhores horários.</span></button>
+    </div>
+    <div class="card" style="margin-top:12px"><h3>Como usar</h3><details><summary>Ver passo a passo</summary><p>1. Faça o cálculo de um produto.<br>2. Toque em Salvar em Meus Produtos.<br>3. Gere um anúncio ou registre o resultado da postagem.<br>4. Com o tempo, o aplicativo compara seus horários e vendas.<br>5. Faça uma cópia de segurança de vez em quando.</p></details></div>
+  </section>
+
+  <section class="screen" data-screen="calc">
+    <h2 class="section-title">💰 Calculadora</h2>
+    <div class="card">
+      <div class="form-grid">
+        <div class="field full"><label for="pName">Produto</label><input id="pName" placeholder="Ex.: Camiseta básica"></div>
+        <div class="field"><label for="pCost">Custo por unidade (R$)</label><input id="pCost" inputmode="decimal" placeholder="20,00"></div>
+        <div class="field"><label for="pPrice">Preço de venda por unidade (R$)</label><input id="pPrice" inputmode="decimal" placeholder="40,00"></div>
+        <div class="field"><label for="pQty">Quantidade</label><input id="pQty" inputmode="numeric" value="1"></div>
+        <div class="field"><label for="pExtra">Outros gastos do pedido (R$)</label><input id="pExtra" inputmode="decimal" value="0"></div>
+        <div class="field"><label for="pCategory">Categoria</label><select id="pCategory"><option value="geral">Produto geral</option><option value="moda">Moda / beleza</option><option value="comida">Comida / bebida</option><option value="usado">Usado / desapego</option><option value="casa">Casa / decoração</option><option value="servico">Serviço</option><option value="empresa">Para empresas</option></select></div>
+        <div class="field"><label for="pMode">Forma de venda</label><select id="pMode"><option value="local">Local / retirada</option><option value="entrega">Com entrega</option><option value="digital">Digital / online</option></select></div>
       </div>
-      <div class="field"><label>Forma de venda</label><select id="pMode"><option value="local">Local / retirada</option><option value="entrega">Com entrega</option><option value="digital">Digital / online</option></select></div>
+      <div class="result">
+        <div class="metric"><small>Receita</small><strong id="rRevenue">R$ 0,00</strong></div><div class="metric"><small>Custo total</small><strong id="rCost">R$ 0,00</strong></div><div class="metric"><small>Lucro</small><strong id="rProfit">R$ 0,00</strong></div><div class="metric"><small>Margem</small><strong id="rMargin">0%</strong></div><div class="metric"><small>Preço mínimo</small><strong id="rBreak">R$ 0,00</strong></div><div class="metric"><small>Lucro em 10 vendas</small><strong id="rTen">R$ 0,00</strong></div><div class="status warn" id="rStatus">Preencha custo e preço para analisar.</div>
+      </div>
+      <div class="goal"><label for="goalValue">🎯 Quanto você quer lucrar?</label><input id="goalValue" inputmode="decimal" placeholder="Ex.: 1000,00"><div class="goal-answer" id="goalAnswer">Preencha uma meta para saber quantas vendas precisa fazer.</div></div>
+      <div class="row" style="margin-top:12px"><button class="primary" id="saveProduct" type="button">💾 Salvar em Meus Produtos</button><button class="secondary" id="fillExample" type="button">Ver exemplo</button></div>
     </div>
-    <div class="result">
-      <div class="metric"><small>Receita</small><strong id="rRevenue">R$ 0,00</strong></div>
-      <div class="metric"><small>Custo total</small><strong id="rCost">R$ 0,00</strong></div>
-      <div class="metric"><small>Lucro</small><strong id="rProfit">R$ 0,00</strong></div>
-      <div class="metric"><small>Margem</small><strong id="rMargin">0%</strong></div>
-      <div class="metric"><small>Mínimo por unidade</small><strong id="rBreak">R$ 0,00</strong></div>
-      <div class="metric"><small>Lucro em 10 vendas</small><strong id="rTen">R$ 0,00</strong></div>
-      <div class="status warn" id="rStatus">Preencha custo e preço para analisar.</div>
-    </div>
-    <div class="goalbox">
-      <div class="field"><label>🎯 Quanto você quer lucrar?</label><input id="goal" inputmode="decimal" placeholder="Ex.: 1000,00"></div>
-      <div class="goal-answer" id="goalAnswer">Digite uma meta para descobrir quantas vendas iguais você precisa fazer.</div>
-    </div>
-    <div class="row" style="margin-top:12px"><button class="primary" id="saveProduct" type="button">Salvar em Meus Produtos</button><button class="secondary" id="fillExample" type="button">Ver exemplo</button></div>
-  </div>
-</section>
+  </section>
 
-<section class="screen" data-screen="products">
-  <h2 class="section-title">📦 Meus Produtos</h2>
-  <div class="card">
-    <div class="row">
-      <button class="secondary" id="exportCsv" type="button">Exportar para planilha</button>
-      <button class="secondary" id="exportBackup" type="button">Salvar cópia de segurança</button>
-      <label class="secondary" style="display:flex;align-items:center;justify-content:center;cursor:pointer">Restaurar cópia<input id="importBackup" type="file" accept=".json,application/json" class="hidden"></label>
+  <section class="screen" data-screen="products">
+    <h2 class="section-title">📦 Meus produtos</h2>
+    <div class="card">
+      <div class="row"><button class="secondary" id="exportCsv" type="button">📄 Exportar para planilha</button><button class="secondary" id="exportBackup" type="button">🛟 Salvar cópia de segurança</button><label class="secondary" style="display:flex;align-items:center;justify-content:center;cursor:pointer">♻️ Restaurar cópia<input id="importBackup" type="file" accept=".lfbackup,.json,application/json" style="display:none"></label></div>
+      <div class="note" style="margin-top:10px">A cópia de segurança é um arquivo do Lucro Fácil. Você não precisa abrir. Apenas guarde e use “Restaurar cópia” se trocar de celular ou perder os dados.</div>
+      <div id="productList"></div>
     </div>
-    <p class="help">A planilha sai sem emojis para evitar símbolos estranhos no Excel/Google Planilhas. A cópia de segurança não precisa ser aberta: apenas guarde o arquivo e use “Restaurar cópia” se precisar recuperar seus dados.</p>
-    <div id="productList"></div>
-  </div>
-</section>
+  </section>
 
-<section class="screen" data-screen="ad">
-  <h2 class="section-title">📢 Criar anúncio</h2>
-  <div class="card">
-    <div class="form-grid">
-      <div class="field full"><label>Usar produto salvo</label><select id="adProduct"><option value="">Escolha um produto</option></select></div>
-      <div class="field"><label>Estado do produto</label><select id="adCondition"><option>Novo</option><option>Seminovo</option><option>Usado</option></select></div>
-      <div class="field"><label>Diferencial principal</label><input id="adBenefit" placeholder="Ex.: pronta entrega"></div>
-      <div class="field full"><label>Observação importante</label><input id="adNote" placeholder="Ex.: retirada no bairro / envio a combinar"></div>
+  <section class="screen" data-screen="ad">
+    <h2 class="section-title">📢 Criar anúncio</h2>
+    <div class="card">
+      <div class="form-grid"><div class="field full"><label for="adProduct">Produto salvo</label><select id="adProduct"><option value="">Escolha um produto</option></select></div><div class="field"><label for="adCondition">Estado</label><select id="adCondition"><option>Novo</option><option>Seminovo</option><option>Usado</option></select></div><div class="field"><label for="adBenefit">Principal diferencial</label><input id="adBenefit" placeholder="Ex.: pronta entrega"></div><div class="field full"><label for="adNote">Informação importante</label><input id="adNote" placeholder="Ex.: retirada no local"></div></div>
+      <button class="primary" id="generateAd" type="button" style="margin-top:12px">✨ Gerar sugestão</button>
     </div>
-    <button class="primary" id="generateAd" type="button" style="margin-top:12px">Gerar sugestão</button>
-  </div>
-  <div class="card hidden" id="adOutput">
-    <h3 id="adChannel">Canal sugerido</h3><div class="insight" id="channelReason"></div>
-    <div class="field" style="margin-top:12px"><label>Título</label><input id="adTitle" readonly></div>
-    <div class="field" style="margin-top:10px"><label>Descrição</label><textarea id="adText" readonly></textarea></div>
-    <div class="row" style="margin-top:10px"><button class="secondary" id="copyAd" type="button">Copiar anúncio</button></div>
-    <p class="help">A sugestão é feita com regras simples do tipo de produto. O app não consulta dados externos.</p>
-  </div>
-</section>
+    <div class="card hidden" id="adOutput"><h3 id="adChannel">Canal sugerido</h3><div class="insight" id="channelReason"></div><div class="field" style="margin-top:12px"><label for="adTitle">Título</label><input id="adTitle" readonly></div><div class="field" style="margin-top:10px"><label for="adText">Descrição</label><textarea id="adText" readonly></textarea></div><button class="secondary" id="copyAd" type="button" style="margin-top:10px">Copiar anúncio</button></div>
+  </section>
 
-<section class="screen" data-screen="learn">
-  <h2 class="section-title">🧠 Aprendizado de vendas</h2>
-  <div class="card">
-    <h3>Registrar resultado de uma postagem</h3>
-    <div class="form-grid">
-      <div class="field full"><label>Produto</label><select id="lProduct"><option value="">Escolha um produto</option></select></div>
-      <div class="field"><label>Plataforma</label><select id="lPlatform"><option>Facebook Marketplace</option><option>Instagram</option><option>WhatsApp</option><option>OLX</option><option>TikTok / Kwai</option><option>Outro</option></select></div>
-      <div class="field"><label>Data e hora da postagem</label><input id="lDate" type="datetime-local"></div>
-      <div class="field"><label>Visualizações</label><input id="lViews" type="number" min="0" inputmode="numeric" placeholder="5"></div>
-      <div class="field"><label>Vendas geradas</label><input id="lSales" type="number" min="0" inputmode="numeric" placeholder="2"></div>
-    </div>
-    <button class="primary" id="saveLearning" type="button" style="margin-top:12px">Salvar resultado</button>
-  </div>
-  <div class="card"><h3>O que seus dados estão mostrando</h3><div id="learningInsight" class="insight">Registre seus resultados. Depois o app compara horários, visualizações e vendas.</div><div id="hourStats" style="margin-top:12px"></div></div>
-</section>
+  <section class="screen" data-screen="learn">
+    <h2 class="section-title">🧠 Aprendizado de vendas</h2>
+    <div class="card"><h3>Registrar resultado de uma postagem</h3><div class="form-grid"><div class="field full"><label for="lProduct">Produto</label><select id="lProduct"><option value="">Escolha um produto</option></select></div><div class="field"><label for="lPlatform">Plataforma</label><select id="lPlatform"><option>Facebook Marketplace</option><option>Instagram</option><option>WhatsApp</option><option>OLX</option><option>TikTok / Kwai</option><option>Outro</option></select></div><div class="field"><label for="lDate">Data e hora</label><input id="lDate" type="datetime-local"></div><div class="field"><label for="lViews">Visualizações</label><input id="lViews" type="number" min="0" inputmode="numeric"></div><div class="field"><label for="lSales">Vendas geradas</label><input id="lSales" type="number" min="0" inputmode="numeric"></div></div><button class="primary" id="saveLearning" type="button" style="margin-top:12px">Salvar resultado</button></div>
+    <div class="card"><h3>O que seus dados estão mostrando</h3><div id="learningInsight" class="insight">Registre seus resultados. Depois o app compara horários, visualizações e vendas.</div><div id="hourStats" style="margin-top:12px"></div></div>
+  </section>
 </div>
 
-<nav class="bottom"><div class="bottom-inner">
-  <button class="nav active" data-go="home"><span class="nicon">🏠</span>Início</button>
-  <button class="nav" data-go="calc"><span class="nicon">💰</span>Lucro</button>
-  <button class="nav" data-go="products"><span class="nicon">📦</span>Produtos</button>
-  <button class="nav" data-go="ad"><span class="nicon">📢</span>Anúncio</button>
-  <button class="nav" data-go="learn"><span class="nicon">🧠</span>Dados</button>
-</div></nav>
+<nav class="bottom"><div class="bottom-inner"><button class="nav active" data-go="home" type="button"><span class="nicon">🏠</span>Início</button><button class="nav" data-go="calc" type="button"><span class="nicon">💰</span>Lucro</button><button class="nav" data-go="products" type="button"><span class="nicon">📦</span>Produtos</button><button class="nav" data-go="ad" type="button"><span class="nicon">📢</span>Anúncio</button><button class="nav" data-go="learn" type="button"><span class="nicon">🧠</span>Dados</button></div></nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-(()=>{
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const store={
- get products(){try{return JSON.parse(localStorage.getItem('lfProducts')||'[]')}catch{return[]}},
- set products(v){localStorage.setItem('lfProducts',JSON.stringify(v))},
- get learning(){try{return JSON.parse(localStorage.getItem('lfLearning')||'[]')}catch{return[]}},
- set learning(v){localStorage.setItem('lfLearning',JSON.stringify(v))}
-};
-const money=n=>(Number.isFinite(n)?n:0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const num=v=>{if(typeof v==='number')return Number.isFinite(v)?v:0;const s=String(v??'').trim().replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)?n:0};
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const toast=msg=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._to);t._to=setTimeout(()=>t.classList.remove('show'),2200)};
+(function(){
+'use strict';
+function one(s){return document.querySelector(s)}
+function all(s){return Array.prototype.slice.call(document.querySelectorAll(s))}
+function readJSON(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
+function writeJSON(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function getProducts(){return readJSON('lfProducts')}
+function setProducts(v){writeJSON('lfProducts',v)}
+function getLearning(){return readJSON('lfLearning')}
+function setLearning(v){writeJSON('lfLearning',v)}
+function parseNumber(v){var s=String(v==null?'':v).trim().replace(/\./g,'').replace(',','.');var n=Number(s);return isFinite(n)?n:0}
+function money(v){var n=isFinite(v)?v:0;return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function escapeHTML(v){return String(v==null?'':v).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function toast(msg){var t=one('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(function(){t.classList.remove('show')},2200)}
 function statusFor(margin,profit){if(profit<0)return{key:'bad',label:'PREJUÍZO',plain:'PREJUIZO'};if(margin<10)return{key:'tight',label:'MUITO APERTADO',plain:'MUITO APERTADO'};if(margin<20)return{key:'warn',label:'ATENÇÃO',plain:'ATENCAO'};return{key:'good',label:'LUCRO CERTO',plain:'LUCRO CERTO'}}
-function updateNet(){const on=navigator.onLine;$('#netText').textContent=on?'Online':'Offline OK';$('#netDot').style.background=on?'var(--green)':'var(--cyan)';$('#netDot').style.boxShadow=on?'0 0 12px var(--green)':'0 0 12px var(--cyan)'}
-addEventListener('online',updateNet);addEventListener('offline',updateNet);updateNet();
-let lastState='';
-function celebrateMoney(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const glyphs=['💸','💰','$','💵'];for(let i=0;i<16;i++){const e=document.createElement('span');e.className='money-drop';e.textContent=glyphs[i%glyphs.length];e.style.left=(5+Math.random()*90)+'vw';e.style.animationDelay=(Math.random()*.45)+'s';e.style.fontSize=(18+Math.random()*15)+'px';document.body.appendChild(e);setTimeout(()
+function updateNetwork(){var online=navigator.onLine;var text=one('#netText'),dot=one('#netDot');if(text)text.textContent=online?'Online':'Offline OK';if(dot){dot.style.background=online?'var(--green)':'var(--cyan)';dot.style.boxShadow=online?'0 0 12px var(--green)':'0 0 12px var(--cyan)'}}
+window.addEventListener('online',updateNetwork);window.addEventListener('offline',updateNetwork);updateNetwork();
+
+var installPrompt=null;
+var installBtn=one('#installBtn');
+if(installBtn && window.matchMedia && window.matchMedia('(display-mode: standalone)').matches){installBtn.textContent='✅ Lucro Fácil instalado'}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installPrompt=e;if(installBtn)installBtn.textContent='📲 Instalar Lucro Fácil no celular'});
+window.addEventListener('appinstalled',function(){installPrompt=null;if(installBtn)installBtn.textContent='✅ Lucro Fácil instalado'});
+if(installBtn){installBtn.addEventListener('click',function(){var standalone=window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches;if(standalone){alert('O Lucro Fácil já está instalado neste celular.');return}if(installPrompt){installPrompt.prompt();
