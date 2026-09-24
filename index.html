@@ -1,3249 +1,2168 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#111827">
-  <meta name="description" content="Lucro Fácil - ferramenta de apoio para vendedores">
-
-  <title>Lucro Fácil</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f3f4f6;
-      color: #111827;
-      line-height: 1.5;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .app {
-      min-height: 100vh;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      background: #111827;
-      color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 3px 12px rgba(0,0,0,.12);
-    }
-
-    .header-content {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #22c55e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-
-    .brand h1 {
-      font-size: 20px;
-    }
-
-    .brand small {
-      display: block;
-      color: #d1d5db;
-      font-size: 11px;
-    }
-
-    .status {
-      font-size: 12px;
-      color: #d1d5db;
-    }
-
-    .status.online {
-      color: #86efac;
-    }
-
-    .status.offline {
-      color: #fca5a5;
-    }
-
-    /* =========================
-       LAYOUT
-    ========================= */
-
-    .layout {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      min-height: calc(100vh - 78px);
-    }
-
-    aside {
-      width: 230px;
-      background: white;
-      border-right: 1px solid #e5e7eb;
-      padding: 20px 12px;
-    }
-
-    .nav-btn {
-      width: 100%;
-      border: none;
-      background: transparent;
-      text-align: left;
-      padding: 12px 14px;
-      margin-bottom: 5px;
-      border-radius: 10px;
-      color: #374151;
-      transition: .2s;
-    }
-
-    .nav-btn:hover {
-      background: #f3f4f6;
-    }
-
-    .nav-btn.active {
-      background: #111827;
-      color: white;
-    }
-
-    main {
-      flex: 1;
-      padding: 25px;
-      min-width: 0;
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    .page-title {
-      margin-bottom: 20px;
-    }
-
-    .page-title h2 {
-      font-size: 27px;
-      margin-bottom: 5px;
-    }
-
-    .page-title p {
-      color: #6b7280;
-    }
-
-    /* =========================
-       CARDS
-    ========================= */
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 15px rgba(0,0,0,.05);
-      border: 1px solid #e5e7eb;
-    }
-
-    .card h3 {
-      margin-bottom: 15px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    /* =========================
-       FORMS
-    ========================= */
-
-    .field {
-      margin-bottom: 15px;
-    }
-
-    .field label {
-      display: block;
-      font-weight: bold;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      padding: 11px 12px;
-      background: white;
-      color: #111827;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #111827;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================= */
-
-    .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 11px 16px;
-      font-weight: bold;
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      opacity: .94;
-    }
-
-    .btn-primary {
-      background: #111827;
-      color: white;
-    }
-
-    .btn-success {
-      background: #22c55e;
-      color: white;
-    }
-
-    .btn-blue {
-      background: #2563eb;
-      color: white;
-    }
-
-    .btn-purple {
-      background: #9333ea;
-      color: white;
-    }
-
-    .btn-danger {
-      background: #dc2626;
-      color: white;
-    }
-
-    .btn-light {
-      background: #f3f4f6;
-      color: #111827;
-    }
-
-    .btn-orange {
-      background: #f97316;
-      color: white;
-    }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    /* =========================
-       CALCULATOR
-    ========================= */
-
-    .result-box {
-      background: #111827;
-      color: white;
-      border-radius: 15px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    .result-main {
-      font-size: 32px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .result-item {
-      background: rgba(255,255,255,.08);
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .result-item small {
-      display: block;
-      color: #d1d5db;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-      background: #22c55e;
-      color: white;
-    }
-
-    /* =========================
-       PRODUCTS
-    ========================= */
-
-    .product-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .product-item strong {
-      display: block;
-    }
-
-    .product-price {
-      font-weight: bold;
-      color: #16a34a;
-    }
-
-    /* =========================
-       AD CREATOR
-    ========================= */
-
-    .ad-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .ad-objectives {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      margin-bottom: 15px;
-    }
-
-    .objective-btn {
-      border: 1px solid #d1d5db;
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    .objective-btn.active {
-      background: #111827;
-      color: white;
-      border-color: #111827;
-    }
-
-    .media-box {
-      border: 2px dashed #d1d5db;
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      background: #f9fafb;
-      margin-bottom: 15px;
-    }
-
-    .media-box p {
-      color: #6b7280;
-      margin-bottom: 12px;
-    }
-
-    .media-preview {
-      margin-top: 15px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #111827;
-    }
-
-    .media-preview img,
-    .media-preview video {
-      display: block;
-      width: 100%;
-      max-height: 350px;
-      object-fit: contain;
-    }
-
-    .ad-preview {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 3px 15px rgba(0,0,0,.06);
-    }
-
-    .ad-preview-media {
-      background: #111827;
-      min-height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #9ca3af;
-    }
-
-    .ad-preview-media img,
-    .ad-preview-media video {
-      width: 100%;
-      max-height: 350px;
-      object-fit: cover;
-    }
-
-    .ad-preview-content {
-      padding: 18px;
-    }
-
-    .ad-preview-content h3 {
-      margin-bottom: 8px;
-      font-size: 20px;
-    }
-
-    .ad-price {
-      color: #16a34a;
-      font-size: 25px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .ad-text {
-      white-space: pre-wrap;
-      color: #374151;
-    }
-
-    .social-buttons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .social-buttons button {
-      border: none;
-      color: white;
-      padding: 12px 8px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .whatsapp {
-      background: #25d366;
-    }
-
-    .facebook {
-      background: #1877f2;
-    }
-
-    .instagram {
-      background: #c13584;
-    }
-
-    .tip {
-      background: #eff6ff;
-      border-left: 4px solid #2563eb;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      font-size: 13px;
-      color: #1e3a8a;
-    }
-
-    /* =========================
-       LEARNING
-    ========================= */
-
-    .lesson {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      padding: 12px 0;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .lesson:last-child {
-      border-bottom: none;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #111827;
-      color: white;
-      padding: 13px 17px;
-      border-radius: 10px;
-      box-shadow: 0 5px 25px rgba(0,0,0,.2);
-      transform: translateY(100px);
-      opacity: 0;
-      pointer-events: none;
-      transition: .3s;
-      z-index: 100;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    footer {
-      text-align: center;
-      color: #9ca3af;
-      font-size: 12px;
-      padding: 25px 10px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 800px) {
-      .layout {
-        display: block;
-      }
-
-      aside {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #e5e7eb;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 8px;
-      }
-
-      .nav-btn {
-        width: auto;
-        display: inline-block;
-        margin-right: 5px;
-      }
-
-      main {
-        padding: 15px;
-      }
-
-      .grid,
-      .grid-3,
-      .ad-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .social-buttons {
-        grid-template-columns: 1fr;
-      }
-
-      .ad-objectives {
-        grid-template-columns: 1fr;
-      }
-
-      .header-content {
-        align-items: flex-start;
-      }
-
-      .status {
-        display: none;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="Lucro Fácil - ferramenta para calcular lucro, criar anúncios e organizar produtos.">
+
+<title>Lucro Fácil</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f4f6;
+  color:#111827;
+  min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  max-width:1100px;
+  margin:auto;
+  min-height:100vh;
+  background:#fff;
+}
+
+header{
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+  padding:20px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
+
+.logo span{
+  color:#22c55e;
+}
+
+.status{
+  font-size:12px;
+  opacity:.85;
+}
+
+nav{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding-top:15px;
+}
+
+nav button{
+  border:0;
+  background:#374151;
+  color:white;
+  padding:9px 12px;
+  border-radius:9px;
+  white-space:nowrap;
+}
+
+nav button.active{
+  background:#22c55e;
+  color:#052e16;
+  font-weight:bold;
+}
+
+main{
+  padding:20px;
+}
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+  display:block;
+}
+
+h1{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+h2{
+  margin-bottom:15px;
+}
+
+h3{
+  margin-bottom:12px;
+}
+
+.subtitle{
+  color:#6b7280;
+  margin-bottom:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.card{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.card-green{
+  background:#ecfdf5;
+  border-color:#bbf7d0;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  background:white;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.12);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.field{
+  margin-bottom:14px;
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:12px 15px;
+  font-weight:bold;
+  background:#111827;
+  color:white;
+  margin:4px;
+}
+
+.btn:hover{
+  opacity:.9;
+}
+
+.btn-green{
+  background:#22c55e;
+  color:#052e16;
+}
+
+.btn-blue{
+  background:#2563eb;
+  color:white;
+}
+
+.btn-orange{
+  background:#f59e0b;
+  color:#111827;
+}
+
+.btn-red{
+  background:#ef4444;
+  color:white;
+}
+
+.btn-light{
+  background:#e5e7eb;
+  color:#111827;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:12px;
+}
+
+.big-result{
+  font-size:32px;
+  font-weight:800;
+  color:#16a34a;
+  margin:10px 0;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.stat{
+  padding:16px;
+  border-radius:13px;
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+}
+
+.stat strong{
+  display:block;
+  font-size:23px;
+  margin-top:5px;
+}
+
+.product{
+  border:1px solid #e5e7eb;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+}
+
+.product-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.price{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.empty{
+  text-align:center;
+  color:#6b7280;
+  padding:30px;
+}
+
+.objectives{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-bottom:15px;
+}
+
+.objective{
+  border:1px solid #d1d5db;
+  background:#fff;
+  padding:9px 12px;
+  border-radius:9px;
+  cursor:pointer;
+}
+
+.objective.active{
+  background:#111827;
+  color:#fff;
+  border-color:#111827;
+}
+
+.media-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.media-buttons input{
+  display:none;
+}
+
+.media-preview{
+  margin-top:15px;
+  display:none;
+  position:relative;
+}
+
+.media-preview img,
+.media-preview video{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  border-radius:14px;
+  background:#111;
+}
+
+.remove-media{
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:#ef4444;
+  color:white;
+  border:0;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  font-weight:bold;
+}
+
+.ad-preview{
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  overflow:hidden;
+  background:white;
+}
+
+.ad-preview-media{
+  background:#111827;
+  min-height:80px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.ad-preview-media img,
+.ad-preview-media video{
+  max-width:100%;
+  max-height:400px;
+  object-fit:contain;
+}
+
+.ad-preview-body{
+  padding:18px;
+}
+
+.ad-preview-title{
+  font-size:22px;
+  font-weight:800;
+}
+
+.ad-preview-price{
+  font-size:25px;
+  font-weight:800;
+  color:#16a34a;
+  margin:7px 0;
+}
+
+.ad-preview-text{
+  white-space:pre-wrap;
+  line-height:1.5;
+}
+
+.copy-box{
+  background:#111827;
+  color:#f9fafb;
+  border-radius:12px;
+  padding:15px;
+  white-space:pre-wrap;
+  line-height:1.5;
+  margin-top:15px;
+}
+
+.lesson{
+  padding:15px;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+
+.lesson h3{
+  margin-bottom:6px;
+}
+
+.toast{
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:#111827;
+  color:white;
+  padding:13px 18px;
+  border-radius:10px;
+  z-index:100;
+  transition:.3s;
+  box-shadow:0 5px 20px rgba(0,0,0,.25);
+}
+
+.toast.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+footer{
+  text-align:center;
+  color:#6b7280;
+  padding:30px 20px;
+  font-size:12px;
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .stat-grid{
+    grid-template-columns:1fr;
+  }
+
+  main{
+    padding:13px;
+  }
+
+  header{
+    padding:15px;
+  }
+
+  .logo{
+    font-size:21px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+<header>
+  <div class="header-top">
+    <div class="logo">💰 Lucro <span>Fácil</span></div>
+    <div class="status" id="onlineStatus">● Online</div>
+  </div>
 
-  <header>
-    <div class="header-content">
+  <nav>
+    <button class="nav-btn active" data-screen="home">🏠 Início</button>
+    <button class="nav-btn" data-screen="calculator">🧮 Lucro</button>
+    <button class="nav-btn" data-screen="products">📦 Produtos</button>
+    <button class="nav-btn" data-screen="ads">🚀 Criar anúncio</button>
+    <button class="nav-btn" data-screen="learning">📚 Aprender</button>
+    <button class="nav-btn" data-screen="data">💾 Dados</button>
+  </nav>
+</header>
 
-      <div class="brand">
-        <div class="brand-icon">💰</div>
+<main>
 
-        <div>
-          <h1>Lucro Fácil</h1>
-          <small>Venda melhor. Lucre melhor.</small>
-        </div>
+<!-- INÍCIO -->
+<section class="screen active" id="home">
+
+  <h1>🚀 Lucro Fácil</h1>
+  <p class="subtitle">
+    Organize seus produtos, calcule seu lucro e crie anúncios mais chamativos.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat">
+      📦 Produtos
+      <strong id="homeProducts">0</strong>
+    </div>
+
+    <div class="stat">
+      💰 Investimento
+      <strong id="homeInvestment">R$ 0,00</strong>
+    </div>
+
+    <div class="stat">
+      📈 Lucro estimado
+      <strong id="homeProfit">R$ 0,00</strong>
+    </div>
+  </div>
+
+  <div class="card card-green" style="margin-top:16px;">
+    <h2>🔥 Comece agora</h2>
+    <p>
+      Cadastre um produto, descubra seu lucro e depois transforme ele em um anúncio.
+    </p>
+
+    <div class="actions">
+      <button class="btn btn-green" onclick="goTo('calculator')">
+        🧮 Calcular lucro
+      </button>
+
+      <button class="btn btn-blue" onclick="goTo('ads')">
+        🚀 Criar anúncio
+      </button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- CALCULADORA -->
+<section class="screen" id="calculator">
+
+  <h1>🧮 Calculadora de lucro</h1>
+  <p class="subtitle">
+    Descubra quanto você realmente ganha em cada venda.
+  </p>
+
+  <div class="card">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Produto</label>
+        <input id="calcProduct" placeholder="Ex.: Camiseta">
       </div>
 
-      <div
-        id="connectionStatus"
-        class="status"
-      >
-        ● Verificando conexão...
+      <div class="field">
+        <label>Quantidade</label>
+        <input id="calcQuantity" type="number" min="1" value="1">
+      </div>
+
+      <div class="field">
+        <label>Preço de compra por unidade</label>
+        <input id="calcCost" type="number" step="0.01" placeholder="0,00">
+      </div>
+
+      <div class="field">
+        <label>Preço de venda por unidade</label>
+        <input id="calcSale" type="number" step="0.01" placeholder="0,00">
+      </div>
+
+      <div class="field">
+        <label>Outros custos</label>
+        <input id="calcOther" type="number" step="0.01" value="0">
+      </div>
+
+      <div class="field">
+        <label>Taxa (%)</label>
+        <input id="calcFee" type="number" step="0.01" value="0">
       </div>
 
     </div>
-  </header>
 
-
-  <div class="layout">
-
-    <!-- =========================
-         MENU
-    ========================== -->
-
-    <aside>
-
-      <button
-        class="nav-btn active"
-        data-go="home"
-      >
-        🏠 Início
-      </button>
-
-      <button
-        class="nav-btn"
-        data-go="calculator"
-      >
-        🧮 Calculadora
-      </button>
-
-      <button
-        class="nav-btn"
-        data-go="products"
-      >
-        📦 Meus produtos
-      </button>
-
-      <button
-        class="nav-btn"
-        data-go="ads"
-      >
-        🚀 Criar anúncio
-      </button>
-
-      <button
-        class="nav-btn"
-        data-go="learning"
-      >
-        📚 Aprendizado
-      </button>
-
-      <button
-        class="nav-btn"
-        data-go="data"
-      >
-        💾 Dados / Backup
-      </button>
-
-    </aside>
-
-
-    <main>
-
-      <!-- =========================
-           HOME
-      ========================== -->
-
-      <section
-        class="screen active"
-        id="screen-home"
-      >
-
-        <div class="page-title">
-          <h2>Olá! 👋</h2>
-          <p>
-            Use o Lucro Fácil para calcular seus preços,
-            organizar produtos e criar anúncios.
-          </p>
-        </div>
-
-        <div class="grid">
-
-          <div class="card">
-            <h3>🧮 Calculadora de lucro</h3>
-
-            <p>
-              Descubra quanto realmente sobra
-              em cada venda.
-            </p>
-
-            <br>
-
-            <button
-              class="btn btn-primary"
-              data-go="calculator"
-            >
-              Calcular agora
-            </button>
-          </div>
-
-          <div class="card">
-            <h3>🚀 Criador de anúncios</h3>
-
-            <p>
-              Crie textos de venda, adicione
-              foto ou vídeo e prepare sua divulgação.
-            </p>
-
-            <br>
-
-            <button
-              class="btn btn-success"
-              data-go="ads"
-            >
-              Criar anúncio
-            </button>
-          </div>
-
-        </div>
-
-        <div class="card">
-
-          <h3>💡 Como usar</h3>
-
-          <p>
-            1. Cadastre seus produtos.
-          </p>
-
-          <p>
-            2. Calcule seu lucro.
-          </p>
-
-          <p>
-            3. Crie uma oferta.
-          </p>
-
-          <p>
-            4. Adicione uma foto ou vídeo.
-          </p>
-
-          <p>
-            5. Gere um texto vendedor.
-          </p>
-
-          <p>
-            6. Compartilhe no canal escolhido.
-          </p>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           CALCULATOR
-      ========================== -->
-
-      <section
-        class="screen"
-        id="screen-calculator"
-      >
-
-        <div class="page-title">
-          <h2>🧮 Calculadora de lucro</h2>
-
-          <p>
-            Descubra quanto sobra em cada venda.
-          </p>
-        </div>
-
-
-        <div class="card">
-
-          <div class="grid">
-
-            <div class="field">
-
-              <label>
-                Produto
-              </label>
-
-              <input
-                id="calcProduct"
-                type="text"
-                placeholder="Ex.: Fone Bluetooth"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Preço de venda
-              </label>
-
-              <input
-                id="calcPrice"
-                type="number"
-                step="0.01"
-                placeholder="0,00"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Custo do produto
-              </label>
-
-              <input
-                id="calcCost"
-                type="number"
-                step="0.01"
-                placeholder="0,00"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Quantidade
-              </label>
-
-              <input
-                id="calcQty"
-                type="number"
-                min="1"
-                value="1"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Outros custos por venda
-              </label>
-
-              <input
-                id="calcExtra"
-                type="number"
-                step="0.01"
-                value="0"
-                placeholder="Frete, embalagem etc."
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Meta de lucro
-              </label>
-
-              <input
-                id="calcGoal"
-                type="number"
-                step="0.01"
-                placeholder="Ex.: 1000"
-              >
-
-            </div>
-
-          </div>
-
-
-          <div class="btn-row">
-
-            <button
-              class="btn btn-primary"
-              id="calculateBtn"
-            >
-              Calcular
-            </button>
-
-            <button
-              class="btn btn-light"
-              id="fillExample"
-            >
-              Preencher exemplo
-            </button>
-
-            <button
-              class="btn btn-light"
-              id="clearCalc"
-            >
-              Limpar
-            </button>
-
-          </div>
-
-
-          <div
-            class="result-box"
-            id="calcResult"
-            style="display:none;"
-          >
-
-            <div>
-              Lucro estimado
-            </div>
-
-            <div
-              class="result-main"
-              id="resultProfit"
-            >
-              R$ 0,00
-            </div>
-
-            <span
-              class="badge"
-              id="resultMarginBadge"
-            >
-              0%
-            </span>
-
-
-            <div class="result-grid">
-
-              <div class="result-item">
-                <small>Faturamento</small>
-                <strong id="resultRevenue">
-                  R$ 0,00
-                </strong>
-              </div>
-
-              <div class="result-item">
-                <small>Custos</small>
-                <strong id="resultCost">
-                  R$ 0,00
-                </strong>
-              </div>
-
-              <div class="result-item">
-                <small>Ponto de equilíbrio</small>
-                <strong id="resultBreakEven">
-                  0 vendas
-                </strong>
-              </div>
-
-            </div>
-
-
-            <div
-              id="goalResult"
-              style="margin-top:15px;"
-            ></div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           PRODUCTS
-      ========================== -->
-
-      <section
-        class="screen"
-        id="screen-products"
-      >
-
-        <div class="page-title">
-
-          <h2>📦 Meus produtos</h2>
-
-          <p>
-            Cadastre seus produtos para consultar rapidamente.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="grid">
-
-            <div class="field">
-
-              <label>
-                Nome do produto
-              </label>
-
-              <input
-                id="productName"
-                placeholder="Ex.: Fone Bluetooth"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Categoria
-              </label>
-
-              <input
-                id="productCategory"
-                placeholder="Ex.: Eletrônicos"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Custo
-              </label>
-
-              <input
-                id="productCost"
-                type="number"
-                step="0.01"
-                placeholder="0,00"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Preço de venda
-              </label>
-
-              <input
-                id="productPrice"
-                type="number"
-                step="0.01"
-                placeholder="0,00"
-              >
-
-            </div>
-
-          </div>
-
-
-          <button
-            class="btn btn-success"
-            id="saveProduct"
-          >
-            Salvar produto
-          </button>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>Produtos cadastrados</h3>
-
-          <div id="productList">
-            Nenhum produto cadastrado.
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           AD CREATOR
-      ========================== -->
-
-      <section
-        class="screen"
-        id="screen-ads"
-      >
-
-        <div class="page-title">
-
-          <h2>🚀 Criador de anúncios</h2>
-
-          <p>
-            Transforme seu produto, foto ou vídeo
-            em um anúncio mais chamativo.
-          </p>
-
-        </div>
-
-
-        <div class="tip">
-
-          💡 <strong>Dica:</strong>
-          você pode criar uma imagem do produto
-          usando uma IA e depois colocar essa imagem
-          aqui para montar o anúncio.
-
-        </div>
-
-
-        <div class="ad-layout">
-
-          <!-- =====================
-               CONFIGURAÇÃO
-          ====================== -->
-
-          <div>
-
-            <div class="card">
-
-              <h3>1️⃣ Informações do produto</h3>
-
-
-              <div class="field">
-
-                <label>
-                  Produto
-                </label>
-
-                <input
-                  id="adProduct"
-                  placeholder="Ex.: Fone Bluetooth"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  Preço
-                </label>
-
-                <input
-                  id="adPrice"
-                  type="number"
-                  step="0.01"
-                  placeholder="Ex.: 79,90"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  Benefício principal
-                </label>
-
-                <input
-                  id="adBenefit"
-                  placeholder="Ex.: Som potente e bateria duradoura"
-                >
-
-              </div>
-
-
-              <div class="field">
-
-                <label>
-                  Informação adicional
-                </label>
-
-                <textarea
-                  id="adNote"
-                  placeholder="Entrega, formas de pagamento, condição, detalhes etc."
-                ></textarea>
-
-              </div>
-
-            </div>
-
-
-            <div class="card">
-
-              <h3>2️⃣ Qual estilo de anúncio?</h3>
-
-
-              <div class="ad-objectives">
-
-                <button
-                  class="objective-btn active"
-                  data-objective="curiosity"
-                >
-                  🔥 Curiosidade
-                </button>
-
-                <button
-                  class="objective-btn"
-                  data-objective="offer"
-                >
-                  💰 Oferta
-                </button>
-
-                <button
-                  class="objective-btn"
-                  data-objective="urgency"
-                >
-                  ⚡ Urgência
-                </button>
-
-                <button
-                  class="objective-btn"
-                  data-objective="benefit"
-                >
-                  🎯 Benefício
-                </button>
-
-                <button
-                  class="objective-btn"
-                  data-objective="complete"
-                >
-                  🛍️ Completo
-                </button>
-
-              </div>
-
-              <input
-                type="hidden"
-                id="adMode"
-                value="curiosity"
-              >
-
-            </div>
-
-
-            <div class="card">
-
-              <h3>3️⃣ Adicione foto ou vídeo</h3>
-
-
-              <div class="media-box">
-
-                <p>
-                  Escolha uma imagem ou vídeo
-                  do seu celular/computador.
-                </p>
-
-
-                <div class="btn-row" style="justify-content:center;">
-
-                  <button
-                    class="btn btn-blue"
-                    id="photoBtn"
-                  >
-                    📷 Adicionar foto
-                  </button>
-
-                  <button
-                    class="btn btn-purple"
-                    id="videoBtn"
-                  >
-                    🎥 Adicionar vídeo
-                  </button>
-
-                </div>
-
-
-                <input
-                  id="photoInput"
-                  type="file"
-                  accept="image/*"
-                  hidden
-                >
-
-                <input
-                  id="videoInput"
-                  type="file"
-                  accept="video/*"
-                  hidden
-                >
-
-
-                <div
-                  id="mediaPreview"
-                  class="media-preview"
-                  style="display:none;"
-                ></div>
-
-
-                <button
-                  id="removeMedia"
-                  class="btn btn-danger"
-                  style="display:none;margin-top:10px;"
-                >
-                  🗑️ Remover mídia
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div class="card">
-
-              <h3>4️⃣ Criar o anúncio</h3>
-
-              <div class="btn-row">
-
-                <button
-                  class="btn btn-success"
-                  id="generateAd"
-                >
-                  ✨ Gerar anúncio
-                </button>
-
-                <button
-                  class="btn btn-orange"
-                  id="improveAd"
-                >
-                  ✨ Melhorar meu anúncio
-                </button>
-
-                <button
-                  class="btn btn-light"
-                  id="copyAd"
-                >
-                  📋 Copiar texto
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- =====================
-               PREVIEW
-          ====================== -->
-
-          <div>
-
-            <div class="card">
-
-              <h3>👀 Pré-visualização</h3>
-
-
-              <div class="ad-preview">
-
-                <div
-                  class="ad-preview-media"
-                  id="adPreviewMedia"
-                >
-                  Sua foto ou vídeo aparecerá aqui.
-                </div>
-
-
-                <div class="ad-preview-content">
-
-                  <h3 id="adPreviewTitle">
-                    Seu produto
-                  </h3>
-
-
-                  <div
-                    class="ad-price"
-                    id="adPreviewPrice"
-                  >
-                    R$ 0,00
-                  </div>
-
-
-                  <div
-                    class="ad-text"
-                    id="adPreviewText"
-                  >
-                    Seu anúncio aparecerá aqui.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="social-buttons">
-
-                <button
-                  class="whatsapp"
-                  id="whatsappBtn"
-                >
-                  📲 WhatsApp
-                </button>
-
-                <button
-                  class="facebook"
-                  id="facebookBtn"
-                >
-                  🔵 Facebook
-                </button>
-
-                <button
-                  class="instagram"
-                  id="instagramBtn"
-                >
-                  🟣 Instagram
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           LEARNING
-      ========================== -->
-
-      <section
-        class="screen"
-        id="screen-learning"
-      >
-
-        <div class="page-title">
-
-          <h2>📚 Aprendizado de vendas</h2>
-
-          <p>
-            Pequenas melhorias podem aumentar
-            bastante suas chances de venda.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <div class="lesson">
-
-            <input
-              type="checkbox"
-              data-lesson="1"
-            >
-
-            <div>
-              <strong>
-                Não venda apenas o produto.
-              </strong>
-
-              <p>
-                Mostre qual problema ele resolve
-                ou qual benefício oferece.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="lesson">
-
-            <input
-              type="checkbox"
-              data-lesson="2"
-            >
-
-            <div>
-              <strong>
-                Use boas imagens.
-              </strong>
-
-              <p>
-                Uma imagem clara chama mais atenção
-                para o anúncio.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="lesson">
-
-            <input
-              type="checkbox"
-              data-lesson="3"
-            >
-
-            <div>
-              <strong>
-                Facilite o contato.
-              </strong>
-
-              <p>
-                Dê ao interessado um caminho simples
-                para falar com você.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="lesson">
-
-            <input
-              type="checkbox"
-              data-lesson="4"
-            >
-
-            <div>
-              <strong>
-                Saiba seu lucro.
-              </strong>
-
-              <p>
-                Vender muito não significa
-                necessariamente lucrar muito.
-              </p>
-            </div>
-
-          </div>
-
-
-          <div class="lesson">
-
-            <input
-              type="checkbox"
-              data-lesson="5"
-            >
-
-            <div>
-              <strong>
-                Teste diferentes anúncios.
-              </strong>
-
-              <p>
-                Compare títulos, benefícios e chamadas
-                para descobrir o que funciona melhor.
-              </p>
-            </div>
-
-          </div>
-
-
-          <br>
-
-          <strong>
-            Progresso:
-          </strong>
-
-          <span id="learningProgress">
-            0%
-          </span>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           DATA
-      ========================== -->
-
-      <section
-        class="screen"
-        id="screen-data"
-      >
-
-        <div class="page-title">
-
-          <h2>💾 Dados e backup</h2>
-
-          <p>
-            Exporte seus dados para não perder suas informações.
-          </p>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>Exportar produtos</h3>
-
-          <p>
-            Gere um arquivo CSV com seus produtos cadastrados.
-          </p>
-
-          <br>
-
-          <button
-            class="btn btn-primary"
-            id="exportCsv"
-          >
-            📊 Exportar CSV
-          </button>
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>Backup completo</h3>
-
-          <p>
-            Salve produtos, cálculos e progresso.
-          </p>
-
-          <br>
-
-          <div class="btn-row">
-
-            <button
-              class="btn btn-success"
-              id="exportBackup"
-            >
-              💾 Fazer backup
-            </button>
-
-            <button
-              class="btn btn-light"
-              id="importBackup"
-            >
-              ♻️ Restaurar backup
-            </button>
-
-          </div>
-
-          <input
-            type="file"
-            id="backupInput"
-            accept=".json"
-            hidden
-          >
-
-        </div>
-
-
-        <div class="card">
-
-          <h3>📱 Aplicativo</h3>
-
-          <p>
-            Se o navegador disponibilizar a instalação,
-            você poderá instalar o Lucro Fácil como aplicativo.
-          </p>
-
-          <br>
-
-          <button
-            class="btn btn-primary"
-            id="installBtn"
-            style="display:none;"
-          >
-            📲 Instalar Lucro Fácil
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <footer>
-        Lucro Fácil • Ferramenta de apoio para vendedores
-      </footer>
-
-    </main>
+    <button class="btn btn-green" id="calculateBtn">
+      💰 Calcular
+    </button>
+
+    <div id="calcResult" style="display:none;margin-top:20px;">
+      <div class="big-result" id="resultProfit">R$ 0,00</div>
+      <p id="resultDetails"></p>
+    </div>
 
   </div>
 
+</section>
+
+
+<!-- PRODUTOS -->
+<section class="screen" id="products">
+
+  <h1>📦 Meus produtos</h1>
+  <p class="subtitle">Cadastre os produtos que você vende.</p>
+
+  <div class="card">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Nome do produto</label>
+        <input id="productName" placeholder="Ex.: Fone Bluetooth">
+      </div>
+
+      <div class="field">
+        <label>Custo</label>
+        <input id="productCost" type="number" step="0.01">
+      </div>
+
+      <div class="field">
+        <label>Preço de venda</label>
+        <input id="productPrice" type="number" step="0.01">
+      </div>
+
+      <div class="field">
+        <label>Quantidade</label>
+        <input id="productStock" type="number" min="0" value="1">
+      </div>
+
+    </div>
+
+    <button class="btn btn-green" id="addProduct">
+      ➕ Adicionar produto
+    </button>
+
+  </div>
+
+  <div id="productList"></div>
+
+</section>
+
+
+<!-- ANÚNCIOS -->
+<section class="screen" id="ads">
+
+  <h1>🚀 Criador de anúncios</h1>
+
+  <p class="subtitle">
+    Crie um anúncio chamativo e compartilhe com foto + texto quando o celular permitir.
+  </p>
+
+  <div class="card">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Produto</label>
+        <input id="adProduct" placeholder="Ex.: Tênis Nike">
+      </div>
+
+      <div class="field">
+        <label>Preço</label>
+        <input id="adPrice" placeholder="Ex.: R$ 149,90">
+      </div>
+
+      <div class="field">
+        <label>Principal benefício</label>
+        <input id="adBenefit" placeholder="Ex.: confortável e leve">
+      </div>
+
+      <div class="field">
+        <label>Informação adicional</label>
+        <input id="adNote" placeholder="Ex.: entregamos em toda região">
+      </div>
+
+    </div>
+
+    <label>🎯 Estilo do anúncio</label>
+
+    <div class="objectives">
+
+      <button class="objective active" data-mode="curiosity">
+        👀 Curiosidade
+      </button>
+
+      <button class="objective" data-mode="offer">
+        💰 Oferta
+      </button>
+
+      <button class="objective" data-mode="urgency">
+        ⏰ Urgência
+      </button>
+
+      <button class="objective" data-mode="benefit">
+        🔥 Benefício
+      </button>
+
+      <button class="objective" data-mode="complete">
+        🚀 Completo
+      </button>
+
+    </div>
+
+    <input type="hidden" id="adMode" value="curiosity">
+
+
+    <h3 style="margin-top:20px;">📸 Foto ou vídeo</h3>
+
+    <div class="media-buttons">
+
+      <label class="btn btn-blue" for="photoInput">
+        📸 Adicionar foto
+      </label>
+
+      <input
+        id="photoInput"
+        type="file"
+        accept="image/*"
+      >
+
+      <label class="btn btn-orange" for="videoInput">
+        🎥 Adicionar vídeo
+      </label>
+
+      <input
+        id="videoInput"
+        type="file"
+        accept="video/*"
+      >
+
+    </div>
+
+    <div class="media-preview" id="mediaPreview">
+
+      <button class="remove-media" id="removeMedia">
+        ×
+      </button>
+
+      <img id="imagePreview" style="display:none;">
+      <video id="videoPreview" style="display:none;" controls></video>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button class="btn btn-green" id="generateAd">
+        🚀 Gerar anúncio
+      </button>
+
+      <button class="btn btn-blue" id="improveAd">
+        ✨ Melhorar meu anúncio
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>👀 Prévia</h2>
+
+    <div class="ad-preview">
+
+      <div class="ad-preview-media" id="adPreviewMedia">
+        <span style="color:#9ca3af;">Sua imagem aparecerá aqui</span>
+      </div>
+
+      <div class="ad-preview-body">
+
+        <div class="ad-preview-title" id="adPreviewTitle">
+          Seu produto
+        </div>
+
+        <div class="ad-preview-price" id="adPreviewPrice">
+          R$ 0,00
+        </div>
+
+        <div class="ad-preview-text" id="adPreviewText">
+          Seu anúncio aparecerá aqui.
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="copy-box" id="adCopyBox">
+      Seu texto aparecerá aqui.
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-green" id="copyAd">
+        📋 Copiar texto
+      </button>
+
+      <button class="btn btn-green" id="shareAd">
+        📲 Compartilhar foto + texto
+      </button>
+
+      <button class="btn btn-blue" id="whatsappBtn">
+        💬 WhatsApp
+      </button>
+
+      <button class="btn btn-blue" id="facebookBtn">
+        📘 Facebook
+      </button>
+
+      <button class="btn btn-orange" id="instagramBtn">
+        📸 Instagram
+      </button>
+
+    </div>
+
+    <p style="font-size:12px;color:#6b7280;margin-top:12px;">
+      📱 No celular, o botão “Compartilhar foto + texto” usa o compartilhamento
+      nativo do aparelho. Se o WhatsApp aparecer na lista, selecione-o para enviar
+      a foto junto com o anúncio.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- APRENDIZADO -->
+<section class="screen" id="learning">
+
+  <h1>📚 Aprendizado de vendas</h1>
+
+  <p class="subtitle">
+    Pequenas melhorias podem aumentar suas chances de vender.
+  </p>
+
+  <div class="lesson">
+    <h3>👀 1. Chame atenção</h3>
+    <p>
+      Comece mostrando um problema, desejo ou benefício. A primeira frase precisa
+      fazer a pessoa querer continuar lendo.
+    </p>
+  </div>
+
+  <div class="lesson">
+    <h3>💰 2. Mostre a oferta</h3>
+    <p>
+      Deixe o preço claro e destaque o principal benefício do produto.
+    </p>
+  </div>
+
+  <div class="lesson">
+    <h3>📸 3. Use boas imagens</h3>
+    <p>
+      Fotos claras e reais ajudam o cliente a entender melhor o que está sendo vendido.
+    </p>
+  </div>
+
+  <div class="lesson">
+    <h3>⚡ 4. Facilite a decisão</h3>
+    <p>
+      Termine o anúncio com uma chamada para ação, como “Chame no WhatsApp”.
+    </p>
+  </div>
+
+  <div class="lesson">
+    <h3>🤝 5. Responda rápido</h3>
+    <p>
+      Quando o cliente demonstrar interesse, responda o mais rápido possível e conduza
+      a conversa para o próximo passo.
+    </p>
+  </div>
+
+</section>
+
+
+<!-- DADOS -->
+<section class="screen" id="data">
+
+  <h1>💾 Dados e backup</h1>
+
+  <p class="subtitle">
+    Faça backup para não perder seus produtos e configurações.
+  </p>
+
+  <div class="card">
+
+    <h3>📤 Exportar backup</h3>
+
+    <p style="margin-bottom:12px;">
+      Salve todos os dados do Lucro Fácil em um arquivo.
+    </p>
+
+    <button class="btn btn-green" id="backupBtn">
+      💾 Fazer backup
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h3>📥 Restaurar backup</h3>
+
+    <p style="margin-bottom:12px;">
+      Selecione um backup salvo anteriormente.
+    </p>
+
+    <label class="btn btn-blue" for="restoreInput">
+      📂 Restaurar backup
+    </label>
+
+    <input
+      id="restoreInput"
+      type="file"
+      accept=".json,application/json"
+      style="display:none;"
+    >
+
+  </div>
+
+  <div class="card">
+
+    <h3>📊 Exportar produtos em CSV</h3>
+
+    <button class="btn btn-orange" id="csvBtn">
+      📄 Exportar CSV
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h3>📱 Instalação</h3>
+
+    <p>
+      Se o navegador oferecer a instalação do Lucro Fácil, você poderá instalar
+      o aplicativo na tela inicial.
+    </p>
+
+    <button class="btn btn-green" id="installBtn" style="display:none;">
+      📲 Instalar aplicativo
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Lucro Fácil • Organize. Anuncie. Venda. 🚀
+</footer>
+
 </div>
 
-
-<!-- =========================
-     TOAST
-========================== -->
-
-<div
-  class="toast"
-  id="toast"
-  role="status"
-  aria-live="polite"
-></div>
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-  /* =========================================
-     UTILIDADES
-  ========================================= */
+const STORAGE_KEY = "lucro_facil_data_v3";
 
-  const $ = (id) => document.getElementById(id);
+let state = {
+  products: [],
+  learning: {
+    adsCreated: 0
+  }
+};
 
-  function money(value) {
+let currentMediaFile = null;
+let currentMediaType = null;
+let currentMediaData = null;
 
-    return Number(value || 0).toLocaleString(
-      'pt-BR',
-      {
-        style: 'currency',
-        currency: 'BRL'
-      }
-    );
+let deferredPrompt = null;
+
+
+/* =========================
+   UTILIDADES
+========================= */
+
+function money(value){
+
+  return Number(value || 0).toLocaleString("pt-BR",{
+    style:"currency",
+    currency:"BRL"
+  });
+
+}
+
+
+function escapeHtml(text){
+
+  return String(text || "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function toast(message){
+
+  const el = document.getElementById("toast");
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(()=>{
+    el.classList.remove("show");
+  },3000);
+
+}
+
+
+function saveState(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
+
+}
+
+
+function loadState(){
+
+  try{
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+      const parsed = JSON.parse(saved);
+
+      state = {
+        ...state,
+        ...parsed
+      };
+
+    }
+
+  }catch(error){
+
+    console.error(error);
 
   }
 
+}
 
-  function showToast(message) {
 
-    const toast = $('toast');
+/* =========================
+   NAVEGAÇÃO
+========================= */
 
-    toast.textContent = message;
+function goTo(screenName){
 
-    toast.classList.add('show');
+  document.querySelectorAll(".screen").forEach(screen=>{
+    screen.classList.remove("active");
+  });
 
-    clearTimeout(window.toastTimer);
+  document.querySelectorAll(".nav-btn").forEach(button=>{
+    button.classList.remove("active");
+  });
 
-    window.toastTimer = setTimeout(() => {
+  const screen = document.getElementById(screenName);
 
-      toast.classList.remove('show');
-
-    }, 2500);
-
+  if(screen){
+    screen.classList.add("active");
   }
 
+  const button = document.querySelector(
+    `.nav-btn[data-screen="${screenName}"]`
+  );
 
-  /* =========================================
-     NAVEGAÇÃO
-  ========================================= */
+  if(button){
+    button.classList.add("active");
+  }
 
-  document.querySelectorAll('[data-go]').forEach(button => {
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-    button.addEventListener('click', () => {
+}
 
-      const target = button.dataset.go;
 
-      document.querySelectorAll('.screen').forEach(screen => {
+document.querySelectorAll(".nav-btn").forEach(button=>{
 
-        screen.classList.remove('active');
+  button.addEventListener("click",()=>{
 
-      });
-
-      const targetScreen = $('screen-' + target);
-
-      if (targetScreen) {
-
-        targetScreen.classList.add('active');
-
-      }
-
-      document.querySelectorAll('.nav-btn').forEach(nav => {
-
-        nav.classList.remove('active');
-
-      });
-
-      document
-        .querySelectorAll(`.nav-btn[data-go="${target}"]`)
-        .forEach(nav => {
-
-          nav.classList.add('active');
-
-        });
-
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-
-    });
+    goTo(button.dataset.screen);
 
   });
 
-
-  /* =========================================
-     CONEXÃO
-  ========================================= */
-
-  function updateConnection() {
-
-    const status = $('connectionStatus');
-
-    if (navigator.onLine) {
-
-      status.textContent = '● Online';
-
-      status.classList.add('online');
-      status.classList.remove('offline');
-
-    } else {
-
-      status.textContent = '● Offline';
-
-      status.classList.add('offline');
-      status.classList.remove('online');
-
-    }
-
-  }
-
-  window.addEventListener('online', updateConnection);
-
-  window.addEventListener('offline', updateConnection);
-
-  updateConnection();
+});
 
 
-  /* =========================================
-     CALCULADORA
-  ========================================= */
+/* =========================
+   CALCULADORA
+========================= */
 
-  $('calculateBtn').addEventListener('click', calculateProfit);
+document.getElementById("calculateBtn")
+.addEventListener("click",()=>{
 
+  const quantity =
+    Number(document.getElementById("calcQuantity").value) || 0;
 
-  function calculateProfit() {
+  const cost =
+    Number(document.getElementById("calcCost").value) || 0;
 
-    const product = $('calcProduct').value.trim();
+  const sale =
+    Number(document.getElementById("calcSale").value) || 0;
 
-    const price = Number($('calcPrice').value);
+  const other =
+    Number(document.getElementById("calcOther").value) || 0;
 
-    const cost = Number($('calcCost').value);
-
-    const qty = Math.max(
-      1,
-      Number($('calcQty').value) || 1
-    );
-
-    const extra = Number($('calcExtra').value) || 0;
-
-    if (!price || price <= 0) {
-
-      showToast('Digite um preço de venda.');
-
-      return;
-
-    }
-
-    const revenue = price * qty;
-
-    const totalCost =
-      (cost * qty) +
-      (extra * qty);
-
-    const profit = revenue - totalCost;
-
-    const margin =
-      revenue > 0
-        ? (profit / revenue) * 100
-        : 0;
-
-    $('resultProfit').textContent = money(profit);
-
-    $('resultRevenue').textContent = money(revenue);
-
-    $('resultCost').textContent = money(totalCost);
-
-    $('resultBreakEven').textContent =
-      price > 0
-        ? Math.ceil(totalCost / price) + ' vendas'
-        : '0 vendas';
-
-    $('resultMarginBadge').textContent =
-      margin.toFixed(1) + '%';
-
-    const goal = Number($('calcGoal').value) || 0;
-
-    if (goal > 0 && profit > 0) {
-
-      const needed = Math.ceil(goal / profit);
-
-      $('goalResult').innerHTML =
-        `🎯 Para atingir <strong>${money(goal)}</strong> de lucro, 
-        você precisa de aproximadamente 
-        <strong>${needed} venda(s)</strong>.`;
-
-    } else {
-
-      $('goalResult').innerHTML = '';
-
-    }
-
-    $('calcResult').style.display = 'block';
+  const feePercent =
+    Number(document.getElementById("calcFee").value) || 0;
 
 
-    localStorage.setItem(
-      'lucro_facil_last_calc',
-      JSON.stringify({
-        product,
-        price,
-        cost,
-        qty,
-        extra,
-        goal,
-        profit,
-        margin,
-        date: new Date().toISOString()
-      })
-    );
+  const totalCost =
+    (cost * quantity) + other;
+
+  const totalSales =
+    sale * quantity;
+
+  const fee =
+    totalSales * (feePercent / 100);
+
+  const profit =
+    totalSales - totalCost - fee;
+
+  const margin =
+    totalSales > 0
+      ? (profit / totalSales) * 100
+      : 0;
+
+
+  document.getElementById("resultProfit").textContent =
+    money(profit);
+
+  document.getElementById("resultDetails").innerHTML =
+    `
+    <strong>Vendas:</strong> ${money(totalSales)}<br>
+    <strong>Custo:</strong> ${money(totalCost)}<br>
+    <strong>Taxas:</strong> ${money(fee)}<br>
+    <strong>Margem:</strong> ${margin.toFixed(1)}%
+    `;
+
+  document.getElementById("calcResult").style.display = "block";
+
+});
+
+
+/* =========================
+   PRODUTOS
+========================= */
+
+function renderProducts(){
+
+  const list = document.getElementById("productList");
+
+  if(!state.products.length){
+
+    list.innerHTML =
+      `<div class="empty">📦 Nenhum produto cadastrado.</div>`;
+
+    updateHome();
+
+    return;
 
   }
 
 
-  $('fillExample').addEventListener('click', () => {
+  list.innerHTML = state.products.map((product,index)=>{
 
-    $('calcProduct').value = 'Fone Bluetooth';
+    const unitProfit =
+      Number(product.price || 0) -
+      Number(product.cost || 0);
 
-    $('calcPrice').value = '79.90';
+    const totalProfit =
+      unitProfit *
+      Number(product.stock || 0);
 
-    $('calcCost').value = '40';
+    return `
+      <div class="product">
 
-    $('calcQty').value = '1';
+        <div class="product-top">
 
-    $('calcExtra').value = '5';
+          <div>
+            <strong>${escapeHtml(product.name)}</strong>
 
-    $('calcGoal').value = '1000';
-
-    calculateProfit();
-
-  });
-
-
-  $('clearCalc').addEventListener('click', () => {
-
-    $('calcProduct').value = '';
-
-    $('calcPrice').value = '';
-
-    $('calcCost').value = '';
-
-    $('calcQty').value = '1';
-
-    $('calcExtra').value = '0';
-
-    $('calcGoal').value = '';
-
-    $('calcResult').style.display = 'none';
-
-  });
-
-
-  /* =========================================
-     PRODUTOS
-  ========================================= */
-
-  let products =
-    JSON.parse(
-      localStorage.getItem('lucro_facil_products') || '[]'
-    );
-
-
-  function renderProducts() {
-
-    const container = $('productList');
-
-    if (!products.length) {
-
-      container.innerHTML =
-        'Nenhum produto cadastrado.';
-
-      return;
-
-    }
-
-    container.innerHTML = '';
-
-    products.forEach((product, index) => {
-
-      const item = document.createElement('div');
-
-      item.className = 'product-item';
-
-      item.innerHTML = `
-
-        <div>
-
-          <strong>
-            ${escapeHtml(product.name)}
-          </strong>
-
-          <small>
-            ${escapeHtml(product.category || 'Sem categoria')}
-          </small>
-
-          <div class="product-price">
-            Venda: ${money(product.price)}
+            <div style="font-size:13px;color:#6b7280;margin-top:5px;">
+              Estoque: ${product.stock}
+            </div>
           </div>
 
-          <small>
-            Custo: ${money(product.cost)}
-          </small>
+          <div class="price">
+            ${money(product.price)}
+          </div>
 
         </div>
 
-        <button
-          class="btn btn-danger"
-          data-delete-product="${index}"
-        >
-          Excluir
-        </button>
+        <div style="margin-top:10px;font-size:14px;">
+          Custo: ${money(product.cost)}
+          <br>
+          Lucro/unidade: ${money(unitProfit)}
+          <br>
+          Lucro estimado em estoque: <strong>${money(totalProfit)}</strong>
+        </div>
 
-      `;
+        <div class="actions">
 
-      container.appendChild(item);
+          <button
+            class="btn btn-blue"
+            onclick="useProductForAd(${index})">
+            🚀 Criar anúncio
+          </button>
 
-    });
+          <button
+            class="btn btn-red"
+            onclick="deleteProduct(${index})">
+            🗑️ Excluir
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  updateHome();
+
+}
 
 
-    document
-      .querySelectorAll('[data-delete-product]')
-      .forEach(button => {
+function deleteProduct(index){
 
-        button.addEventListener('click', () => {
-
-          const index =
-            Number(button.dataset.deleteProduct);
-
-          products.splice(index, 1);
-
-          saveProducts();
-
-          renderProducts();
-
-          showToast('Produto excluído.');
-
-        });
-
-      });
-
+  if(!confirm("Excluir este produto?")){
+    return;
   }
 
+  state.products.splice(index,1);
 
-  function saveProducts() {
-
-    localStorage.setItem(
-      'lucro_facil_products',
-      JSON.stringify(products)
-    );
-
-  }
-
-
-  $('saveProduct').addEventListener('click', () => {
-
-    const name =
-      $('productName').value.trim();
-
-    const category =
-      $('productCategory').value.trim();
-
-    const cost =
-      Number($('productCost').value) || 0;
-
-    const price =
-      Number($('productPrice').value) || 0;
-
-
-    if (!name) {
-
-      showToast('Digite o nome do produto.');
-
-      return;
-
-    }
-
-
-    products.push({
-
-      id: Date.now(),
-
-      name,
-
-      category,
-
-      cost,
-
-      price
-
-    });
-
-
-    saveProducts();
-
-    renderProducts();
-
-
-    $('productName').value = '';
-
-    $('productCategory').value = '';
-
-    $('productCost').value = '';
-
-    $('productPrice').value = '';
-
-
-    showToast('Produto salvo!');
-
-  });
-
+  saveState();
 
   renderProducts();
 
+  toast("Produto excluído.");
 
-  /* =========================================
-     CRIADOR DE ANÚNCIOS
-  ========================================= */
-
-  let selectedObjective = 'curiosity';
-
-  let currentMedia = null;
-
-  let currentMediaType = null;
+}
 
 
-  document
-    .querySelectorAll('.objective-btn')
-    .forEach(button => {
+function useProductForAd(index){
 
-      button.addEventListener('click', () => {
+  const product = state.products[index];
 
-        document
-          .querySelectorAll('.objective-btn')
-          .forEach(btn => {
+  document.getElementById("adProduct").value =
+    product.name;
 
-            btn.classList.remove('active');
+  document.getElementById("adPrice").value =
+    money(product.price);
 
-          });
+  goTo("ads");
 
+  generateAd();
 
-        button.classList.add('active');
-
-        selectedObjective =
-          button.dataset.objective;
-
-        $('adMode').value =
-          selectedObjective;
-
-      });
-
-    });
+}
 
 
-  /* =========================================
-     FOTO
-  ========================================= */
+document.getElementById("addProduct")
+.addEventListener("click",()=>{
 
-  $('photoBtn').addEventListener('click', () => {
+  const name =
+    document.getElementById("productName").value.trim();
 
-    $('photoInput').click();
+  const cost =
+    Number(document.getElementById("productCost").value) || 0;
 
+  const price =
+    Number(document.getElementById("productPrice").value) || 0;
+
+  const stock =
+    Number(document.getElementById("productStock").value) || 0;
+
+
+  if(!name){
+
+    toast("Digite o nome do produto.");
+
+    return;
+
+  }
+
+
+  state.products.push({
+    id:Date.now(),
+    name,
+    cost,
+    price,
+    stock
   });
 
 
-  $('photoInput').addEventListener('change', event => {
-
-    const file =
-      event.target.files[0];
-
-    if (!file) return;
-
-
-    if (!file.type.startsWith('image/')) {
-
-      showToast('Escolha uma imagem válida.');
-
-      return;
-
-    }
-
-
-    loadMedia(file, 'image');
-
-  });
-
-
-  /* =========================================
-     VÍDEO
-  ========================================= */
-
-  $('videoBtn').addEventListener('click', () => {
-
-    $('videoInput').click();
-
-  });
-
-
-  $('videoInput').addEventListener('change', event => {
-
-    const file =
-      event.target.files[0];
-
-    if (!file) return;
-
-
-    if (!file.type.startsWith('video/')) {
-
-      showToast('Escolha um vídeo válido.');
-
-      return;
-
-    }
-
-
-    loadMedia(file, 'video');
-
-  });
-
-
-  function loadMedia(file, type) {
-
-    currentMediaType = type;
-
-    const reader = new FileReader();
-
-    reader.onload = event => {
-
-      currentMedia =
-        event.target.result;
-
-      renderMedia();
-
-    };
-
-    reader.readAsDataURL(file);
-
-  }
-
-
-  function renderMedia() {
-
-    const preview =
-      $('mediaPreview');
-
-    const adMedia =
-      $('adPreviewMedia');
-
-
-    preview.innerHTML = '';
-
-    adMedia.innerHTML = '';
-
-
-    if (!currentMedia) {
-
-      preview.style.display = 'none';
-
-      $('removeMedia').style.display = 'none';
-
-      adMedia.textContent =
-        'Sua foto ou vídeo aparecerá aqui.';
-
-      return;
-
-    }
-
-
-    if (currentMediaType === 'image') {
-
-      const img =
-        document.createElement('img');
-
-      img.src = currentMedia;
-
-      preview.appendChild(img);
-
-
-      const adImg =
-        document.createElement('img');
-
-      adImg.src = currentMedia;
-
-      adMedia.appendChild(adImg);
-
-    }
-
-
-    if (currentMediaType === 'video') {
-
-      const video =
-        document.createElement('video');
-
-      video.src = currentMedia;
-
-      video.controls = true;
-
-      preview.appendChild(video);
-
-
-      const adVideo =
-        document.createElement('video');
-
-      adVideo.src = currentMedia;
-
-      adVideo.controls = true;
-
-      adMedia.appendChild(adVideo);
-
-    }
-
-
-    preview.style.display = 'block';
-
-    $('removeMedia').style.display =
-      'inline-block';
-
-  }
-
-
-  $('removeMedia').addEventListener('click', () => {
-
-    currentMedia = null;
-
-    currentMediaType = null;
-
-    $('photoInput').value = '';
-
-    $('videoInput').value = '';
-
-    renderMedia();
-
-    showToast('Mídia removida.');
-
-  });
-
-
-  /* =========================================
-     GERADOR DE TEXTO
-  ========================================= */
-
-  function getAdData() {
-
-    return {
-
-      product:
-        $('adProduct').value.trim() ||
-        'Seu produto',
-
-      price:
-        Number($('adPrice').value) || 0,
-
-      benefit:
-        $('adBenefit').value.trim(),
-
-      note:
-        $('adNote').value.trim()
-
-    };
-
-  }
-
-
-  function generateAdText() {
-
-    const data =
-      getAdData();
-
-
-    const product =
-      data.product;
-
-    const price =
-      data.price > 0
-        ? money(data.price)
-        : 'consulte o preço';
-
-    const benefit =
-      data.benefit ||
-      'uma ótima oportunidade para você';
-
-
-    let text = '';
-
-
-    if (selectedObjective === 'curiosity') {
-
-      text =
-`👀 Você já viu isso?
-
-Talvez você esteja procurando exatamente por isso.
-
-🔥 ${product}
-
-${benefit}.
-
-💰 Por apenas ${price}
-
-Quer saber mais?
-
-📲 Chame agora e descubra os detalhes.`;
-
-    }
-
-
-    if (selectedObjective === 'offer') {
-
-      text =
-`🔥 OFERTA ESPECIAL
-
-${product}
-
-💰 Apenas ${price}
-
-✅ ${benefit}
-
-${data.note ? data.note + '\n\n' : ''}
-📲 Gostou? Chame agora e saiba mais.`;
-
-    }
-
-
-    if (selectedObjective === 'urgency') {
-
-      text =
-`⚡ ATENÇÃO PARA ESSA OPORTUNIDADE
-
-${product}
-
-💰 ${price}
-
-✅ ${benefit}
-
-${data.note ? data.note + '\n\n' : ''}
-📲 Se tiver interesse, fale comigo agora e confira as condições disponíveis.`;
-
-    }
-
-
-    if (selectedObjective === 'benefit') {
-
-      text =
-`🎯 PROCURA UMA SOLUÇÃO?
-
-Conheça:
-
-${product}
-
-O destaque é:
-
-✅ ${benefit}
-
-💰 ${price}
-
-${data.note ? data.note + '\n\n' : ''}
-📲 Quer saber se é o que você precisa? Me chama.`;
-
-    }
-
-
-    if (selectedObjective === 'complete') {
-
-      text =
-`🔥 ${product}
-
-Se você está procurando uma opção que ofereça:
-
-✅ ${benefit}
-
-💰 Preço: ${price}
-
-${data.note ? data.note + '\n\n' : ''}
-📦 Consulte disponibilidade e condições.
-
-📲 Entre em contato e tire suas dúvidas.
-
-💬 Chame agora!`;
-
-    }
-
-
-    return text;
-
-  }
-
-
-  function updateAdPreview() {
-
-    const data =
-      getAdData();
-
-    const text =
-      generateAdText();
-
-
-    $('adPreviewTitle').textContent =
-      data.product;
-
-    $('adPreviewPrice').textContent =
-      data.price > 0
-        ? money(data.price)
-        : 'Preço não informado';
-
-    $('adPreviewText').textContent =
-      text;
-
-  }
-
-
-  $('generateAd').addEventListener(
-    'click',
-    () => {
-
-      updateAdPreview();
-
-      showToast('Anúncio criado! 🚀');
-
-    }
-  );
-
-
-  /* =========================================
-     MELHORAR ANÚNCIO
-  ========================================= */
-
-  $('improveAd').addEventListener(
-    'click',
-    () => {
-
-      const data =
-        getAdData();
-
-
-      if (!data.product) {
-
-        showToast(
-          'Digite pelo menos o nome do produto.'
-        );
-
-        return;
-
-      }
-
-
-      let improved = '';
-
-
-      improved =
-`🔥 ${data.product}
-
-Você estava procurando uma oportunidade assim?
-
-${data.benefit
-  ? '✅ ' + data.benefit
-  : 'Uma opção que pode valer a pena conhecer.'}
-
-💰 ${data.price > 0
-  ? money(data.price)
-  : 'Consulte o preço'}
-
-${data.note
-  ? data.note + '\n\n'
-  : ''}
-👀 Quer conhecer melhor?
-
-📲 Chame agora e veja todos os detalhes.`;
-
-
-      $('adPreviewText').textContent =
-        improved;
-
-
-      showToast(
-        'Anúncio melhorado! ✨'
-      );
-
-    }
-  );
-
-
-  /* =========================================
-     COPIAR ANÚNCIO
-  ========================================= */
-
-  $('copyAd').addEventListener(
-    'click',
-    async () => {
-
-      const text =
-        $('adPreviewText').textContent;
-
-
-      if (!text ||
-          text === 'Seu anúncio aparecerá aqui.') {
-
-        showToast(
-          'Gere o anúncio primeiro.'
-        );
-
-        return;
-
-      }
-
-
-      try {
-
-        await navigator.clipboard.writeText(text);
-
-        showToast(
-          'Anúncio copiado! 📋'
-        );
-
-      } catch (error) {
-
-        showToast(
-          'Não foi possível copiar automaticamente.'
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =========================================
-     WHATSAPP
-  ========================================= */
-
-  $('whatsappBtn').addEventListener(
-    'click',
-    () => {
-
-      const text =
-        $('adPreviewText').textContent;
-
-
-      if (!text ||
-          text === 'Seu anúncio aparecerá aqui.') {
-
-        showToast(
-          'Gere o anúncio primeiro.'
-        );
-
-        return;
-
-      }
-
-
-      const message =
-        encodeURIComponent(text);
-
-
-      window.open(
-        'https://wa.me/?text=' + message,
-        '_blank'
-      );
-
-    }
-  );
-
-
-  /* =========================================
-     FACEBOOK
-  ========================================= */
-
-  $('facebookBtn').addEventListener(
-    'click',
-    () => {
-
-      const text =
-        $('adPreviewText').textContent;
-
-
-      if (!text ||
-          text === 'Seu anúncio aparecerá aqui.') {
-
-        showToast(
-          'Gere o anúncio primeiro.'
-        );
-
-        return;
-
-      }
-
-
-      const shareUrl =
-        'https://www.facebook.com/sharer/sharer.php?u=' +
-        encodeURIComponent(window.location.href) +
-        '&quote=' +
-        encodeURIComponent(text);
-
-
-      window.open(
-        shareUrl,
-        '_blank',
-        'width=700,height=600'
-      );
-
-    }
-  );
-
-
-  /* =========================================
-     INSTAGRAM
-  ========================================= */
-
-  $('instagramBtn').addEventListener(
-    'click',
-    async () => {
-
-      const text =
-        $('adPreviewText').textContent;
-
-
-      if (!text ||
-          text === 'Seu anúncio aparecerá aqui.') {
-
-        showToast(
-          'Gere o anúncio primeiro.'
-        );
-
-        return;
-
-      }
-
-
-      try {
-
-        await navigator.clipboard.writeText(text);
-
-        showToast(
-          'Texto copiado! O Instagram será aberto.'
-        );
-
-      } catch (error) {
-
-        showToast(
-          'Texto pronto. Abrindo Instagram.'
-        );
-
-      }
-
-
-      setTimeout(() => {
-
-        window.open(
-          'https://www.instagram.com/',
-          '_blank'
-        );
-
-      }, 700);
-
-    }
-  );
-
-
-  /* =========================================
-     ATUALIZAÇÃO AUTOMÁTICA DA PRÉVIA
-  ========================================= */
-
-  [
-    'adProduct',
-    'adPrice',
-    'adBenefit',
-    'adNote'
-  ].forEach(id => {
-
-    $(id).addEventListener(
-      'input',
-      () => {
-
-        $('adPreviewTitle').textContent =
-          $('adProduct').value.trim() ||
-          'Seu produto';
-
-        const price =
-          Number($('adPrice').value) || 0;
-
-        $('adPreviewPrice').textContent =
-          price > 0
-            ? money(price)
-            : 'Preço não informado';
-
-      }
-    );
-
-  });
-
-
-  /* =========================================
-     APRENDIZADO
-  ========================================= */
-
-  function loadLearning() {
-
-    const saved =
-      JSON.parse(
-        localStorage.getItem(
-          'lucro_facil_learning'
-        ) || '[]'
-      );
-
-
-    document
-      .querySelectorAll('[data-lesson]')
-      .forEach(check => {
-
-        check.checked =
-          saved.includes(
-            check.dataset.lesson
-          );
-
-      });
-
-
-    updateLearning();
-
-  }
-
-
-  function updateLearning() {
-
-    const checks =
-      [...document.querySelectorAll(
-        '[data-lesson]'
-      )];
-
-
-    const completed =
-      checks.filter(
-        check => check.checked
-      ).length;
-
-
-    const progress =
-      checks.length
-        ? Math.round(
-            (completed / checks.length) * 100
-          )
-        : 0;
-
-
-    $('learningProgress').textContent =
-      progress + '%';
-
-
-    const values =
-      checks
-        .filter(check => check.checked)
-        .map(check => check.dataset.lesson);
-
-
-    localStorage.setItem(
-      'lucro_facil_learning',
-      JSON.stringify(values)
-    );
-
-  }
-
-
-  document
-    .querySelectorAll('[data-lesson]')
-    .forEach(check => {
-
-      check.addEventListener(
-        'change',
-        updateLearning
-      );
-
-    });
-
-
-  loadLearning();
-
-
-  /* =========================================
-     CSV
-  ========================================= */
-
-  $('exportCsv').addEventListener(
-    'click',
-    () => {
-
-      if (!products.length) {
-
-        showToast(
-          'Nenhum produto para exportar.'
-        );
-
-        return;
-
-      }
-
-
-      let csv =
-        'Nome,Categoria,Custo,Preço\n';
-
-
-      products.forEach(product => {
-
-        csv +=
-          `"${escapeCsv(product.name)}",` +
-          `"${escapeCsv(product.category)}",` +
-          `${product.cost},` +
-          `${product.price}\n`;
-
-      });
-
-
-      downloadFile(
-        csv,
-        'lucro-facil-produtos.csv',
-        'text/csv;charset=utf-8;'
-      );
-
-
-      showToast(
-        'CSV exportado!'
-      );
-
-    }
-  );
-
-
-  /* =========================================
-     BACKUP
-  ========================================= */
-
-  $('exportBackup').addEventListener(
-    'click',
-    () => {
-
-      const backup = {
-
-        version: 2,
-
-        products,
-
-        learning:
-          JSON.parse(
-            localStorage.getItem(
-              'lucro_facil_learning'
-            ) || '[]'
-          ),
-
-        lastCalc:
-          JSON.parse(
-            localStorage.getItem(
-              'lucro_facil_last_calc'
-            ) || 'null'
-          ),
-
-        date:
-          new Date().toISOString()
-
-      };
-
-
-      downloadFile(
-        JSON.stringify(
-          backup,
-          null,
-          2
-        ),
-        'lucro-facil-backup.json',
-        'application/json'
-      );
-
-
-      showToast(
-        'Backup criado!'
-      );
-
-    }
-  );
-
-
-  $('importBackup').addEventListener(
-    'click',
-    () => {
-
-      $('backupInput').click();
-
-    }
-  );
-
-
-  $('backupInput').addEventListener(
-    'change',
-    event => {
-
-      const file =
-        event.target.files[0];
-
-      if (!file) return;
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        () => {
-
-          try {
-
-            const backup =
-              JSON.parse(
-                reader.result
-              );
-
-
-            if (Array.isArray(
-              backup.products
-            )) {
-
-              products =
-                backup.products;
-
-              saveProducts();
-
-              renderProducts();
-
-            }
-
-
-            if (Array.isArray(
-              backup.learning
-            )) {
-
-              localStorage.setItem(
-                'lucro_facil_learning',
-                JSON.stringify(
-                  backup.learning
-                )
-              );
-
-              loadLearning();
-
-            }
-
-
-            if (backup.lastCalc) {
-
-              localStorage.setItem(
-                'lucro_facil_last_calc',
-                JSON.stringify(
-                  backup.lastCalc
-                )
-              );
-
-            }
-
-
-            showToast(
-              'Backup restaurado!'
-            );
-
-
-          } catch (error) {
-
-            showToast(
-              'Backup inválido.'
-            );
-
-          }
-
-        };
-
-
-      reader.readAsText(file);
-
-    }
-  );
-
-
-  /* =========================================
-     DOWNLOAD
-  ========================================= */
-
-  function downloadFile(
-    content,
-    filename,
-    type
-  ) {
-
-    const blob =
-      new Blob(
-        [content],
-        { type }
-      );
-
-
-    const url =
-      URL.createObjectURL(blob);
-
-
-    const link =
-      document.createElement('a');
-
-
-    link.href = url;
-
-    link.download =
-      filename;
-
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-
-    URL.revokeObjectURL(url);
-
-  }
-
-
-  /* =========================================
-     SEGURANÇA DE TEXTO
-  ========================================= */
-
-  function escapeHtml(value) {
-
-    return String(value || '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-
-  }
-
-
-  function escapeCsv(value) {
-
-    return String(value || '')
-      .replace(/"/g, '""');
-
-  }
-
-
-  /* =========================================
-     PWA
-  ========================================= */
-
-  let deferredInstallPrompt = null;
-
-
-  window.addEventListener(
-    'beforeinstallprompt',
-    event => {
-
-      event.preventDefault();
-
-      deferredInstallPrompt =
-        event;
-
-      $('installBtn').style.display =
-        'inline-block';
-
-    }
-  );
-
-
-  $('installBtn').addEventListener(
-    'click',
-    async () => {
-
-      if (!deferredInstallPrompt) {
-
-        showToast(
-          'A instalação não está disponível neste navegador.'
-        );
-
-        return;
-
-      }
-
-
-      deferredInstallPrompt.prompt();
-
-
-      const result =
-        await deferredInstallPrompt.userChoice;
-
-
-      deferredInstallPrompt =
-        null;
-
-      $('installBtn').style.display =
-        'none';
-
-
-      if (
-        result &&
-        result.outcome === 'accepted'
-      ) {
-
-        showToast(
-          'Lucro Fácil instalado!'
-        );
-
-      }
-
-    }
-  );
-
-
-  window.addEventListener(
-    'appinstalled',
-    () => {
-
-      showToast(
-        'Lucro Fácil instalado!'
-      );
-
-    }
-  );
-
-
-  /* =========================================
-     INICIALIZAÇÃO
-  ========================================= */
-
-  updateConnection();
+  saveState();
 
   renderProducts();
 
-  loadLearning();
+  document.getElementById("productName").value = "";
+  document.getElementById("productCost").value = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productStock").value = "1";
+
+  toast("Produto adicionado! 🚀");
+
+});
+
+
+/* =========================
+   HOME
+========================= */
+
+function updateHome(){
+
+  const products =
+    state.products.length;
+
+  let investment = 0;
+  let profit = 0;
+
+  state.products.forEach(product=>{
+
+    investment +=
+      Number(product.cost || 0) *
+      Number(product.stock || 0);
+
+    profit +=
+      (
+        Number(product.price || 0) -
+        Number(product.cost || 0)
+      ) *
+      Number(product.stock || 0);
+
+  });
+
+
+  document.getElementById("homeProducts")
+    .textContent = products;
+
+  document.getElementById("homeInvestment")
+    .textContent = money(investment);
+
+  document.getElementById("homeProfit")
+    .textContent = money(profit);
+
+}
+
+
+/* =========================
+   OBJETIVOS DO ANÚNCIO
+========================= */
+
+document.querySelectorAll(".objective")
+.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    document.querySelectorAll(".objective")
+      .forEach(item=>{
+        item.classList.remove("active");
+      });
+
+    button.classList.add("active");
+
+    document.getElementById("adMode").value =
+      button.dataset.mode;
+
+  });
+
+});
+
+
+/* =========================
+   FOTO
+========================= */
+
+document.getElementById("photoInput")
+.addEventListener("change",event=>{
+
+  const file = event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+  currentMediaFile = file;
+  currentMediaType = "image";
+
+  const reader = new FileReader();
+
+  reader.onload = event=>{
+
+    currentMediaData = event.target.result;
+
+    const img =
+      document.getElementById("imagePreview");
+
+    const video =
+      document.getElementById("videoPreview");
+
+    img.src = currentMediaData;
+
+    img.style.display = "block";
+    video.style.display = "none";
+
+    document.getElementById("mediaPreview")
+      .style.display = "block";
+
+    renderAdMedia();
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* =========================
+   VÍDEO
+========================= */
+
+document.getElementById("videoInput")
+.addEventListener("change",event=>{
+
+  const file = event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+  currentMediaFile = file;
+  currentMediaType = "video";
+
+  const url =
+    URL.createObjectURL(file);
+
+  currentMediaData = url;
+
+  const video =
+    document.getElementById("videoPreview");
+
+  const img =
+    document.getElementById("imagePreview");
+
+  video.src = url;
+
+  video.style.display = "block";
+  img.style.display = "none";
+
+  document.getElementById("mediaPreview")
+    .style.display = "block";
+
+  renderAdMedia();
+
+});
+
+
+/* =========================
+   REMOVER MÍDIA
+========================= */
+
+document.getElementById("removeMedia")
+.addEventListener("click",()=>{
+
+  currentMediaFile = null;
+  currentMediaType = null;
+  currentMediaData = null;
+
+  document.getElementById("photoInput").value = "";
+  document.getElementById("videoInput").value = "";
+
+  document.getElementById("mediaPreview")
+    .style.display = "none";
+
+  document.getElementById("imagePreview")
+    .style.display = "none";
+
+  document.getElementById("videoPreview")
+    .style.display = "none";
+
+  renderAdMedia();
+
+});
+
+
+/* =========================
+   RENDER MÍDIA NO ANÚNCIO
+========================= */
+
+function renderAdMedia(){
+
+  const box =
+    document.getElementById("adPreviewMedia");
+
+  if(!currentMediaFile){
+
+    box.innerHTML =
+      `<span style="color:#9ca3af;">
+        Sua imagem aparecerá aqui
+      </span>`;
+
+    return;
+
+  }
+
+
+  if(currentMediaType === "image"){
+
+    box.innerHTML =
+      `<img src="${currentMediaData}" alt="Imagem do anúncio">`;
+
+  }else{
+
+    box.innerHTML =
+      `<video src="${currentMediaData}" controls></video>`;
+
+  }
+
+}
+
+
+/* =========================
+   GERADOR DE ANÚNCIO
+========================= */
+
+function generateAd(){
+
+  const product =
+    document.getElementById("adProduct")
+      .value.trim() || "Seu produto";
+
+  const price =
+    document.getElementById("adPrice")
+      .value.trim();
+
+  const benefit =
+    document.getElementById("adBenefit")
+      .value.trim();
+
+  const note =
+    document.getElementById("adNote")
+      .value.trim();
+
+  const mode =
+    document.getElementById("adMode").value;
+
+
+  let title = "";
+  let text = "";
+
+
+  if(mode === "curiosity"){
+
+    title =
+      `👀 Você já viu isso?`;
+
+    text =
+      `🔥 Tem novidade chegando!\n\n` +
+      `${product} pode ser exatamente o que você estava procurando.\n\n` +
+      `${benefit ? `✨ ${benefit}\n\n` : ""}` +
+      `${price ? `💰 Por apenas ${price}\n\n` : ""}` +
+      `${note ? `📌 ${note}\n\n` : ""}` +
+      `📲 Chame agora e saiba mais!`;
+
+  }
+
+
+  if(mode === "offer"){
+
+    title =
+      `🔥 OFERTA ESPECIAL!`;
+
+    text =
+      `🔥 ${product}\n\n` +
+      `${benefit ? `✨ ${benefit}\n\n` : ""}` +
+      `${price ? `💰 Por apenas ${price}!\n\n` : ""}` +
+      `${note ? `📌 ${note}\n\n` : ""}` +
+      `🚨 Aproveite enquanto estiver disponível!\n\n` +
+      `📲 Chame agora!`;
+
+  }
+
+
+  if(mode === "urgency"){
+
+    title =
+      `⏰ NÃO DEIXE PARA DEPOIS!`;
+
+    text =
+      `🚨 Atenção!\n\n` +
+      `${product} está disponível.\n\n` +
+      `${benefit ? `🔥 ${benefit}\n\n` : ""}` +
+      `${price ? `💰 ${price}\n\n` : ""}` +
+      `${note ? `📌 ${note}\n\n` : ""}` +
+      `⏰ Não deixe para depois.\n` +
+      `📲 Chame agora!`;
+
+  }
+
+
+  if(mode === "benefit"){
+
+    title =
+      `✨ Olha esse produto!`;
+
+    text =
+      `${product}\n\n` +
+      `🔥 Por que vale a pena?\n\n` +
+      `${benefit ? `✅ ${benefit}\n\n` : ""}` +
+      `${price ? `💰 Preço: ${price}\n\n` : ""}` +
+      `${note ? `📌 ${note}\n\n` : ""}` +
+      `📲 Quer saber mais? Fale comigo!`;
+
+  }
+
+
+  if(mode === "complete"){
+
+    title =
+      `🚀 ${product}`;
+
+    text =
+      `🚀 ${product}\n\n` +
+      `🔥 Uma ótima oportunidade para você!\n\n` +
+      `${benefit ? `✨ BENEFÍCIO:\n${benefit}\n\n` : ""}` +
+      `${price ? `💰 PREÇO:\n${price}\n\n` : ""}` +
+      `${note ? `📌 INFORMAÇÃO:\n${note}\n\n` : ""}` +
+      `📲 Gostou? Me chama no WhatsApp!\n\n` +
+      `🔥 Aproveite!`;
+
+  }
+
+
+  document.getElementById("adPreviewTitle")
+    .textContent = title;
+
+  document.getElementById("adPreviewPrice")
+    .textContent = price || "Consulte o preço";
+
+  document.getElementById("adPreviewText")
+    .textContent = text;
+
+  document.getElementById("adCopyBox")
+    .textContent = `${title}\n\n${text}`;
+
+  renderAdMedia();
+
+  return {
+    title,
+    text,
+    full:`${title}\n\n${text}`
+  };
+
+}
+
+
+document.getElementById("generateAd")
+.addEventListener("click",()=>{
+
+  generateAd();
+
+  state.learning.adsCreated =
+    Number(state.learning.adsCreated || 0) + 1;
+
+  saveState();
+
+  toast("Anúncio criado! 🚀");
+
+});
+
+
+/* =========================
+   MELHORAR ANÚNCIO
+========================= */
+
+document.getElementById("improveAd")
+.addEventListener("click",()=>{
+
+  const product =
+    document.getElementById("adProduct").value.trim();
+
+  if(!product){
+
+    toast("Digite o produto primeiro.");
+
+    return;
+
+  }
+
+
+  document.getElementById("adBenefit").value =
+    document.getElementById("adBenefit").value.trim() ||
+    "prático, bonito e com ótimo custo-benefício";
+
+  document.getElementById("adNote").value =
+    document.getElementById("adNote").value.trim() ||
+    "Consulte disponibilidade";
+
+
+  document.getElementById("adMode").value =
+    "complete";
+
+
+  document.querySelectorAll(".objective")
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
+
+
+  document.querySelector(
+    '.objective[data-mode="complete"]'
+  ).classList.add("active");
+
+
+  generateAd();
+
+  toast("Anúncio melhorado! ✨");
+
+});
+
+
+/* =========================
+   COPIAR TEXTO
+========================= */
+
+document.getElementById("copyAd")
+.addEventListener("click",async()=>{
+
+  const data = generateAd();
+
+  try{
+
+    await navigator.clipboard.writeText(data.full);
+
+    toast("Texto copiado com os emojis! 📋🔥");
+
+  }catch(error){
+
+    fallbackCopy(data.full);
+
+  }
+
+});
+
+
+function fallbackCopy(text){
+
+  const textarea =
+    document.createElement("textarea");
+
+  textarea.value = text;
+
+  document.body.appendChild(textarea);
+
+  textarea.select();
+
+  document.execCommand("copy");
+
+  textarea.remove();
+
+  toast("Texto copiado! 📋");
+
+}
+
+
+/* =========================
+   COMPARTILHAMENTO NATIVO
+========================= */
+
+async function shareNative(){
+
+  const data = generateAd();
+
+  if(!navigator.share){
+
+    return false;
+
+  }
+
+
+  try{
+
+    const shareData = {
+      title:data.title,
+      text:data.full
+    };
+
+
+    if(
+      currentMediaFile &&
+      navigator.canShare &&
+      navigator.canShare({
+        files:[currentMediaFile]
+      })
+    ){
+
+      shareData.files =
+        [currentMediaFile];
+
+    }
+
+
+    await navigator.share(shareData);
+
+    toast("Compartilhamento aberto! 📲");
+
+    return true;
+
+  }catch(error){
+
+    if(error.name !== "AbortError"){
+
+      console.error(error);
+
+    }
+
+    return true;
+
+  }
+
+}
+
+
+/* =========================
+   BOTÃO COMPARTILHAR FOTO + TEXTO
+========================= */
+
+document.getElementById("shareAd")
+.addEventListener("click",async()=>{
+
+  const usedNative =
+    await shareNative();
+
+  if(usedNative){
+    return;
+  }
+
+
+  const data = generateAd();
+
+  fallbackCopy(data.full);
+
+  toast(
+    "Seu navegador não suporta foto + texto. O texto foi copiado."
+  );
+
+});
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+document.getElementById("whatsappBtn")
+.addEventListener("click",async()=>{
+
+  if(await shareNative()){
+
+    return;
+
+  }
+
+
+  const data = generateAd();
+
+  const encoded =
+    encodeURIComponent(data.full);
+
+  window.open(
+    `https://wa.me/?text=${encoded}`,
+    "_blank"
+  );
+
+});
+
+
+/* =========================
+   FACEBOOK
+========================= */
+
+document.getElementById("facebookBtn")
+.addEventListener("click",async()=>{
+
+  if(await shareNative()){
+
+    return;
+
+  }
+
+
+  const data = generateAd();
+
+  const encoded =
+    encodeURIComponent(data.full);
+
+  window.open(
+    `https://www.facebook.com/sharer/sharer.php?quote=${encoded}`,
+    "_blank"
+  );
+
+});
+
+
+/* =========================
+   INSTAGRAM
+========================= */
+
+document.getElementById("instagramBtn")
+.addEventListener("click",async()=>{
+
+  if(await shareNative()){
+
+    return;
+
+  }
+
+
+  const data = generateAd();
+
+  fallbackCopy(data.full);
+
+  window.open(
+    "https://www.instagram.com/",
+    "_blank"
+  );
+
+  toast(
+    "Texto copiado. Abra o Instagram e cole na publicação."
+  );
+
+});
+
+
+/* =========================
+   BACKUP
+========================= */
+
+document.getElementById("backupBtn")
+.addEventListener("click",()=>{
+
+  const backup = {
+    app:"Lucro Fácil",
+    version:3,
+    date:new Date().toISOString(),
+    data:state
+  };
+
+
+  const blob =
+    new Blob(
+      [JSON.stringify(backup,null,2)],
+      {type:"application/json"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    `lucro-facil-backup-${new Date().toISOString().slice(0,10)}.json`;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  toast("Backup criado! 💾");
+
+});
+
+
+/* =========================
+   RESTAURAR BACKUP
+========================= */
+
+document.getElementById("restoreInput")
+.addEventListener("change",event=>{
+
+  const file = event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = event=>{
+
+    try{
+
+      const backup =
+        JSON.parse(event.target.result);
+
+      if(!backup.data){
+
+        throw new Error("Backup inválido.");
+
+      }
+
+
+      state = backup.data;
+
+      saveState();
+
+      renderProducts();
+
+      toast("Backup restaurado! 🔄");
+
+    }catch(error){
+
+      console.error(error);
+
+      toast("Não foi possível restaurar esse backup.");
+
+    }
+
+  };
+
+
+  reader.readAsText(file);
+
+});
+
+
+/* =========================
+   CSV
+========================= */
+
+document.getElementById("csvBtn")
+.addEventListener("click",()=>{
+
+  if(!state.products.length){
+
+    toast("Você ainda não tem produtos.");
+
+    return;
+
+  }
+
+
+  let csv =
+    "Produto,Custo,Preço,Estoque,Lucro por unidade\n";
+
+
+  state.products.forEach(product=>{
+
+    const profit =
+      Number(product.price || 0) -
+      Number(product.cost || 0);
+
+
+    csv +=
+      `"${String(product.name).replaceAll('"','""')}",` +
+      `${product.cost},` +
+      `${product.price},` +
+      `${product.stock},` +
+      `${profit}\n`;
+
+  });
+
+
+  const blob =
+    new Blob(
+      ["\ufeff" + csv],
+      {type:"text/csv;charset=utf-8;"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "lucro-facil-produtos.csv";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  toast("CSV exportado! 📄");
+
+});
+
+
+/* =========================
+   ONLINE / OFFLINE
+========================= */
+
+function updateOnlineStatus(){
+
+  const el =
+    document.getElementById("onlineStatus");
+
+  if(navigator.onLine){
+
+    el.textContent = "● Online";
+
+  }else{
+
+    el.textContent = "● Offline";
+
+  }
+
+}
+
+
+window.addEventListener(
+  "online",
+  updateOnlineStatus
+);
+
+window.addEventListener(
+  "offline",
+  updateOnlineStatus
+);
+
+
+/* =========================
+   PWA
+========================= */
+
+window.addEventListener(
+  "beforeinstallprompt",
+  event=>{
+
+    event.preventDefault();
+
+    deferredPrompt = event;
+
+    document.getElementById("installBtn")
+      .style.display = "inline-block";
+
+  }
+);
+
+
+document.getElementById("installBtn")
+.addEventListener("click",async()=>{
+
+  if(!deferredPrompt){
+    return;
+  }
+
+  deferredPrompt.prompt();
+
+  await deferredPrompt.userChoice;
+
+  deferredPrompt = null;
+
+  document.getElementById("installBtn")
+    .style.display = "none";
+
+});
+
+
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
+loadState();
+
+renderProducts();
+
+updateHome();
+
+updateOnlineStatus();
 
 </script>
 
