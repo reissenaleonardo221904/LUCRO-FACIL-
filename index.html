@@ -1,1623 +1,3659 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111f">
-<meta name="description" content="Lucro Fácil — seu assistente de vendas no bolso.">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icon.svg">
-<title>Lucro Fácil</title>
-
-<style>
-:root{
-  --bg:#06101d;
-  --panel:#0e1b2d;
-  --panel2:#13243a;
-  --text:#f8fafc;
-  --muted:#9fb0c7;
-  --line:#20364f;
-  --blue:#4f8cff;
-  --purple:#8b5cf6;
-  --cyan:#22d3ee;
-  --green:#22c55e;
-  --yellow:#facc15;
-  --orange:#fb923c;
-  --red:#ef4444;
-  --shadow:0 14px 38px rgba(0,0,0,.28)
-}
-
-*{box-sizing:border-box}
-
-html{color-scheme:dark}
-
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  color:var(--text);
-  background:
-    radial-gradient(circle at 10% 0,rgba(79,140,255,.18),transparent 30%),
-    radial-gradient(circle at 100% 10%,rgba(139,92,246,.16),transparent 28%),
-    linear-gradient(180deg,#06101d,#081526 60%,#06101d);
-  min-height:100vh
-}
-
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;-webkit-tap-highlight-color:transparent}
-button:active{transform:scale(.985)}
-
-.app{
-  max-width:760px;
-  margin:auto;
-  padding:16px 14px 110px
-}
-
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:14px
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0
-}
-
-.logo{
-  width:48px;
-  height:48px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  font-weight:1000;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  box-shadow:0 10px 28px rgba(79,140,255,.28)
-}
-
-h1{font-size:22px;margin:0}
-.sub{font-size:12px;color:var(--muted);margin-top:2px}
-
-.net{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:11px;
-  font-weight:900;
-  border:1px solid var(--line);
-  background:rgba(14,27,45,.9);
-  border-radius:999px;
-  padding:8px 10px;
-  white-space:nowrap
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 12px var(--green)
-}
-
-.install{
-  width:100%;
-  border:1px solid rgba(79,140,255,.5);
-  background:linear-gradient(
-    135deg,
-    rgba(79,140,255,.22),
-    rgba(139,92,246,.20)
-  );
-  color:#fff;
-  border-radius:16px;
-  padding:13px 15px;
-  font-weight:950;
-  margin-bottom:14px;
-  box-shadow:0 8px 24px rgba(0,0,0,.15)
-}
-
-.hero{
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(
-    135deg,
-    #14315a,
-    #35235e 58%,
-    #0b5362
-  );
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:26px;
-  padding:22px;
-  margin-bottom:14px;
-  box-shadow:var(--shadow)
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  right:-70px;
-  top:-90px;
-  background:rgba(255,255,255,.07)
-}
-
-.hero h2{
-  font-size:25px;
-  margin:0 0 8px;
-  position:relative;
-  z-index:1
-}
-
-.hero p{
-  margin:0;
-  color:#dbeafe;
-  line-height:1.45;
-  position:relative;
-  z-index:1
-}
-
-.version{
-  display:inline-block;
-  margin-top:12px;
-  padding:6px 9px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.16);
-  font-size:11px;
-  color:#e0e7ff;
-  position:relative;
-  z-index:1
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px
-}
-
-.action{
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:linear-gradient(
-    180deg,
-    rgba(19,36,58,.98),
-    rgba(10,25,43,.98)
-  );
-  color:var(--text);
-  border-radius:20px;
-  padding:16px;
-  text-align:left;
-  min-height:112px;
-  box-shadow:0 8px 24px rgba(0,0,0,.15)
-}
-
-.action:after{
-  content:"";
-  position:absolute;
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  right:-25px;
-  bottom:-38px;
-  background:rgba(79,140,255,.08)
-}
-
-.action .emoji{font-size:27px}
-
-.action b{
-  display:block;
-  font-size:16px;
-  margin:8px 0 3px
-}
-
-.action span{
-  font-size:12px;
-  color:var(--muted)
-}
-
-.card{
-  background:linear-gradient(
-    180deg,
-    rgba(14,27,45,.98),
-    rgba(9,23,39,.98)
-  );
-  border:1px solid var(--line);
-  border-radius:21px;
-  padding:16px;
-  margin-bottom:12px;
-  box-shadow:0 8px 26px rgba(0,0,0,.12)
-}
-
-.card h3{
-  margin:0 0 12px;
-  font-size:17px
-}
-
-.section-title{
-  margin:0 0 12px;
-  font-size:22px
-}
-
-.help,.muted{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.45
-}
-
-.note{
-  background:rgba(79,140,255,.08);
-  border:1px dashed rgba(79,140,255,.35);
-  padding:12px;
-  border-radius:14px;
-  color:#c7d8ee;
-  font-size:12px;
-  line-height:1.5
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:6px
-}
-
-.field.full{
-  grid-column:1/-1
-}
-
-label{
-  font-size:13px;
-  font-weight:900;
-  color:#dce8f6
-}
-
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:#091625;
-  color:var(--text);
-  padding:13px 12px;
-  min-height:48px;
-  outline:none
-}
-
-textarea{
-  min-height:130px;
-  resize:vertical
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(79,140,255,.15)
-}
-
-.primary,
-.secondary,
-.danger{
-  border-radius:14px;
-  padding:12px 14px;
-  font-weight:950;
-  min-height:46px
-}
-
-.primary{
-  border:0;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:#fff
-}
-
-.secondary{
-  border:1px solid var(--line);
-  background:#0a192b;
-  color:var(--text)
-}
-
-.danger{
-  border:1px solid rgba(239,68,68,.35);
-  background:rgba(239,68,68,.08);
-  color:#fecaca
-}
-
-.row{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap
-}
-
-.row>*{
-  flex:1 1 150px
-}
-
-.result{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  margin-top:12px
-}
-
-.metric{
-  background:#081522;
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:14px
-}
-
-.metric small{
-  display:block;
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:4px
-}
-
-.metric strong{
-  font-size:21px
-}
-
-.status{
-  grid-column:1/-1;
-  position:relative;
-  overflow:hidden;
-  border:1px solid transparent;
-  border-radius:17px;
-  padding:15px;
-  font-weight:1000
-}
-
-.status.good{
-  background:linear-gradient(
-    135deg,
-    rgba(34,197,94,.16),
-    rgba(34,211,238,.10)
-  );
-  border-color:rgba(34,197,94,.38);
-  color:#bbf7d0
-}
-
-.status.warn{
-  background:rgba(250,204,21,.10);
-  border-color:rgba(250,204,21,.30);
-  color:#fde68a
-}
-
-.status.tight{
-  background:rgba(251,146,60,.10);
-  border-color:rgba(251,146,60,.30);
-  color:#fed7aa
-}
-
-.status.bad{
-  background:linear-gradient(
-    135deg,
-    rgba(239,68,68,.18),
-    rgba(251,146,60,.11)
-  );
-  border-color:rgba(239,68,68,.42);
-  color:#fecaca;
-  padding-left:48px;
-  padding-right:48px
-}
-
-.status.bad:before,
-.status.bad:after{
-  content:"🔥";
-  position:absolute;
-  top:50%;
-  font-size:28px;
-  filter:drop-shadow(0 0 7px rgba(251,146,60,.7));
-  animation:flame .8s ease-in-out infinite alternate
-}
-
-.status.bad:before{
-  left:8px;
-  transform:translateY(-50%)
-}
-
-.status.bad:after{
-  right:8px;
-  transform:translateY(-50%) scaleX(-1)
-}
-
-.goal{
-  margin-top:12px;
-  padding:13px;
-  border-radius:16px;
-  background:linear-gradient(
-    135deg,
-    rgba(79,140,255,.08),
-    rgba(139,92,246,.08)
-  );
-  border:1px solid rgba(139,92,246,.24)
-}
-
-.goal-answer{
-  margin-top:9px;
-  font-weight:900;
-  color:#ddd6fe
-}
-
-.product{
-  border:1px solid var(--line);
-  background:#081522;
-  border-radius:16px;
-  padding:14px;
-  margin-top:10px
-}
-
-.product-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start
-}
-
-.product h4{
-  margin:0 0 4px
-}
-
-.meta{
-  font-size:12px;
-  color:var(--muted)
-}
-
-.chips{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-top:10px
-}
-
-.chip{
-  font-size:12px;
-  border-radius:999px;
-  padding:6px 9px;
-  background:#102139;
-  border:1px solid var(--line)
-}
-
-.empty{
-  text-align:center;
-  color:var(--muted);
-  padding:22px 8px
-}
-
-.insight{
-  border-left:4px solid var(--cyan);
-  background:rgba(34,211,238,.08);
-  padding:13px 14px;
-  border-radius:12px;
-  line-height:1.45
-}
-
-.screen{display:none}
-.screen.active{display:block}
-.hidden{display:none!important}
-
-details{
-  border:1px solid var(--line);
-  border-radius:15px;
-  padding:12px;
-  background:#091625
-}
-
-summary{
-  cursor:pointer;
-  font-weight:900
-}
-
-details p{
-  margin:10px 0 0;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5
-}
-
-.bottom{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  background:rgba(6,16,29,.95);
-  backdrop-filter:blur(14px);
-  border-top:1px solid var(--line);
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-  z-index:30
-}
-
-.bottom-inner{
-  max-width:760px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px
-}
-
-.nav{
-  border:0;
-  background:transparent;
-  border-radius:13px;
-  padding:8px 2px;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:900;
-  min-height:56px
-}
-
-.nav .nicon{
-  display:block;
-  font-size:18px;
-  margin-bottom:3px
-}
-
-.nav.active{
-  background:#10233b;
-  color:#fff
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:91px;
-  transform:translateX(-50%);
-  background:#10233b;
-  color:#fff;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:11px 14px;
-  z-index:60;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-  max-width:90%;
-  text-align:center;
-  font-size:13px;
-  box-shadow:var(--shadow)
-}
-
-.toast.show{
-  opacity:1
-}
-
-.money-drop{
-  position:fixed;
-  top:-45px;
-  z-index:55;
-  pointer-events:none;
-  font-size:24px;
-  animation:moneyFall 2.4s linear forwards;
-  filter:drop-shadow(0 0 7px rgba(34,197,94,.35))
-}
-
-@keyframes moneyFall{
-  0%{
-    transform:translateY(-20px) rotate(0);
-    opacity:0
-  }
-
-  12%{
-    opacity:1
-  }
-
-  100%{
-    transform:translateY(110vh) rotate(420deg);
-    opacity:0
-  }
-}
-
-@keyframes flame{
-  from{
-    transform:translateY(-50%) scale(.92) rotate(-5deg)
-  }
-
-  to{
-    transform:translateY(-54%) scale(1.1) rotate(5deg)
-  }
-}
-
-@media(max-width:520px){
-  .form-grid,
-  .result{
-    grid-template-columns:1fr
-  }
-
-  .status{
-    grid-column:auto
-  }
-
-  .grid{
-    grid-template-columns:1fr 1fr
-  }
-
-  .action{
-    min-height:108px
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  *{
-    animation:none!important;
-    scroll-behavior:auto!important
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Lucro Fácil - calculadora e ferramentas para vendas">
+  <title>Lucro Fácil</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --primary: #16a34a;
+      --primary-dark: #15803d;
+      --secondary: #2563eb;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --border: #e5e7eb;
+      --shadow: 0 8px 25px rgba(0,0,0,.07);
+      --radius: 18px;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+
+    header {
+      background: #111827;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 15px rgba(0,0,0,.15);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      padding: 15px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+    .brand h1 {
+      font-size: 20px;
+    }
+
+    .brand small {
+      display: block;
+      color: #9ca3af;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #d1d5db;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .status.offline .status-dot {
+      background: #ef4444;
+    }
+
+    .install-btn {
+      display: none;
+      background: var(--primary);
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-weight: bold;
+    }
+
+    /* LAYOUT */
+
+    .layout {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      min-height: calc(100vh - 72px);
+    }
+
+    aside {
+      padding: 20px 12px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 92px;
+    }
+
+    .nav button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 0;
+      padding: 13px 14px;
+      margin-bottom: 5px;
+      border-radius: 12px;
+      color: #374151;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .nav button:hover {
+      background: #e5e7eb;
+    }
+
+    .nav button.active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    main {
+      padding: 25px 18px 60px;
+      min-width: 0;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fade .2s ease;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* GENERAL */
+
+    .page-title {
+      margin-bottom: 22px;
+    }
+
+    .page-title h2 {
+      font-size: 27px;
+      margin-bottom: 5px;
+    }
+
+    .page-title p {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 18px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero h2 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: #d1d5db;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    .hero .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    /* BUTTONS */
+
+    .btn {
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 16px;
+      font-weight: bold;
+      transition: .15s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-dark {
+      background: #111827;
+      color: white;
+    }
+
+    .btn-light {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .btn-warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .btn-small {
+      padding: 8px 11px;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    /* FORMS */
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 11px;
+      padding: 12px 13px;
+      background: white;
+      color: #111827;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(22,163,74,.1);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .help {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    /* STATS */
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .green {
+      color: #15803d;
+    }
+
+    .blue {
+      color: #1d4ed8;
+    }
+
+    .orange {
+      color: #b45309;
+    }
+
+    .red {
+      color: #b91c1c;
+    }
+
+    /* CALCULATOR */
+
+    .result-box {
+      background: #111827;
+      color: white;
+      border-radius: 17px;
+      padding: 22px;
+      margin-top: 16px;
+    }
+
+    .result-main {
+      font-size: 34px;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+
+    .result-label {
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .result-details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .result-detail {
+      background: rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .result-detail strong {
+      display: block;
+      margin-top: 5px;
+    }
+
+    .margin-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .margin-good {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .margin-warn {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .margin-bad {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* PRODUCTS */
+
+    .product-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .product-item {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .product-name {
+      font-weight: bold;
+    }
+
+    .product-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #15803d;
+      white-space: nowrap;
+    }
+
+    /* AD */
+
+    .ad-preview {
+      background: #fafafa;
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
+      padding: 18px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      min-height: 200px;
+    }
+
+    /* LEARNING */
+
+    .lesson {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .lesson h4 {
+      margin-bottom: 7px;
+    }
+
+    .lesson p {
+      font-size: 14px;
+    }
+
+    .check {
+      margin-top: 12px;
+    }
+
+    /* EMPTY */
+
+    .empty {
+      text-align: center;
+      padding: 35px 15px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      text-align: center;
+      color: #9ca3af;
+      padding: 25px 15px;
+      font-size: 12px;
+    }
+
+    /* TOAST */
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      z-index: 9999;
+      background: #111827;
+      color: white;
+      padding: 13px 17px;
+      border-radius: 12px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.2);
+      transform: translateY(100px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+      max-width: 330px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* MONEY */
+
+    .money {
+      position: fixed;
+      pointer-events: none;
+      font-size: 25px;
+      animation: moneyDrop 1s ease forwards;
+      z-index: 9998;
+    }
+
+    @keyframes moneyDrop {
+      0% {
+        transform: translateY(0) scale(.6) rotate(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(1.2) rotate(20deg);
+        opacity: 0;
+      }
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        padding: 8px 10px;
+        position: sticky;
+        top: 72px;
+        z-index: 90;
+        background: var(--bg);
+      }
+
+      .nav {
+        position: static;
+        display: flex;
+        overflow-x: auto;
+        gap: 5px;
+      }
+
+      .nav button {
+        min-width: max-content;
+        width: auto;
+        margin: 0;
+      }
+
+      .nav button span:last-child {
+        display: none;
+      }
+
+      main {
+        padding-top: 15px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .header-inner {
+        padding: 11px 12px;
+      }
+
+      .brand h1 {
+        font-size: 17px;
+      }
+
+      .status {
+        display: none;
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .input-row {
+        grid-template-columns: 1fr;
+      }
+
+      .result-details {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 21px;
+      }
+
+      .hero h2 {
+        font-size: 24px;
+      }
+
+      .page-title h2 {
+        font-size: 23px;
+      }
+
+      .product-item {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .product-price {
+        white-space: normal;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-<header class="top">
+  <!-- =========================
+       CABEÇALHO
+       ========================= -->
 
-<div class="brand">
+  <header>
+    <div class="header-inner">
 
-<div class="logo">LF</div>
+      <div class="brand">
+        <div class="brand-icon">💰</div>
 
-<div>
+        <div>
+          <h1>Lucro Fácil</h1>
+          <small>Venda melhor. Calcule seu lucro.</small>
+        </div>
+      </div>
 
-<h1>Lucro Fácil</h1>
+      <div class="header-actions">
 
-<div class="sub">
-Seu assistente de vendas no bolso
+        <div class="status" id="connectionStatus">
+          <span class="status-dot"></span>
+          <span id="connectionText">Online</span>
+        </div>
+
+        <button
+          class="install-btn"
+          id="installBtn"
+          type="button"
+        >
+          📲 Instalar
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- =========================
+       ESTRUTURA PRINCIPAL
+       ========================= -->
+
+  <div class="layout">
+
+    <!-- MENU -->
+
+    <aside>
+
+      <nav class="nav">
+
+        <button
+          type="button"
+          class="active"
+          data-go="home"
+        >
+          🏠
+          <span>Início</span>
+        </button>
+
+        <button
+          type="button"
+          data-go="calculadora"
+        >
+          🧮
+          <span>Calculadora</span>
+        </button>
+
+        <button
+          type="button"
+          data-go="produtos"
+        >
+          📦
+          <span>Meus produtos</span>
+        </button>
+
+        <button
+          type="button"
+          data-go="anuncio"
+        >
+          📣
+          <span>Criar anúncio</span>
+        </button>
+
+        <button
+          type="button"
+          data-go="aprendizado"
+        >
+          🧠
+          <span>Aprender vendas</span>
+        </button>
+
+        <button
+          type="button"
+          data-go="dados"
+        >
+          💾
+          <span>Dados</span>
+        </button>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- CONTEÚDO -->
+
+    <main>
+
+      <!-- =========================
+           HOME
+           ========================= -->
+
+      <section
+        class="screen active"
+        id="screen-home"
+      >
+
+        <div class="hero">
+
+          <h2>Venda com lucro. 💰</h2>
+
+          <p>
+            Descubra quanto você realmente ganha em cada venda,
+            cadastre seus produtos, crie anúncios e aprenda técnicas
+            simples para vender melhor.
+          </p>
+
+          <div class="hero-actions">
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-go="calculadora"
+            >
+              🧮 Calcular lucro
+            </button>
+
+            <button
+              class="btn btn-light"
+              type="button"
+              data-go="produtos"
+            >
+              📦 Meus produtos
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-3">
+
+          <div class="stat">
+
+            <div class="stat-label">
+              Produtos cadastrados
+            </div>
+
+            <div
+              class="stat-value blue"
+              id="homeProductCount"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-label">
+              Último lucro calculado
+            </div>
+
+            <div
+              class="stat-value green"
+              id="homeLastProfit"
+            >
+              R$ 0,00
+            </div>
+
+          </div>
+
+
+          <div class="stat">
+
+            <div class="stat-label">
+              Meta de vendas
+            </div>
+
+            <div
+              class="stat-value orange"
+              id="homeGoalSales"
+            >
+              —
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="grid grid-2"
+          style="margin-top:16px;"
+        >
+
+          <div class="card">
+
+            <h3>⚡ Comece agora</h3>
+
+            <p>
+              Antes de anunciar um produto, descubra quanto
+              realmente sobra no seu bolso.
+            </p>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-go="calculadora"
+              >
+                Calcular
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>📣 Precisa vender?</h3>
+
+            <p>
+              Crie rapidamente um texto de anúncio usando
+              as informações do seu produto.
+            </p>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                data-go="anuncio"
+              >
+                Criar anúncio
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           CALCULADORA
+           ========================= -->
+
+      <section
+        class="screen"
+        id="screen-calculadora"
+      >
+
+        <div class="page-title">
+
+          <h2>🧮 Calculadora de lucro</h2>
+
+          <p>
+            Descubra quanto você ganha antes de vender.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <h3>Dados da venda</h3>
+
+            <div class="form-group">
+
+              <label for="calcProduct">
+                Produto
+              </label>
+
+              <input
+                id="calcProduct"
+                type="text"
+                placeholder="Ex.: Fone Bluetooth"
+              >
+
+            </div>
+
+
+            <div class="input-row">
+
+              <div class="form-group">
+
+                <label for="calcPrice">
+                  Preço de venda
+                </label>
+
+                <input
+                  id="calcPrice"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="R$ 100,00"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="calcCost">
+                  Custo por unidade
+                </label>
+
+                <input
+                  id="calcCost"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="R$ 50,00"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="input-row">
+
+              <div class="form-group">
+
+                <label for="calcQty">
+                  Quantidade
+                </label>
+
+                <input
+                  id="calcQty"
+                  type="number"
+                  min="1"
+                  value="1"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="calcExtra">
+                  Outros custos
+                </label>
+
+                <input
+                  id="calcExtra"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="R$ 0,00"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="calcGoal">
+                Meta de lucro
+              </label>
+
+              <input
+                id="calcGoal"
+                type="text"
+                inputmode="decimal"
+                placeholder="Ex.: R$ 1.000,00"
+              >
+
+              <div class="help">
+                Quanto você deseja ganhar no total.
+              </div>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                class="btn btn-primary"
+                type="button"
+                id="calculateBtn"
+              >
+                💰 Calcular lucro
+              </button>
+
+              <button
+                class="btn btn-light"
+                type="button"
+                id="fillExample"
+              >
+                ✨ Exemplo
+              </button>
+
+              <button
+                class="btn btn-light"
+                type="button"
+                id="clearCalc"
+              >
+                Limpar
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="card">
+
+              <h3>Resultado</h3>
+
+              <div
+                class="result-box"
+                id="calcResult"
+              >
+
+                <div class="result-label">
+                  Lucro estimado
+                </div>
+
+                <div
+                  class="result-main"
+                  id="resultProfit"
+                >
+                  R$ 0,00
+                </div>
+
+                <div
+                  class="margin-badge margin-warn"
+                  id="resultMarginBadge"
+                >
+                  Margem: 0%
+                </div>
+
+
+                <div class="result-details">
+
+                  <div class="result-detail">
+
+                    <span class="result-label">
+                      Faturamento
+                    </span>
+
+                    <strong id="resultRevenue">
+                      R$ 0,00
+                    </strong>
+
+                  </div>
+
+
+                  <div class="result-detail">
+
+                    <span class="result-label">
+                      Custos
+                    </span>
+
+                    <strong id="resultCost">
+                      R$ 0,00
+                    </strong>
+
+                  </div>
+
+
+                  <div class="result-detail">
+
+                    <span class="result-label">
+                      Preço mínimo
+                    </span>
+
+                    <strong id="resultBreakEven">
+                      R$ 0,00
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="card"
+              style="margin-top:16px;"
+            >
+
+              <h3>🎯 Meta</h3>
+
+              <p id="goalResult">
+                Faça um cálculo para descobrir quantas vendas
+                você precisa realizar.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           PRODUTOS
+           ========================= -->
+
+      <section
+        class="screen"
+        id="screen-produtos"
+      >
+
+        <div class="page-title">
+
+          <h2>📦 Meus produtos</h2>
+
+          <p>
+            Cadastre seus produtos para calcular seus preços
+            mais rapidamente.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <h3>Cadastrar produto</h3>
+
+            <div class="form-group">
+
+              <label for="productName">
+                Nome do produto
+              </label>
+
+              <input
+                id="productName"
+                type="text"
+                placeholder="Ex.: Perfume importado"
+              >
+
+            </div>
+
+
+            <div class="input-row">
+
+              <div class="form-group">
+
+                <label for="productCost">
+                  Custo
+                </label>
+
+                <input
+                  id="productCost"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="R$ 50,00"
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="productPrice">
+                  Preço de venda
+                </label>
+
+                <input
+                  id="productPrice"
+                  type="text"
+                  inputmode="decimal"
+                  placeholder="R$ 100,00"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="productCategory">
+                Categoria
+              </label>
+
+              <input
+                id="productCategory"
+                type="text"
+                placeholder="Ex.: Eletrônicos"
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              id="saveProduct"
+            >
+              💾 Salvar produto
+            </button>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>Produtos cadastrados</h3>
+
+            <div
+              class="product-list"
+              id="productList"
+            >
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           ANÚNCIO
+           ========================= -->
+
+      <section
+        class="screen"
+        id="screen-anuncio"
+      >
+
+        <div class="page-title">
+
+          <h2>📣 Criar anúncio</h2>
+
+          <p>
+            Gere um texto pronto para publicar seu produto.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <h3>Informações do anúncio</h3>
+
+            <div class="form-group">
+
+              <label for="adProduct">
+                Produto cadastrado
+              </label>
+
+              <select id="adProduct">
+
+                <option value="">
+                  Selecionar produto...
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="adMode">
+                Estilo do anúncio
+              </label>
+
+              <select id="adMode">
+
+                <option value="direto">
+                  Direto e objetivo
+                </option>
+
+                <option value="urgencia">
+                  Urgência
+                </option>
+
+                <option value="beneficio">
+                  Foco no benefício
+                </option>
+
+                <option value="whatsapp">
+                  Para WhatsApp
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="adCondition">
+                Estado do produto
+              </label>
+
+              <select id="adCondition">
+
+                <option value="novo">
+                  Novo
+                </option>
+
+                <option value="usado">
+                  Usado
+                </option>
+
+                <option value="semi">
+                  Seminovo
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="adBenefit">
+                Principal benefício
+              </label>
+
+              <input
+                id="adBenefit"
+                type="text"
+                placeholder="Ex.: Excelente qualidade"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="adNote">
+                Observação
+              </label>
+
+              <textarea
+                id="adNote"
+                placeholder="Ex.: Aceito Pix e cartão..."
+              ></textarea>
+
+            </div>
+
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              id="generateAd"
+            >
+              ✨ Gerar anúncio
+            </button>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>Seu anúncio</h3>
+
+            <div
+              class="ad-preview"
+              id="adPreview"
+            >
+              Preencha as informações ao lado e clique em
+              "Gerar anúncio".
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                id="copyAd"
+              >
+                📋 Copiar anúncio
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           APRENDIZADO
+           ========================= -->
+
+      <section
+        class="screen"
+        id="screen-aprendizado"
+      >
+
+        <div class="page-title">
+
+          <h2>🧠 Aprenda a vender</h2>
+
+          <p>
+            Dicas práticas para melhorar suas vendas.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div>
+
+            <div class="lesson">
+
+              <h4>1. Não venda apenas preço</h4>
+
+              <p>
+                Mostre o benefício do produto e explique
+                por que ele pode resolver o problema do cliente.
+              </p>
+
+              <div class="check">
+
+                <label>
+                  <input
+                    type="checkbox"
+                    data-lesson="1"
+                  >
+                  Marcar como concluído
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <div class="lesson">
+
+              <h4>2. Faça perguntas</h4>
+
+              <p>
+                Entenda o que o cliente realmente procura
+                antes de oferecer qualquer produto.
+              </p>
+
+              <div class="check">
+
+                <label>
+                  <input
+                    type="checkbox"
+                    data-lesson="2"
+                  >
+                  Marcar como concluído
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <div class="lesson">
+
+              <h4>3. Mostre valor</h4>
+
+              <p>
+                Explique características, benefícios, garantia,
+                facilidade e segurança da compra.
+              </p>
+
+              <div class="check">
+
+                <label>
+                  <input
+                    type="checkbox"
+                    data-lesson="3"
+                  >
+                  Marcar como concluído
+                </label>
+
+              </div>
+
+            </div>
+
+
+            <div class="lesson">
+
+              <h4>4. Termine com uma chamada para ação</h4>
+
+              <p>
+                Não deixe o cliente sem saber o próximo passo.
+                Pergunte se ele deseja fechar ou receber mais detalhes.
+              </p>
+
+              <div class="check">
+
+                <label>
+                  <input
+                    type="checkbox"
+                    data-lesson="4"
+                  >
+                  Marcar como concluído
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>📊 Seu progresso</h3>
+
+            <p>
+              Continue estudando e aplicando as técnicas
+              durante suas conversas com clientes.
+            </p>
+
+            <div
+              style="font-size:42px;font-weight:bold;margin:25px 0;"
+              id="learningProgress"
+            >
+              0%
+            </div>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              id="saveLearning"
+            >
+              💾 Salvar progresso
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           DADOS
+           ========================= -->
+
+      <section
+        class="screen"
+        id="screen-dados"
+      >
+
+        <div class="page-title">
+
+          <h2>💾 Seus dados</h2>
+
+          <p>
+            Faça backup dos seus produtos e configurações.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-2">
+
+          <div class="card">
+
+            <h3>Exportar</h3>
+
+            <p>
+              Salve seus produtos em CSV ou faça um backup
+              completo do aplicativo.
+            </p>
+
+            <div class="actions">
+
+              <button
+                class="btn btn-secondary"
+                type="button"
+                id="exportCsv"
+              >
+                📊 Exportar CSV
+              </button>
+
+              <button
+                class="btn btn-primary"
+                type="button"
+                id="exportBackup"
+              >
+                💾 Fazer backup
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <h3>Restaurar</h3>
+
+            <p>
+              Escolha um backup do Lucro Fácil para restaurar
+              seus produtos e configurações.
+            </p>
+
+            <div
+              class="actions"
+            >
+
+              <label
+                class="btn btn-light"
+                style="display:inline-block;"
+              >
+
+                📂 Restaurar backup
+
+                <input
+                  id="importBackup"
+                  type="file"
+                  accept=".json,.lfbackup"
+                  style="display:none;"
+                >
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="card"
+          style="margin-top:16px;"
+        >
+
+          <h3>⚠️ Atenção</h3>
+
+          <p>
+            Os dados deste aplicativo ficam armazenados
+            neste navegador. Fazer backup é recomendado
+            antes de trocar de aparelho ou limpar os dados
+            do navegador.
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <footer>
+    Lucro Fácil • Ferramenta de apoio para vendedores
+  </footer>
+
+
+  <!-- TOAST -->
+
+  <div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
 </div>
 
-</div>
 
-</div>
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
 
-<div class="net">
+<script>
+(function () {
 
-<i class="dot" id="netDot"></i>
+  "use strict";
 
-<span id="netText">
-Online
-</span>
 
-</div>
+  /* =========================================================
+     VARIÁVEIS
+     ========================================================= */
 
-</header>
+  const STORAGE_PRODUCTS = "lucro_facil_products";
+  const STORAGE_LAST_CALC = "lucro_facil_last_calc";
+  const STORAGE_LEARNING = "lucro_facil_learning";
 
-<button
-class="install"
-id="installBtn"
-type="button">
-📲 Instalar Lucro Fácil no celular
-</button>
 
+  let products = loadJSON(
+    STORAGE_PRODUCTS,
+    []
+  );
 
-<section
-class="screen active"
-data-screen="home">
+  let lastCalculation = loadJSON(
+    STORAGE_LAST_CALC,
+    null
+  );
 
-<div class="hero">
+  let learning = loadJSON(
+    STORAGE_LEARNING,
+    {}
+  );
 
-<h2>
-Venda com clareza.
-</h2>
+  let deferredInstallPrompt = null;
 
-<p>
-Calcule, salve, anuncie e aprenda com os resultados das suas próprias vendas.
-</p>
 
-<span class="version">
-Lucro Fácil • V1.5
-</span>
+  /* =========================================================
+     UTILIDADES
+     ========================================================= */
 
-</div>
+  function $(id) {
+    return document.getElementById(id);
+  }
 
 
-<div class="grid">
+  function money(value) {
 
-<button
-class="action go"
-data-go="calc"
-type="button">
+    value = Number(value) || 0;
 
-<div class="emoji">
-💰
-</div>
+    return value.toLocaleString(
+      "pt-BR",
+      {
+        style: "currency",
+        currency: "BRL"
+      }
+    );
 
-<b>
-Calcular lucro
-</b>
+  }
 
-<span>
-Descubra lucro, margem e preço mínimo.
-</span>
 
-</button>
+  function numberBR(value) {
 
+    if (typeof value === "number") {
+      return value;
+    }
 
-<button
-class="action go"
-data-go="products"
-type="button">
+    if (!value) {
+      return 0;
+    }
 
-<div class="emoji">
-📦
-</div>
+    let text = String(value)
+      .trim()
+      .replace(/R\$/gi, "")
+      .replace(/\s/g, "");
 
-<b>
-Meus produtos
-</b>
+    /*
+      Se houver ponto e vírgula:
+      1.250,50 -> 1250.50
+    */
 
-<span>
-Veja rapidamente o que compensa.
-</span>
+    if (
+      text.includes(".") &&
+      text.includes(",")
+    ) {
 
-</button>
+      text = text
+        .replace(/\./g, "")
+        .replace(",", ".");
 
+    }
 
-<button
-class="action go"
-data-go="ad"
-type="button">
+    /*
+      Se tiver somente vírgula:
+      100,50 -> 100.50
+    */
 
-<div class="emoji">
-📢
-</div>
+    else if (text.includes(",")) {
 
-<b>
-Criar anúncio
-</b>
+      text = text.replace(",", ".");
 
-<span>
-Título, descrição e canal sugerido.
-</span>
+    }
 
-</button>
+    /*
+      Se tiver somente ponto,
+      mantém como decimal.
+    */
 
+    const result = parseFloat(text);
 
-<button
-class="action go"
-data-go="learn"
-type="button">
+    return Number.isFinite(result)
+      ? result
+      : 0;
+  }
 
-<div class="emoji">
-🧠
-</div>
 
-<b>
-Aprendizado
-</b>
+  function loadJSON(key, fallback) {
 
-<span>
-Compare visualizações, vendas e horários.
-</span>
+    try {
 
-</button>
+      const value = localStorage.getItem(key);
 
-</div>
+      if (!value) {
+        return fallback;
+      }
 
+      return JSON.parse(value);
 
-<div
-class="card"
-style="margin-top:12px">
+    } catch (error) {
 
-<h3>
-Como funciona
-</h3>
+      console.error(
+        "Erro ao carregar:",
+        key,
+        error
+      );
 
-<details>
+      return fallback;
+    }
 
-<summary>
-Ver passo a passo
-</summary>
+  }
 
-<p>
-1. Cadastre custo e preço na Calculadora.
-2. Salve o produto.
-3. Use Criar anúncio para ter uma sugestão.
-4. Depois de publicar, registre visualizações e vendas no Aprendizado.
-5. Exporte sua lista ou guarde uma cópia de segurança.
-</p>
 
-</details>
+  function saveJSON(key, value) {
 
-</div>
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
 
+  }
 
-<div class="card">
 
-<h3>
-Funciona offline
-</h3>
+  function showToast(message) {
 
-<p class="help">
-Depois do primeiro carregamento online, o aplicativo pode continuar funcionando sem internet.
-Produtos e resultados ficam salvos neste aparelho.
-</p>
+    const toast = $("toast");
 
-<div class="note">
-A cópia de segurança serve para recuperar seus dados caso você troque de celular ou o navegador apague o armazenamento.
-Você não precisa abrir o arquivo de backup.
-</div>
+    if (!toast) {
+      return;
+    }
 
-</div>
+    toast.textContent = message;
 
-</section>
+    toast.classList.add("show");
 
+    clearTimeout(
+      showToast.timer
+    );
 
-<section
-class="screen"
-data-screen="calc">
+    showToast.timer = setTimeout(
+      function () {
 
-<h2 class="section-title">
-💰 Calculadora
-</h2>
+        toast.classList.remove("show");
 
-<div class="card">
+      },
+      2800
+    );
 
-<div class="form-grid">
+  }
 
-<div class="field full">
 
-<label for="pName">
-Produto
-</label>
+  function escapeHTML(value) {
 
-<input
-id="pName"
-placeholder="Ex.: Camiseta básica">
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
-</div>
+  }
 
 
-<div class="field">
+  function downloadFile(
+    filename,
+    content,
+    type
+  ) {
 
-<label for="pCost">
-Custo por unidade (R$)
-</label>
+    const blob = new Blob(
+      [content],
+      { type: type }
+    );
 
-<input
-id="pCost"
-inputmode="decimal"
-placeholder="20,00">
+    const url = URL.createObjectURL(blob);
 
-</div>
+    const a = document.createElement("a");
 
+    a.href = url;
+    a.download = filename;
 
-<div class="field">
+    document.body.appendChild(a);
 
-<label for="pPrice">
-Preço de venda por unidade (R$)
-</label>
+    a.click();
 
-<input
-id="pPrice"
-inputmode="decimal"
-placeholder="40,00">
+    a.remove();
 
-</div>
+    setTimeout(
+      function () {
+        URL.revokeObjectURL(url);
+      },
+      1000
+    );
 
+  }
 
-<div class="field">
 
-<label for="pQty">
-Quantidade
-</label>
+  /* =========================================================
+     NAVEGAÇÃO
+     ========================================================= */
 
-<input
-id="pQty"
-inputmode="numeric"
-type="number"
-min="1"
-value="1">
+  function go(screenName) {
 
-</div>
+    document
+      .querySelectorAll(".screen")
+      .forEach(function (screen) {
 
+        screen.classList.remove("active");
 
-<div class="field">
+      });
 
-<label for="pExtra">
-Outros gastos do pedido (R$)
-</label>
 
-<input
-id="pExtra"
-inputmode="decimal"
-value="0">
+    const target = $(
+      "screen-" + screenName
+    );
 
-</div>
+    if (!target) {
+      return;
+    }
 
+    target.classList.add("active");
 
-<div class="field">
 
-<label for="pCategory">
-Tipo de produto
-</label>
+    document
+      .querySelectorAll("[data-go]")
+      .forEach(function (button) {
 
-<select id="pCategory">
+        button.classList.toggle(
+          "active",
+          button.dataset.go === screenName
+        );
 
-<option value="geral">
-Produto geral
-</option>
+      });
 
-<option value="moda">
-Moda / beleza
-</option>
 
-<option value="comida">
-Comida / bebida
-</option>
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-<option value="usado">
-Usado / desapego
-</option>
+  }
 
-<option value="casa">
-Casa / decoração
-</option>
 
-<option value="servico">
-Serviço
-</option>
+  document
+    .querySelectorAll("[data-go]")
+    .forEach(function (button) {
 
-<option value="empresa">
-Para empresas
-</option>
+      button.addEventListener(
+        "click",
+        function () {
 
-</select>
+          go(button.dataset.go);
 
-</div>
+        }
+      );
 
+    });
 
-<div class="field">
 
-<label for="pMode">
-Forma de venda
-</label>
+  /* =========================================================
+     STATUS ONLINE / OFFLINE
+     ========================================================= */
 
-<select id="pMode">
+  function updateConnection() {
 
-<option value="local">
-Local / retirada
-</option>
+    const status = $("connectionStatus");
+    const text = $("connectionText");
 
-<option value="entrega">
-Com entrega
-</option>
+    if (!status || !text) {
+      return;
+    }
 
-<option value="digital">
-Digital / online
-</option>
+    if (navigator.onLine) {
 
-</select>
+      status.classList.remove("offline");
+      text.textContent = "Online";
 
-</div>
+    } else {
 
-</div>
+      status.classList.add("offline");
+      text.textContent = "Offline";
 
+    }
 
-<div class="result">
+  }
 
-<div class="metric">
 
-<small>
-Receita
-</small>
+  window.addEventListener(
+    "online",
+    updateConnection
+  );
 
-<strong id="rRevenue">
-R$ 0,00
-</strong>
+  window.addEventListener(
+    "offline",
+    updateConnection
+  );
 
-</div>
+  updateConnection();
 
 
-<div class="metric">
+  /* =========================================================
+     CALCULADORA
+     ========================================================= */
 
-<small>
-Custo total
-</small>
+  function calculateProfit(
+    showMessage = true
+  ) {
 
-<strong id="rCost">
-R$ 0,00
-</strong>
+    const product =
+      $("calcProduct").value.trim();
 
-</div>
+    const price =
+      numberBR(
+        $("calcPrice").value
+      );
 
+    const cost =
+      numberBR(
+        $("calcCost").value
+      );
 
-<div class="metric">
+    const qty =
+      Math.max(
+        1,
+        parseInt(
+          $("calcQty").value,
+          10
+        ) || 1
+      );
 
-<small>
-Lucro
-</small>
+    const extra =
+      numberBR(
+        $("calcExtra").value
+      );
 
-<strong id="rProfit">
-R$ 0,00
-</strong>
+    const goal =
+      numberBR(
+        $("calcGoal").value
+      );
 
-</div>
 
+    if (price <= 0) {
 
-<div class="metric">
+      showToast(
+        "Informe um preço de venda."
+      );
 
-<small>
-Margem
-</small>
+      return null;
 
-<strong id="rMargin">
-0%
-</strong>
+    }
 
-</div>
 
+    const revenue =
+      price * qty;
 
-<div class="metric">
+    const totalCost =
+      (cost * qty) + extra;
 
-<small>
-Preço mínimo por unidade
-</small>
+    const profit =
+      revenue - totalCost;
 
-<strong id="rBreak">
-R$ 0,00
-</strong>
+    const margin =
+      revenue > 0
+        ? (profit / revenue) * 100
+        : 0;
 
-</div>
+    const breakEven =
+      qty > 0
+        ? totalCost / qty
+        : 0;
 
 
-<div class="metric">
+    let goalSales = null;
 
-<small>
-Lucro em 10 vendas iguais
-</small>
+    if (goal > 0 && profit > 0) {
 
-<strong id="rTen">
-R$ 0,00
-</strong>
+      goalSales =
+        Math.ceil(
+          goal / profit
+        );
 
-</div>
+    }
 
 
-<div
-class="status warn"
-id="rStatus">
+    lastCalculation = {
+      product,
+      price,
+      cost,
+      qty,
+      extra,
+      goal,
+      revenue,
+      totalCost,
+      profit,
+      margin,
+      breakEven,
+      goalSales,
+      date: new Date().toISOString()
+    };
 
-Preencha custo e preço para analisar.
 
-</div>
+    saveJSON(
+      STORAGE_LAST_CALC,
+      lastCalculation
+    );
 
-</div>
 
+    $("resultProfit").textContent =
+      money(profit);
 
-<div class="goal">
+    $("resultRevenue").textContent =
+      money(revenue);
 
-<label for="goalValue">
-🎯 Quanto você quer lucrar?
-</label>
+    $("resultCost").textContent =
+      money(totalCost);
 
-<input
-id="goalValue"
-inputmode="decimal"
-placeholder="Ex.: 1000,00"
-style="margin-top:7px">
+    $("resultBreakEven").textContent =
+      money(breakEven);
 
-<div
-class="goal-answer"
-id="goalAnswer">
 
-Preencha uma meta para saber quantas vendas precisa fazer.
+    const badge =
+      $("resultMarginBadge");
 
-</div>
+    badge.textContent =
+      "Margem: " +
+      margin.toFixed(1) +
+      "%";
 
-</div>
 
+    badge.className =
+      "margin-badge";
 
-<div
-class="row"
-style="margin-top:12px">
 
-<button
-class="primary"
-id="saveProduct"
-type="button">
+    if (margin >= 30) {
 
-Salvar em Meus Produtos
+      badge.classList.add(
+        "margin-good"
+      );
 
-</button>
+    } else if (margin >= 15) {
 
+      badge.classList.add(
+        "margin-warn"
+      );
 
-<button
-class="secondary"
-id="fillExample"
-type="button">
+    } else {
 
-Ver exemplo
+      badge.classList.add(
+        "margin-bad"
+      );
 
-</button>
+    }
 
-</div>
 
-</div>
+    const goalResult =
+      $("goalResult");
 
-</section>
 
+    if (goal <= 0) {
 
-<section
-class="screen"
-data-screen="products">
+      goalResult.innerHTML =
+        "Informe uma meta de lucro para descobrir quantas vendas são necessárias.";
 
-<h2 class="section-title">
-📦 Meus produtos
-</h2>
+    }
 
-<div class="card">
+    else if (profit <= 0) {
 
-<div class="row">
+      goalResult.innerHTML =
+        "⚠️ Com esse preço, a venda não gera lucro. Revise seus custos ou o preço de venda.";
 
-<button
-class="secondary"
-id="exportCsv"
-type="button">
+    }
 
-Exportar para planilha
+    else {
 
-</button>
+      goalResult.innerHTML =
+        "🎯 Para atingir " +
+        "<strong>" +
+        money(goal) +
+        "</strong>" +
+        " de lucro, você precisa de aproximadamente " +
+        "<strong>" +
+        goalSales +
+        "</strong>" +
+        " venda(s) nesse lucro por venda.";
 
+    }
 
-<button
-class="secondary"
-id="exportBackup"
-type="button">
 
-Salvar cópia de segurança
+    updateHomeStats();
 
-</button>
 
+    if (showMessage) {
 
-<label
-class="secondary"
-style="
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-text-align:center">
+      showMoneyAnimation();
 
-Restaurar cópia
+      showToast(
+        profit >= 0
+          ? "Cálculo realizado com sucesso! 💰"
+          : "Atenção: essa venda está dando prejuízo."
+      );
 
-<input
-id="importBackup"
-type="file"
-accept=".lfbackup,.json,application/json"
-style="display:none">
+    }
 
-</label>
 
-</div>
+    return lastCalculation;
 
+  }
 
-<p
-class="help"
-style="margin-top:10px">
 
-A planilha é exportada sem emojis no campo Status.
+  $("calculateBtn")
+    .addEventListener(
+      "click",
+      function () {
 
-O arquivo de cópia de segurança não precisa ser aberto:
-apenas guarde e use “Restaurar cópia” se precisar.
+        calculateProfit(true);
 
-</p>
+      }
+    );
 
 
-<div id="productList"></div>
+  $("fillExample")
+    .addEventListener(
+      "click",
+      function () {
 
-</div>
+        $("calcProduct").value =
+          "Fone Bluetooth";
 
-</section>
+        $("calcPrice").value =
+          "100";
 
+        $("calcCost").value =
+          "55";
 
-<section
-class="screen"
-data-screen="ad">
+        $("calcQty").value =
+          "10";
 
-<h2 class="section-title">
-📢 Criar anúncio
-</h2>
+        $("calcExtra").value =
+          "30";
 
-<div class="card">
+        $("calcGoal").value =
+          "1000";
 
-<div class="form-grid">
 
-<div class="field full">
+        calculateProfit(true);
 
-<label for="adProduct">
-Usar produto salvo
-</label>
+      }
+    );
 
-<select id="adProduct">
 
-<option value="">
-Escolha um produto
-</option>
+  $("clearCalc")
+    .addEventListener(
+      "click",
+      function () {
 
-</select>
+        $("calcProduct").value = "";
+        $("calcPrice").value = "";
+        $("calcCost").value = "";
+        $("calcQty").value = "1";
+        $("calcExtra").value = "";
+        $("calcGoal").value = "";
 
-</div>
 
+        $("resultProfit").textContent =
+          "R$ 0,00";
 
-<div class="field">
+        $("resultRevenue").textContent =
+          "R$ 0,00";
 
-<label for="adCondition">
-Estado do produto
-</label>
+        $("resultCost").textContent =
+          "R$ 0,00";
 
-<select id="adCondition">
+        $("resultBreakEven").textContent =
+          "R$ 0,00";
 
-<option>
-Novo
-</option>
+        $("resultMarginBadge").textContent =
+          "Margem: 0%";
 
-<option>
-Seminovo
-</option>
+        $("resultMarginBadge").className =
+          "margin-badge margin-warn";
 
-<option>
-Usado
-</option>
+        $("goalResult").textContent =
+          "Faça um cálculo para descobrir quantas vendas você precisa realizar.";
 
-</select>
+        showToast(
+          "Calculadora limpa."
+        );
 
-</div>
+      }
+    );
 
 
-<div class="field">
+  /* =========================================================
+     PRODUTOS
+     ========================================================= */
 
-<label for="adBenefit">
-Diferencial principal
-</label>
+  function saveProduct() {
 
-<input
-id="adBenefit"
-placeholder="Ex.: pronta entrega">
+    const name =
+      $("productName")
+        .value
+        .trim();
 
-</div>
+    const cost =
+      numberBR(
+        $("productCost").value
+      );
 
+    const price =
+      numberBR(
+        $("productPrice").value
+      );
 
-<div class="field full">
+    const category =
+      $("productCategory")
+        .value
+        .trim();
 
-<label for="adNote">
-Informação importante
-</label>
 
-<input
-id="adNote"
-placeholder="Ex.: retirada no local / envio a combinar">
+    if (!name) {
 
-</div>
+      showToast(
+        "Digite o nome do produto."
+      );
 
-</div>
+      return;
 
+    }
 
-<button
-class="primary"
-id="generateAd"
-type="button"
-style="margin-top:12px">
 
-Gerar sugestão
+    if (cost <= 0) {
 
-</button>
+      showToast(
+        "Informe o custo do produto."
+      );
 
-</div>
+      return;
 
+    }
 
-<div
-class="card hidden"
-id="adOutput">
 
-<h3 id="adChannel">
-Canal sugerido
-</h3>
+    if (price <= 0) {
 
+      showToast(
+        "Informe o preço de venda."
+      );
 
-<div
-class="insight"
-id="channelReason">
-</div>
+      return;
 
+    }
 
-<div
-class="field"
-style="margin-top:12px">
 
-<label for="adTitle">
-Título
-</label>
+    const product = {
 
-<input
-id="adTitle"
-readonly>
+      id:
+        Date.now(),
 
-</div>
+      name,
+      cost,
+      price,
+      category,
 
+      createdAt:
+        new Date().toISOString()
 
-<div
-class="field"
-style="margin-top:10px">
+    };
 
-<label for="adText">
-Descrição
-</label>
 
-<textarea
-id="adText"
-readonly>
-</textarea>
+    products.push(product);
 
-</div>
+    saveJSON(
+      STORAGE_PRODUCTS,
+      products
+    );
 
 
-<button
-class="secondary"
-id="copyAd"
-type="button"
-style="margin-top:10px">
+    $("productName").value = "";
+    $("productCost").value = "";
+    $("productPrice").value = "";
+    $("productCategory").value = "";
 
-Copiar anúncio
 
-</button>
+    renderProducts();
 
+    updateAdProducts();
 
-<p class="help">
-A sugestão usa regras simples do tipo do produto e funciona offline.
-Ela não consulta dados externos.
-</p>
+    updateHomeStats();
 
-</div>
 
-</section>
+    showMoneyAnimation();
 
+    showToast(
+      "Produto salvo com sucesso! 📦"
+    );
 
-<section
-class="screen"
-data-screen="learn">
+  }
 
-<h2 class="section-title">
-🧠 Aprendizado de vendas
-</h2>
 
+  $("saveProduct")
+    .addEventListener(
+      "click",
+      saveProduct
+    );
 
-<div class="card">
 
-<h3>
-Registrar resultado de uma postagem
-</h3>
+  function deleteProduct(id) {
 
+    const product =
+      products.find(
+        function (item) {
+          return item.id === id;
+        }
+      );
 
-<div class="form-grid">
 
-<div class="field full">
+    if (!product) {
+      return;
+    }
 
-<label for="lProduct">
-Produto
-</label>
 
-<select id="lProduct">
+    const confirmed =
+      confirm(
+        'Excluir "' +
+        product.name +
+        '"?'
+      );
 
-<option value="">
-Escolha um produto
-</option>
 
-</select>
+    if (!confirmed) {
+      return;
+    }
 
-</div>
 
+    products =
+      products.filter(
+        function (item) {
+          return item.id !== id;
+        }
+      );
 
-<div class="field">
 
-<label for="lPlatform">
-Plataforma
-</label>
+    saveJSON(
+      STORAGE_PRODUCTS,
+      products
+    );
 
-<select id="lPlatform">
 
-<option>
-Facebook Marketplace
-</option>
+    renderProducts();
 
-<option>
-Instagram
-</option>
+    updateAdProducts();
 
-<option>
-WhatsApp
-</option>
+    updateHomeStats();
 
-<option>
-OLX
-</option>
 
-<option>
-TikTok / Kwai
-</option>
+    showToast(
+      "Produto excluído."
+    );
 
-<option>
-Outro
-</option>
+  }
 
-</select>
 
-</div>
+  function renderProducts() {
 
+    const list =
+      $("productList");
 
-<div class="field">
 
-<label for="lDate">
-Data e hora da postagem
-</label>
+    if (!products.length) {
 
-<input
-id="lDate"
-type="datetime-local">
+      list.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">📦</div>
+          <div>Nenhum produto cadastrado ainda.</div>
+          <div style="font-size:12px;margin-top:5px;">
+            Cadastre seu primeiro produto ao lado.
+          </div>
+        </div>
+      `;
 
-</div>
+      return;
 
+    }
 
-<div class="field">
 
-<label for="lViews">
-Visualizações
-</label>
+    list.innerHTML =
+      products
+        .map(
+          function (product) {
 
-<input
-id="lViews"
-type="number"
-min="0"
-inputmode="numeric"
-placeholder="5">
+            const profit =
+              product.price -
+              product.cost;
 
-</div>
+            return `
+              <div class="product-item">
 
+                <div>
 
-<div class="field">
+                  <div class="product-name">
+                    ${escapeHTML(product.name)}
+                  </div>
 
-<label for="lSales">
-Vendas geradas
-</label>
+                  <div class="product-meta">
+                    ${
+                      escapeHTML(
+                        product.category ||
+                        "Sem categoria"
+                      )
+                    }
+                    • Custo:
+                    ${money(product.cost)}
+                    • Venda:
+                    ${money(product.price)}
+                  </div>
 
-<input
-id="lSales"
-type="number"
-min="0"
-inputmode="numeric"
-placeholder="2">
+                </div>
 
-</div>
+                <div>
 
-</div>
+                  <div class="product-price">
+                    Lucro: ${money(profit)}
+                  </div>
 
+                  <button
+                    class="btn btn-danger btn-small"
+                    type="button"
+                    data-delete-product="${product.id}"
+                    style="margin-top:7px;"
+                  >
+                    Excluir
+                  </button>
 
-<button
-class="primary"
-id="saveLearning"
-type="button"
-style="margin-top:12px">
+                </div>
 
-Salvar resultado
+              </div>
+            `;
 
-</button>
+          }
+        )
+        .join("");
 
-</div>
 
+    list
+      .querySelectorAll(
+        "[data-delete-product]"
+      )
+      .forEach(
+        function (button) {
 
-<div class="card">
+          button.addEventListener(
+            "click",
+            function () {
 
-<h3>
-O que seus dados estão mostrando
-</h3>
+              deleteProduct(
+                Number(
+                  button.dataset.deleteProduct
+                )
+              );
 
-<div
-id="learningInsight"
-class="insight">
+            }
+          );
 
-Registre seus resultados.
-Depois o app compara horários,
-visualizações e vendas.
+        }
+      );
 
-</div>
+  }
 
 
-<div
-id="hourStats"
-style="margin-top:12px">
-</div>
+  /* =========================================================
+     SELECT DE PRODUTOS NO ANÚNCIO
+     ========================================================= */
 
-</div>
+  function updateAdProducts() {
 
-</section>
+    const select =
+      $("adProduct");
 
-</div>
 
+    select.innerHTML =
+      `<option value="">
+        Selecionar produto...
+      </option>`;
 
-<nav class="bottom">
 
-<div class="bottom-inner">
+    products.forEach(
+      function (product) {
 
-<button
-class="nav active"
-data-go="home"
-type="button">
+        const option =
+          document.createElement(
+            "option"
+          );
 
-<span class="nicon">
-🏠
-</span>
+        option.value =
+          String(product.id);
 
-Início
+        option.textContent =
+          product.name +
+          " — " +
+          money(product.price);
 
-</button>
+        select.appendChild(
+          option
+        );
 
+      }
+    );
 
-<button
-class="nav"
-data-go="calc"
-type="button">
+  }
 
-<span class="nicon">
-💰
-</span>
 
-Lucro
+  /* =========================================================
+     GERADOR DE ANÚNCIO
+     ========================================================= */
 
-</button>
+  function generateAd() {
 
+    const productId =
+      Number(
+        $("adProduct").value
+      );
 
-<button
-class="nav"
-data-go="products"
-type="button">
 
-<span class="nicon">
-📦
-</span>
+    const product =
+      products.find(
+        function (item) {
+          return item.id === productId;
+        }
+      );
 
-Produtos
 
-</button>
+    if (!product) {
 
+      showToast(
+        "Selecione um produto."
+      );
 
-<button
-class="nav"
-data-go="ad"
-type="button">
+      return;
 
-<span class="nicon">
-📢
-</span>
+    }
 
-Anúncio
 
-</button>
+    const mode =
+      $("adMode").value;
 
+    const condition =
+      $("adCondition").value;
 
-<button
-class="nav"
-data-go="learn"
-type="button">
+    const benefit =
+      $("adBenefit")
+        .value
+        .trim();
 
-<span class="nicon">
-🧠
-</span>
+    const note =
+      $("adNote")
+        .value
+        .trim();
 
-Dados
 
-</button>
+    const conditionText = {
 
-</div>
+      novo: "Produto novo",
 
-</nav>
+      usado: "Produto usado",
 
+      semi: "Produto seminovo"
 
-<div
-class="toast"
-id="toast"
-role="st 
+    }[condition];
+
+
+    let text = "";
+
+
+    if (mode === "urgencia") {
+
+      text +=
+        "🔥 OFERTA ESPECIAL!\n\n";
+
+    }
+
+    else if (mode === "beneficio") {
+
+      text +=
+        "✨ UMA ÓTIMA OPÇÃO PARA VOCÊ!\n\n";
+
+    }
+
+    else {
+
+      text +=
+        "📦 " +
+        product.name.toUpperCase() +
+        "\n\n";
+
+    }
+
+
+    text +=
+      "Produto: " +
+      product.name +
+      "\n";
+
+    text +=
+      "Estado: " +
+      conditionText +
+      "\n";
+
+    text +=
+      "💰 Valor: " +
+      money(product.price) +
+      "\n";
+
+
+    if (benefit) {
+
+      text +=
+        "\n✅ Destaque:\n" +
+        benefit +
+        "\n";
+
+    }
+
+
+    if (product.category) {
+
+      text +=
+        "\n🏷️ Categoria: " +
+        product.category +
+        "\n";
+
+    }
+
+
+    if (note) {
+
+      text +=
+        "\n📌 Informações:\n" +
+        note +
+        "\n";
+
+    }
+
+
+    if (mode === "whatsapp") {
+
+      text +=
+        "\n📲 Me chama no WhatsApp para mais informações ou para combinar a compra.";
+
+    }
+
+    else {
+
+      text +=
+        "\n📲 Interessou? Me chame para saber mais e combinar a compra!";
+
+    }
+
+
+    $("adPreview").textContent =
+      text;
+
+
+    showToast(
+      "Anúncio criado! 📣"
+    );
+
+  }
+
+
+  $("generateAd")
+    .addEventListener(
+      "click",
+      generateAd
+    );
+
+
+  $("copyAd")
+    .addEventListener(
+      "click",
+      async function () {
+
+        const text =
+          $("adPreview")
+            .textContent
+            .trim();
+
+
+        if (
+          !text ||
+          text.startsWith(
+            "Preencha as informações"
+          )
+        ) {
+
+          showToast(
+            "Gere um anúncio primeiro."
+          );
+
+          return;
+
+        }
+
+
+        try {
+
+          await navigator.clipboard.writeText(
+            text
+          );
+
+          showToast(
+            "Anúncio copiado! 📋"
+          );
+
+        } catch (error) {
+
+          /*
+            Fallback para navegadores
+            que bloqueiam Clipboard API.
+          */
+
+          const textarea =
+            document.createElement(
+              "textarea"
+            );
+
+          textarea.value = text;
+
+          document.body.appendChild(
+            textarea
+          );
+
+          textarea.select();
+
+          document.execCommand(
+            "copy"
+          );
+
+          textarea.remove();
+
+          showToast(
+            "Anúncio copiado! 📋"
+          );
+
+        }
+
+      }
+    );
+
+
+  /* =========================================================
+     APRENDIZADO
+     ========================================================= */
+
+  function updateLearningProgress() {
+
+    const lessons =
+      document.querySelectorAll(
+        "[data-lesson]"
+      );
+
+
+    let completed = 0;
+
+
+    lessons.forEach(
+      function (checkbox) {
+
+        const id =
+          checkbox.dataset.lesson;
+
+        checkbox.checked =
+          learning[id] === true;
+
+
+        if (checkbox.checked) {
+          completed++;
+        }
+
+      }
+    );
+
+
+    const percentage =
+      lessons.length
+        ? Math.round(
+            (completed / lessons.length) * 100
+          )
+        : 0;
+
+
+    $("learningProgress")
+      .textContent =
+      percentage + "%";
+
+  }
+
+
+  $("saveLearning")
+    .addEventListener(
+      "click",
+      function () {
+
+        document
+          .querySelectorAll(
+            "[data-lesson]"
+          )
+          .forEach(
+            function (checkbox) {
+
+              learning[
+                checkbox.dataset.lesson
+              ] =
+                checkbox.checked;
+
+            }
+          );
+
+
+        saveJSON(
+          STORAGE_LEARNING,
+          learning
+        );
+
+
+        updateLearningProgress();
+
+
+        showToast(
+          "Progresso salvo! 🧠"
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     EXPORTAR CSV
+     ========================================================= */
+
+  $("exportCsv")
+    .addEventListener(
+      "click",
+      function () {
+
+        if (!products.length) {
+
+          showToast(
+            "Você ainda não tem produtos cadastrados."
+          );
+
+          return;
+
+        }
+
+
+        const rows = [
+
+          [
+            "Produto",
+            "Categoria",
+            "Custo",
+            "Preço de venda",
+            "Lucro"
+          ]
+
+        ];
+
+
+        products.forEach(
+          function (product) {
+
+            rows.push([
+
+              product.name,
+
+              product.category || "",
+
+              product.cost
+                .toFixed(2)
+                .replace(".", ","),
+
+              product.price
+                .toFixed(2)
+                .replace(".", ","),
+
+              (
+                product.price -
+                product.cost
+              )
+                .toFixed(2)
+                .replace(".", ",")
+
+            ]);
+
+          }
+        );
+
+
+        const csv =
+          rows
+            .map(
+              function (row) {
+
+                return row
+                  .map(
+                    function (cell) {
+
+                      return '"' +
+                        String(cell)
+                          .replace(
+                            /"/g,
+                            '""'
+                          ) +
+                        '"';
+
+                    }
+                  )
+                  .join(";");
+
+              }
+            )
+            .join("\n");
+
+
+        downloadFile(
+
+          "lucro-facil-produtos.csv",
+
+          "\ufeff" + csv,
+
+          "text/csv;charset=utf-8"
+
+        );
+
+
+        showToast(
+          "CSV exportado! 📊"
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     BACKUP
+     ========================================================= */
+
+  $("exportBackup")
+    .addEventListener(
+      "click",
+      function () {
+
+        const backup = {
+
+          app:
+            "Lucro Fácil",
+
+          version:
+            "1.0",
+
+          exportedAt:
+            new Date().toISOString(),
+
+          products,
+
+          lastCalculation,
+
+          learning
+
+        };
+
+
+        downloadFile(
+
+          "lucro-facil-backup-" +
+          new Date()
+            .toISOString()
+            .slice(0, 10) +
+          ".lfbackup",
+
+          JSON.stringify(
+            backup,
+            null,
+            2
+          ),
+
+          "application/json"
+
+        );
+
+
+        showToast(
+          "Backup criado! 💾"
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     RESTAURAR BACKUP
+     ========================================================= */
+
+  $("importBackup")
+    .addEventListener(
+      "change",
+      function (event) {
+
+        const file =
+          event.target.files[0];
+
+
+        if (!file) {
+          return;
+        }
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function () {
+
+            try {
+
+              const backup =
+                JSON.parse(
+                  reader.result
+                );
+
+
+              if (
+                !backup ||
+                backup.app !==
+                "Lucro Fácil"
+              ) {
+
+                throw new Error(
+                  "Backup inválido"
+                );
+
+              }
+
+
+              products =
+                Array.isArray(
+                  backup.products
+                )
+                  ? backup.products
+                  : [];
+
+
+              lastCalculation =
+                backup.lastCalculation ||
+                null;
+
+
+              learning =
+                backup.learning ||
+                {};
+
+
+              saveJSON(
+                STORAGE_PRODUCTS,
+                products
+              );
+
+              saveJSON(
+                STORAGE_LAST_CALC,
+                lastCalculation
+              );
+
+              saveJSON(
+                STORAGE_LEARNING,
+                learning
+              );
+
+
+              renderProducts();
+
+              updateAdProducts();
+
+              updateHomeStats();
+
+              updateLearningProgress();
+
+
+              showToast(
+                "Backup restaurado com sucesso! ✅"
+              );
+
+
+            } catch (error) {
+
+              console.error(
+                error
+              );
+
+              showToast(
+                "Não foi possível restaurar esse backup."
+              );
+
+            }
+
+
+            event.target.value = "";
+
+          };
+
+
+        reader.readAsText(
+          file
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     HOME
+     ========================================================= */
+
+  function updateHomeStats() {
+
+    $("homeProductCount")
+      .textContent =
+      products.length;
+
+
+    if (
+      lastCalculation &&
+      typeof lastCalculation.profit ===
+      "number"
+    ) {
+
+      $("homeLastProfit")
+        .textContent =
+        money(
+          lastCalculation.profit
+        );
+
+
+      $("homeGoalSales")
+        .textContent =
+        lastCalculation.goalSales
+          ? lastCalculation.goalSales +
+            " venda(s)"
+          : "—";
+
+    } else {
+
+      $("homeLastProfit")
+        .textContent =
+        "R$ 0,00";
+
+      $("homeGoalSales")
+        .textContent =
+        "—";
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ANIMAÇÃO DE DINHEIRO
+     ========================================================= */
+
+  function showMoneyAnimation() {
+
+    const symbols = [
+      "💰",
+      "💵",
+      "🤑",
+      "💸"
+    ];
+
+
+    for (
+      let i = 0;
+      i < 5;
+      i++
+    ) {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "money";
+
+
+      item.textContent =
+        symbols[
+          Math.floor(
+            Math.random() *
+            symbols.length
+          )
+        ];
+
+
+      item.style.left =
+        (
+          30 +
+          Math.random() * 40
+        ) +
+        "vw";
+
+
+      item.style.top =
+        (
+          45 +
+          Math.random() * 20
+        ) +
+        "vh";
+
+
+      item.style.animationDelay =
+        (
+          Math.random() * .25
+        ) +
+        "s";
+
+
+      document.body.appendChild(
+        item
+      );
+
+
+      setTimeout(
+        function () {
+
+          item.remove();
+
+        },
+        1300
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     INSTALAÇÃO PWA
+     ========================================================= */
+
+  window.addEventListener(
+    "beforeinstallprompt",
+    function (event) {
+
+      event.preventDefault();
+
+      deferredInstallPrompt =
+        event;
+
+
+      const installBtn =
+        $("installBtn");
+
+
+      if (installBtn) {
+
+        installBtn.style.display =
+          "block";
+
+      }
+
+    }
+  );
+
+
+  $("installBtn")
+    .addEventListener(
+      "click",
+      async function () {
+
+        if (!deferredInstallPrompt) {
+
+          showToast(
+            "A instalação ainda não está disponível neste navegador."
+          );
+
+          return;
+
+        }
+
+
+        deferredInstallPrompt.prompt();
+
+
+        const result =
+          await deferredInstallPrompt.userChoice;
+
+
+        console.log(
+          "Instalação:",
+          result.outcome
+        );
+
+
+        deferredInstallPrompt =
+          null;
+
+
+        $("installBtn")
+          .style
+          .display =
+          "none";
+
+      }
+    );
+
+
+  window.addEventListener(
+    "appinstalled",
+    function () {
+
+      showToast(
+        "Lucro Fácil instalado! 📲"
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     ATALHOS DO TECLADO
+     ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (
+        event.ctrlKey &&
+        event.key === "Enter"
+      ) {
+
+        const activeScreen =
+          document.querySelector(
+            ".screen.active"
+          );
+
+
+        if (
+          activeScreen &&
+          activeScreen.id ===
+          "screen-calculadora"
+        ) {
+
+          calculateProfit(true);
+
+        }
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     INICIALIZAÇÃO
+     ========================================================= */
+
+  renderProducts();
+
+  updateAdProducts();
+
+  updateHomeStats();
+
+  updateLearningProgress();
+
+  updateConnection();
+
+
+  /*
+    Se já houver um cálculo salvo,
+    carregamos os campos.
+  */
+
+  if (lastCalculation) {
+
+    $("calcProduct").value =
+      lastCalculation.product || "";
+
+    $("calcPrice").value =
+      lastCalculation.price || "";
+
+    $("calcCost").value =
+      lastCalculation.cost || "";
+
+    $("calcQty").value =
+      lastCalculation.qty || 1;
+
+    $("calcExtra").value =
+      lastCalculation.extra || "";
+
+    $("calcGoal").value =
+      lastCalculation.goal || "";
+
+
+    /*
+      Atualiza os resultados sem
+      mostrar a animação novamente.
+    */
+
+    calculateProfit(false);
+
+  }
+
+
+  console.log(
+    "Lucro Fácil carregado com sucesso."
+  );
+
+
+})();
+</script>
+
+
+</body>
+</html>
